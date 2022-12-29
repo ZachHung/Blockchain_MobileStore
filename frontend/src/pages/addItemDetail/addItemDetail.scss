@@ -1,0 +1,57 @@
+.center{
+    text-align: center;
+}
+.btnoption {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 12px 21px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin:5px 0;
+  }
+.btnoption:hover{
+    cursor: pointer;
+    background-color: #09912f;
+}
+  *{
+      margin: 5px 0;
+  }
+ .custombtn{
+    font-size: 14px;
+    padding: 10px 14px;
+ }
+ .custombtn:hover{
+    cursor: pointer;
+ }
+ .my-input-tag{
+    height: 30px;
+    font-size: 16px
+}
+.bnt-back{
+    background-color:burlywood
+}
+.bnt-back:hover{
+    background-color:chocolate;
+}
+.decri{
+    color: red;
+}
+
+.newImage{
+    border-color: orange;
+}
+
+.image-new{
+    margin-top: 5px;
+}
+
+.textareafont{
+    font-size: 15px;
+}
+.thongbaoloi{
+    font-weight: 300!important;
+    font-style: italic!important;
+}

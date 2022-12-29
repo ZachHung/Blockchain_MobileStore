@@ -1,0 +1,55 @@
+.footer-spacer {
+  aspect-ratio: 960/70;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-image: url(./spacer.svg);
+}
+footer {
+  font-size: 1.6rem;
+  background-color: #000;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  @media only screen and (max-width: 739px) {
+    flex-direction: column;
+  }
+  .logo {
+    height: 3.2rem;
+    justify-content: center;
+    display: flex;
+  }
+  .social {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    a + a {
+      margin-left: 1rem;
+    }
+    .icon {
+      font-size: 3.6rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    @media only screen and (max-width: 739px) {
+      margin-top: 0.25rem;
+    }
+  }
+  .copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img {
+      margin-bottom: 1rem;
+      width: 8rem;
+    }
+    @media only screen and (max-width: 739px) {
+      margin-top: 3rem;
+    }
+  }
+}
