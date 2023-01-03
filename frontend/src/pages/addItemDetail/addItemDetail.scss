@@ -1,57 +1,57 @@
-.center{
-    text-align: center;
+.center {
+  text-align: center;
 }
 .btnoption {
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 12px 21px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin:5px 0;
-  }
-.btnoption:hover{
-    cursor: pointer;
-    background-color: #09912f;
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 12px 21px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px 0;
 }
-  *{
-      margin: 5px 0;
-  }
- .custombtn{
-    font-size: 14px;
-    padding: 10px 14px;
- }
- .custombtn:hover{
-    cursor: pointer;
- }
- .my-input-tag{
-    height: 30px;
-    font-size: 16px
+.btnoption:hover {
+  cursor: pointer;
+  background-color: #09912f;
 }
-.bnt-back{
-    background-color:burlywood
+* {
+  margin: 5px 0;
 }
-.bnt-back:hover{
-    background-color:chocolate;
+.custombtn {
+  font-size: 14px;
+  padding: 10px 14px;
 }
-.decri{
-    color: red;
+.custombtn:hover {
+  cursor: pointer;
 }
-
-.newImage{
-    border-color: orange;
+.my-input-tag {
+  height: 30px;
+  font-size: 16px;
+}
+.bnt-back {
+  background-color: burlywood;
+}
+.bnt-back:hover {
+  background-color: chocolate;
+}
+.decri {
+  color: red;
 }
 
-.image-new{
-    margin-top: 5px;
+.newImage {
+  border-color: orange;
 }
 
-.textareafont{
-    font-size: 15px;
+.image-new {
+  margin-top: 5px;
 }
-.thongbaoloi{
-    font-weight: 300!important;
-    font-style: italic!important;
+
+.textareafont {
+  font-size: 15px;
+}
+.thongbaoloi {
+  font-weight: 300 !important;
+  font-style: italic !important;
 }

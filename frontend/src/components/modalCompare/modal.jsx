@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
-import "./modal.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import './modal.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 
 function ModalCompare({
   handleClickCompare,
@@ -13,40 +13,40 @@ function ModalCompare({
   countCompare,
 }) {
   // console.log('infoProducts: ', infoProducts, type);
-  const navigateCompare = useNavigate();
-  var convertToStr;
+  const navigateCompare = useNavigate()
+  var convertToStr
   if (infoProducts.length >= 2) {
-    convertToStr = infoProducts.join(",");
+    convertToStr = infoProducts.join(',')
   }
   const handleOnclickCompare = () => {
     if (infoProducts.length < 2) {
-      alert("hãy chọn đủ 2 sản phẩm");
+      alert('hãy chọn đủ 2 sản phẩm')
     } else {
       window.history.pushState(
         {},
-        "So sánh",
+        'So sánh',
         `/compare?${type}=${convertToStr}`
-      );
-      navigateCompare(`../compare?${type}=${convertToStr}`);
+      )
+      navigateCompare(`../compare?${type}=${convertToStr}`)
     }
-  };
+  }
   // console.log('countcompare: ', countCompare);
   return (
     <div
       className={`${
         countCompare === 0
-          ? "modalCompare-container disableCompareModal "
-          : "modalCompare-container "
+          ? 'modalCompare-container disableCompareModal '
+          : 'modalCompare-container '
       }`}
       // className={`modalCompare-container disableCompareModal `}
     >
       <h1>Sản phẩm cần so sánh(chọn tối đa 2 sản phẩm)</h1>
-      <div className='products-compare'>
+      <div className="products-compare">
         {urlImages.map((item, i) => (
-          <div className='product-compare' key={i}>
+          <div className="product-compare" key={i}>
             <FontAwesomeIcon
               icon={faCircleXmark}
-              className='icon-circleXmark'
+              className="icon-circleXmark"
               onClick={() => handleClickCompare(infoProducts[i], item)}
               // onClick={() =>
               //   console.log('clicked icon: ', infoProducts[i], item)
@@ -56,22 +56,22 @@ function ModalCompare({
           </div>
         ))}
       </div>
-      <div className='wrap-btn'>
+      <div className="wrap-btn">
         <button
-          className='btn btn-compare'
+          className="btn btn-compare"
           onClick={() => handleOnclickCompare()}
         >
           <p>So sánh lựa chọn</p>
         </button>
         <button
-          className='btn btn-cancel'
+          className="btn btn-cancel"
           onClick={() => handleClickCancelCompare()}
         >
           <p>Hủy</p>
         </button>
       </div>
     </div>
-  );
+  )
 }
 
-export default ModalCompare;
+export default ModalCompare

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 export default function SortProduct({ handleSortAsc, handleSortDesc }) {
   return (
@@ -19,5 +19,5 @@ export default function SortProduct({ handleSortAsc, handleSortDesc }) {
         <i className="fas fa-sort-amount-up-alt"></i>Giá cao
       </div>
     </div>
-  );
+  )
 }

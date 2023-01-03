@@ -1,4 +1,4 @@
-@use "../../scss/abstracts/" as *;
+@use '../../scss/abstracts/' as *;
 .cartPage {
   $content-width: 70%;
   $content-width_mobile: 90%;
@@ -9,7 +9,7 @@
   }
 
   /* Firefox */
-  input[type="number"] {
+  input[type='number'] {
     -moz-appearance: textfield;
   }
   .content {
@@ -344,7 +344,7 @@
     z-index: -1;
     top: 0;
     left: 0;
-    content: "";
+    content: '';
     border-radius: 0.8rem;
     cursor: pointer;
     height: calc(100% + 2px);
@@ -359,7 +359,7 @@
     z-index: -1;
     top: 0;
     left: 0;
-    content: "";
+    content: '';
     border-radius: 0.6rem;
     cursor: pointer;
     height: 100%;
@@ -392,7 +392,7 @@
   .empty-cart .fa-face-sad-tear {
     font-size: 15.5rem;
   }
-  [class*="col-"] {
+  [class*='col-'] {
     padding: 0 8px;
     @include mobile {
       width: 100%;
@@ -448,7 +448,7 @@
         &:after {
           position: absolute;
           opacity: 0;
-          content: "";
+          content: '';
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);

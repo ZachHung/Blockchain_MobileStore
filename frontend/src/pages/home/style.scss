@@ -1,8 +1,8 @@
 // Required Core Stylesheet
-@import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+@import 'node_modules/@glidejs/glide/src/assets/sass/glide.core';
 
 // Optional Theme Stylesheet
-@import "node_modules/@glidejs/glide/src/assets/sass/glide.theme";
+@import 'node_modules/@glidejs/glide/src/assets/sass/glide.theme';
 
 .txt-white {
   color: white;
@@ -92,15 +92,15 @@
     flex: 0 0 50%;
   }
   .glide__slides .slide_1 {
-    background: url("https://firebasestorage.googleapis.com/v0/b/fir-upload-images-912bd.appspot.com/o/images%2FlandingPage%2Fslide1%2Fimg1.jpg?alt=media&token=c8e28f11-5a33-41ee-a149-a3e5767faf5e")
+    background: url('https://firebasestorage.googleapis.com/v0/b/fir-upload-images-912bd.appspot.com/o/images%2FlandingPage%2Fslide1%2Fimg1.jpg?alt=media&token=c8e28f11-5a33-41ee-a149-a3e5767faf5e')
       no-repeat center / contain;
   }
   .glide__slides .slide_2 {
-    background: url("https://firebasestorage.googleapis.com/v0/b/fir-upload-images-912bd.appspot.com/o/images%2FlandingPage%2Fslide1%2Fimg2.webp?alt=media&token=44e043ce-7069-4715-b266-28c89c38623f")
+    background: url('https://firebasestorage.googleapis.com/v0/b/fir-upload-images-912bd.appspot.com/o/images%2FlandingPage%2Fslide1%2Fimg2.webp?alt=media&token=44e043ce-7069-4715-b266-28c89c38623f')
       no-repeat center / contain;
   }
   .glide__slides .slide_3 {
-    background: url("https://firebasestorage.googleapis.com/v0/b/fir-upload-images-912bd.appspot.com/o/images%2FlandingPage%2Fslide1%2Fimg3.jpg?alt=media&token=e7472c37-2484-45ca-b1da-34894f0c12c9")
+    background: url('https://firebasestorage.googleapis.com/v0/b/fir-upload-images-912bd.appspot.com/o/images%2FlandingPage%2Fslide1%2Fimg3.jpg?alt=media&token=e7472c37-2484-45ca-b1da-34894f0c12c9')
       no-repeat center / contain;
   }
   .hero__btn {
@@ -162,7 +162,7 @@
   }
   section .glide__nav .title::after {
     position: absolute;
-    content: "";
+    content: '';
     width: 0%;
     height: 3px;
     background-color: black;
@@ -282,7 +282,7 @@
   }
   .spotlight__item button::after {
     border-radius: 100vh;
-    content: "";
+    content: '';
     top: 0;
     left: 0;
     position: absolute;

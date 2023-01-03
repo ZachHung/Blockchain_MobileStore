@@ -1,6 +1,6 @@
-import React from "react";
-import "./OptionItem.scss";
-import { Link } from "react-router-dom";
+import React from 'react'
+import './OptionItem.scss'
+import { Link } from 'react-router-dom'
 const OptionItem = ({
   name,
   newPrice,
@@ -16,14 +16,14 @@ const OptionItem = ({
   disable,
 }) => {
   const handleColor = (e) => {
-    if (number !== 0) clickColor(index, newPrice, oldPrice, name);
-  };
+    if (number !== 0) clickColor(index, newPrice, oldPrice, name)
+  }
 
   return (
     <>
       {img ? (
         <div
-          className={`item ${active && "active"} ${disable && "disable"}`}
+          className={`item ${active && 'active'} ${disable && 'disable'}`}
           style={style && style}
           onClick={(e) => handleColor(e)}
           num={number}
@@ -36,9 +36,9 @@ const OptionItem = ({
           </div>
         </div>
       ) : (
-        <Link to={link} style={{ color: "inherit" }}>
+        <Link to={link} style={{ color: 'inherit' }}>
           <div
-            className={active ? "item active" : "item"}
+            className={active ? 'item active' : 'item'}
             style={style && style}
           >
             <div className="item__info ">
@@ -49,7 +49,7 @@ const OptionItem = ({
         </Link>
       )}
     </>
-  );
-};
+  )
+}
 
-export default OptionItem;
+export default OptionItem

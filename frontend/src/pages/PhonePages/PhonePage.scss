@@ -114,11 +114,12 @@
   .filter {
     padding: 2rem;
     border-radius: 1rem;
-    border: 1px solid #ccc;
     align-self: flex-start;
     position: absolute;
-    top: 74%;
-    left: 7%;
+    left: 10rem;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     background-color: var(--white);
     > ol,
     ul {
@@ -185,7 +186,9 @@
     padding: 1rem;
     border-radius: 1rem;
     background-color: var(--white);
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+      rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
     transition: all 0.15s linear;
     &:hover {
       border-radius: 2rem;

@@ -1,134 +1,134 @@
-import React, { useEffect, useRef, useState } from "react";
-import { publicRequest, userRequest } from "../../utils/CallApi";
-import { useSelector, useDispatch } from "react-redux";
-import { loginSuccess } from "../../redux/userRedux";
-import "./UserInfo.scss";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useRef, useState } from 'react'
+import { publicRequest, userRequest } from '../../utils/CallApi'
+import { useSelector, useDispatch } from 'react-redux'
+import { loginSuccess } from '../../redux/userRedux'
+import './UserInfo.scss'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const UserInfo = () => {
-  const [loading, setLoading] = useState(true);
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
-  const [birthday, setBirthday] = useState();
-  const [province, setProvince] = useState([]);
-  const [district, setDistrict] = useState([]);
-  const [gender, setGender] = useState();
-  const [ward, setWard] = useState([]);
-  const [detail, setDetail] = useState("");
-  const [currentUser, setCurrentUser] = useState();
-  const user = useSelector((state) => state.user.current);
+  const [loading, setLoading] = useState(true)
+  const [name, setName] = useState()
+  const [email, setEmail] = useState()
+  const [phone, setPhone] = useState()
+  const [birthday, setBirthday] = useState()
+  const [province, setProvince] = useState([])
+  const [district, setDistrict] = useState([])
+  const [gender, setGender] = useState()
+  const [ward, setWard] = useState([])
+  const [detail, setDetail] = useState('')
+  const [currentUser, setCurrentUser] = useState()
+  const user = useSelector((state) => state.user.current)
 
   const showError = (e, Error) => {
     e.target.parentElement.parentElement.getElementsByClassName(
-      "error-message"
-    )[0].innerText = Error;
-  };
+      'error-message'
+    )[0].innerText = Error
+  }
   const showErrorAddress = (e, Error) => {
     e.target.parentElement.parentElement.parentElement.parentElement.getElementsByClassName(
-      "error-message"
-    )[0].innerText = Error;
-  };
-  const provinceEle = useRef();
-  const districtEle = useRef();
-  const wardEle = useRef();
-  const detailEle = useRef();
-  const disPatch = useDispatch();
+      'error-message'
+    )[0].innerText = Error
+  }
+  const provinceEle = useRef()
+  const districtEle = useRef()
+  const wardEle = useRef()
+  const detailEle = useRef()
+  const disPatch = useDispatch()
   const handleName = (e) => {
-    setName(e.target.value);
-    showError(e, "");
-  };
+    setName(e.target.value)
+    showError(e, '')
+  }
   const handleErrorName = (e) => {
-    if (name === "") {
-      showError(e, "Trường Này Không Được Trống");
+    if (name === '') {
+      showError(e, 'Trường Này Không Được Trống')
     }
-  };
+  }
   const handleEmail = (e) => {
-    setEmail(e.target.value);
-    showError(e, "");
-  };
+    setEmail(e.target.value)
+    showError(e, '')
+  }
   const handleErrorEmail = (e) => {
-    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
-    if (email === "") {
-      showError(e, "Trường Này Không Được Trống");
+    if (email === '') {
+      showError(e, 'Trường Này Không Được Trống')
     } else if (!regex.test(email)) {
-      showError(e, "Trường Này Phải Là Email");
+      showError(e, 'Trường Này Phải Là Email')
     }
-  };
+  }
   const handlePhone = (e) => {
-    setPhone(e.target.value);
-    showError(e, "");
-  };
+    setPhone(e.target.value)
+    showError(e, '')
+  }
   const handleErrorPhone = (e) => {
-    const regex = /^0\d{9}$/;
-    if (phone === "") {
-      showError(e, "Trường Này Không Được Trống");
+    const regex = /^0\d{9}$/
+    if (phone === '') {
+      showError(e, 'Trường Này Không Được Trống')
     } else if (!regex.test(phone)) {
-      showError(e, "Số Điện Thoại Không Đúng");
+      showError(e, 'Số Điện Thoại Không Đúng')
     }
-  };
+  }
   const handleGender = (e) => {
-    setGender(e.target.value);
-  };
+    setGender(e.target.value)
+  }
   const handleBirthday = (e) => {
-    setBirthday(e.target.value);
-  };
+    setBirthday(e.target.value)
+  }
   const handleProvince = () => {
     publicRequest
       .get(`address/district?province=${provinceEle.current.value}`)
       .then((res) => {
-        setDistrict(res.data);
-        districtEle.current.value = "";
-        wardEle.current.value = "";
-        detailEle.current.disabled = true;
+        setDistrict(res.data)
+        districtEle.current.value = ''
+        wardEle.current.value = ''
+        detailEle.current.disabled = true
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
   const handleDistrict = () => {
     publicRequest
       .get(
         `address/district/ward?province=${provinceEle.current.value}&district=${districtEle.current.value}`
       )
       .then((res) => {
-        setWard(res.data);
-        detailEle.current.disabled = true;
+        setWard(res.data)
+        detailEle.current.disabled = true
       })
       .catch((err) => {
-        console.log(err);
-      });
-  };
+        console.log(err)
+      })
+  }
   const handleWard = () => {
-    detailEle.current.disabled = false;
-  };
+    detailEle.current.disabled = false
+  }
   const checkError = () => {
-    let check = true;
-    const error = document.querySelectorAll(".error-message");
+    let check = true
+    const error = document.querySelectorAll('.error-message')
     error.forEach((item, index) => {
-      if (item.innerText !== "") check = false;
-    });
-    return check;
-  };
+      if (item.innerText !== '') check = false
+    })
+    return check
+  }
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (
-      (provinceEle.current.value !== "" && districtEle.current.value === "") ||
-      (provinceEle.current.value !== "" && wardEle.current.value === "")
+      (provinceEle.current.value !== '' && districtEle.current.value === '') ||
+      (provinceEle.current.value !== '' && wardEle.current.value === '')
     ) {
-      toast.warn("Vui Lòng Nhập Thông Tin Địa Chỉ", {
-        position: "top-right",
+      toast.warn('Vui Lòng Nhập Thông Tin Địa Chỉ', {
+        position: 'top-right',
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      });
+      })
     } else if (checkError()) {
       userRequest()
         .post(`user/update/${user._id}`, {
@@ -143,72 +143,70 @@ const UserInfo = () => {
           addressDetail: detail,
         })
         .then((res) => {
-          console.log("Đã gửi");
-          disPatch(
-            loginSuccess({ ...res.data, accessToken: user.accessToken })
-          );
-          toast.success("Cập Nhật Thành Công", {
-            position: "top-right",
+          console.log('Đã gửi')
+          disPatch(loginSuccess({ ...res.data, accessToken: user.accessToken }))
+          toast.success('Cập Nhật Thành Công', {
+            position: 'top-right',
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          });
-        });
+          })
+        })
     } else {
-      toast.error("Vui Lòng Điền Đầy Đủ Thông Tin", {
-        position: "top-right",
+      toast.error('Vui Lòng Điền Đầy Đủ Thông Tin', {
+        position: 'top-right',
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      });
+      })
     }
-  };
+  }
 
   const handleDetail = (e) => {
-    setDetail(e.target.value);
-    showErrorAddress(e, "");
-  };
+    setDetail(e.target.value)
+    showErrorAddress(e, '')
+  }
   const handleErrorDetail = (e) => {
-    if (detail === "") {
-      showErrorAddress(e, "Trường Này Không Được Trống");
+    if (detail === '') {
+      showErrorAddress(e, 'Trường Này Không Được Trống')
     }
-  };
+  }
   useEffect(() => {
     userRequest()
       .get(`user/info/${user._id}`)
       .then((res) => {
-        setProvince(res.data.province);
-        setDistrict(res.data.district);
-        setWard(res.data.ward);
-        setName(res.data.user.name);
-        setEmail(res.data.user.email);
-        setPhone(res.data.user.phone);
-        setBirthday(res.data.user.birthday);
-        setGender(res.data.user.gender);
-        setCurrentUser(res.data.user);
-        setDetail(user.address.addressdetail);
-        setLoading(false);
+        setProvince(res.data.province)
+        setDistrict(res.data.district)
+        setWard(res.data.ward)
+        setName(res.data.user.name)
+        setEmail(res.data.user.email)
+        setPhone(res.data.user.phone)
+        setBirthday(res.data.user.birthday)
+        setGender(res.data.user.gender)
+        setCurrentUser(res.data.user)
+        setDetail(user.address.addressdetail)
+        setLoading(false)
 
-        if (user.address.province !== "") {
-          provinceEle.current.value = user.address.province;
+        if (user.address.province !== '') {
+          provinceEle.current.value = user.address.province
 
-          districtEle.current.value = user.address.district;
+          districtEle.current.value = user.address.district
 
-          wardEle.current.value = user.address.ward;
+          wardEle.current.value = user.address.ward
         } else {
-          detailEle.current.disabled = true;
+          detailEle.current.disabled = true
         }
       })
       .catch((err) => {
-        console.log(err);
-      });
-  }, [user]);
+        console.log(err)
+      })
+  }, [user])
 
   return (
     <>
@@ -277,7 +275,7 @@ const UserInfo = () => {
                         id="gender-male"
                         name="gender"
                         defaultValue="Nam"
-                        defaultChecked={gender === "Nam" ? true : false}
+                        defaultChecked={gender === 'Nam' ? true : false}
                         onClick={(e) => handleGender(e)}
                       />
                       <label htmlFor="gender-male">Nam</label>
@@ -289,7 +287,7 @@ const UserInfo = () => {
                         id="gender-female"
                         name="gender"
                         defaultValue="Nữ"
-                        defaultChecked={gender === "Nữ" ? true : false}
+                        defaultChecked={gender === 'Nữ' ? true : false}
                         onClick={(e) => handleGender(e)}
                       />
                       <label htmlFor="gender-female">Nữ</label>
@@ -301,7 +299,7 @@ const UserInfo = () => {
                         id="gender-LGBT"
                         name="gender"
                         defaultValue="Khác"
-                        defaultChecked={gender === "Khác" ? true : false}
+                        defaultChecked={gender === 'Khác' ? true : false}
                         onClick={(e) => handleGender(e)}
                       />
                       <label htmlFor="gender-LGBT">Khác</label>
@@ -334,7 +332,7 @@ const UserInfo = () => {
                       <select
                         id="address__province"
                         name="address__province"
-                        defaultValue={""}
+                        defaultValue={''}
                         data={currentUser.address.province}
                         ref={provinceEle}
                         onChange={handleProvince}
@@ -347,7 +345,7 @@ const UserInfo = () => {
                             <option value={item.name} key={item._id}>
                               {item.name}
                             </option>
-                          );
+                          )
                         })}
                       </select>
 
@@ -355,7 +353,7 @@ const UserInfo = () => {
                         id="address__district"
                         name="address__district"
                         data={user.address.district}
-                        defaultValue={""}
+                        defaultValue={''}
                         onChange={handleDistrict}
                         ref={districtEle}
                       >
@@ -367,14 +365,14 @@ const UserInfo = () => {
                             <option value={item.name} key={index}>
                               {item.name}
                             </option>
-                          );
+                          )
                         })}
                       </select>
                       <select
                         id="address__ward"
                         name="address__ward"
                         data={user.address.ward}
-                        defaultValue={""}
+                        defaultValue={''}
                         onChange={handleWard}
                         ref={wardEle}
                       >
@@ -386,7 +384,7 @@ const UserInfo = () => {
                             <option value={item.name} key={index}>
                               {item.name}
                             </option>
-                          );
+                          )
                         })}
                       </select>
                     </div>
@@ -416,6 +414,6 @@ const UserInfo = () => {
 
       <Footer></Footer>
     </>
-  );
-};
-export default UserInfo;
+  )
+}
+export default UserInfo

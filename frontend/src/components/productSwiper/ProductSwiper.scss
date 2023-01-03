@@ -1,4 +1,4 @@
-@use "../../scss/abstracts/" as *;
+@use '../../scss/abstracts/' as *;
 .swiper__container {
   .swiper-button-prev {
     display: none;
@@ -11,7 +11,7 @@
   }
 
   .swiper-button-prev::after {
-    content: "prev";
+    content: 'prev';
     font-size: 20px;
     font-weight: 900;
   }
@@ -27,7 +27,7 @@
   }
 
   .swiper-button-next::after {
-    content: "next";
+    content: 'next';
     font-size: 20px;
     font-weight: 900;
   }

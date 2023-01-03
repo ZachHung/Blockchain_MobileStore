@@ -1,27 +1,27 @@
-const purchase = require('../models/Purchase');
-const util = require('../../util/mongoose');
-const items = require('../models/Item');
+const purchase = require('../models/Purchase')
+const util = require('../../util/mongoose')
+const items = require('../models/Item')
 
 class SearchController {
   //search global
   index(req, res, next) {
-    var paramBrand = req.query.brand;
-    var paramPrice = req.query.price;
-    var keyword = req.query.key;
-    var arrayBrand;
+    var paramBrand = req.query.brand
+    var paramPrice = req.query.price
+    var keyword = req.query.key
+    var arrayBrand
     if (paramBrand == undefined) {
-      paramBrand = '';
+      paramBrand = ''
     }
-    arrayBrand = paramBrand.split(',');
-    let to2 = 0;
-    let from2 = -1;
-    let to5 = 0;
-    let from5 = -1;
-    let to14 = 0;
-    let from14 = 100000000000;
+    arrayBrand = paramBrand.split(',')
+    let to2 = 0
+    let from2 = -1
+    let to5 = 0
+    let from5 = -1
+    let to14 = 0
+    let from14 = 100000000000
 
     if (paramPrice == undefined) {
-      paramPrice = '';
+      paramPrice = ''
     }
     if (paramPrice == '' && paramBrand == '') {
       items
@@ -41,9 +41,9 @@ class SearchController {
           },
         ])
         .then((items) => {
-          res.json({ items: items });
+          res.json({ items: items })
         })
-        .catch(next);
+        .catch(next)
     } else {
       if (paramBrand != '' && paramPrice == '') {
         items
@@ -72,24 +72,24 @@ class SearchController {
           .then((items) => {
             res.json({
               items: items,
-            });
+            })
           })
-          .catch(next);
+          .catch(next)
       }
       if (paramBrand == '' && paramPrice != '') {
         if (paramPrice.search('duoi-2-trieu') >= 0) {
-          to2 = 2000000;
+          to2 = 2000000
         }
         if (paramPrice.search('tu-2-5-trieu') >= 0) {
-          from2 = 2000000;
-          to5 = 5000000;
+          from2 = 2000000
+          to5 = 5000000
         }
         if (paramPrice.search('tu-5-14-trieu') >= 0) {
-          from5 = 5000000;
-          to14 = 14000000;
+          from5 = 5000000
+          to14 = 14000000
         }
         if (paramPrice.search('tren-14-trieu') >= 0) {
-          from14 = 14000000;
+          from14 = 14000000
         }
         items
           .aggregate([
@@ -141,25 +141,25 @@ class SearchController {
           .then((items) => {
             res.json({
               items: items,
-            });
+            })
           })
-          .catch(next);
+          .catch(next)
       }
 
       if (paramBrand != '' && paramPrice != '') {
         if (paramPrice.search('duoi-2-trieu') >= 0) {
-          to2 = 2000000;
+          to2 = 2000000
         }
         if (paramPrice.search('tu-2-5-trieu') >= 0) {
-          from2 = 2000000;
-          to5 = 5000000;
+          from2 = 2000000
+          to5 = 5000000
         }
         if (paramPrice.search('tu-5-14-trieu') >= 0) {
-          from5 = 5000000;
-          to14 = 14000000;
+          from5 = 5000000
+          to14 = 14000000
         }
         if (paramPrice.search('tren-14-trieu') >= 0) {
-          from14 = 14000000;
+          from14 = 14000000
         }
         items
           .aggregate([
@@ -218,21 +218,21 @@ class SearchController {
           .then((items) => {
             res.json({
               items: items,
-            });
+            })
           })
-          .catch(next);
+          .catch(next)
       }
     }
   }
   global(req, res, next) {
-    var keyword = req.query.key;
-    var sort = req.query.sort;
-    var temp;
+    var keyword = req.query.key
+    var sort = req.query.sort
+    var temp
     if (sort != undefined) {
       if (sort == 'asc') {
-        temp = 1;
+        temp = 1
       } else {
-        temp = -1;
+        temp = -1
       }
     }
     if (keyword == undefined) {
@@ -248,8 +248,8 @@ class SearchController {
           },
         ])
         .then((items) => {
-          res.json({ items: items });
-        });
+          res.json({ items: items })
+        })
     } else {
       items
         .aggregate([
@@ -273,31 +273,31 @@ class SearchController {
         .then((items) => {
           res.json({
             items: items,
-          });
+          })
           // res.json(items)
         })
 
-        .catch(next);
+        .catch(next)
     }
   }
   brand(req, res, next) {
     items
       .distinct('brand')
       .then((items) => {
-        res.json(items);
+        res.json(items)
       })
-      .catch(next);
+      .catch(next)
   }
   brandName(req, res, next) {
     items
       .distinct('brand.name')
       .then((items) => {
-        res.json(items);
+        res.json(items)
       })
-      .catch(next);
+      .catch(next)
   }
   match(req, res, next) {
-    var keyword = req.query.key;
+    var keyword = req.query.key
 
     items
       .aggregate([
@@ -317,14 +317,14 @@ class SearchController {
       ])
 
       .then((items) => {
-        res.json(items.length.toString());
+        res.json(items.length.toString())
       })
 
-      .catch(next);
+      .catch(next)
   }
 
   info(req, res, next) {
-    var keyword = req.query.key;
+    var keyword = req.query.key
 
     items
       .aggregate([
@@ -344,14 +344,14 @@ class SearchController {
       ])
 
       .then((items) => {
-        res.json(items);
+        res.json(items)
       })
 
-      .catch(next);
+      .catch(next)
   }
   // search for purchase
   purchaseSearch(req, res, next) {
-    var queryParam = req.query.purchase;
+    var queryParam = req.query.purchase
 
     purchase
       .find({ userID: req.session.user._id })
@@ -368,25 +368,25 @@ class SearchController {
       })
       .then((data) => {
         // data = util.mutipleMongooseToObject(data);
-        data = util.mutipleMongooseToObject(data);
-        let result = data[0];
+        data = util.mutipleMongooseToObject(data)
+        let result = data[0]
         for (let object of data) {
           object.list = object.list.filter((list) => {
-            return list.optionID !== null;
-          });
+            return list.optionID !== null
+          })
         }
         for (let object of data) {
           object.list = object.list.filter((list) => {
-            return list.optionID.item !== null;
-          });
+            return list.optionID.item !== null
+          })
         }
         for (let item of result.list) {
           item.optionID.color = item.optionID.color.filter((color) => {
-            return color.name === item.color;
-          });
+            return color.name === item.color
+          })
         }
-        res.json(data);
-      });
+        res.json(data)
+      })
   }
 }
-module.exports = new SearchController();
+module.exports = new SearchController()

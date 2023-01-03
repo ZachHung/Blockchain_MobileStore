@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import logo from '../../logo.svg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useRef, useState } from 'react'
+import logo from '../../logo.svg'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faMagnifyingGlass,
   faCartShopping,
@@ -13,44 +13,41 @@ import {
   faCaretUp,
   faWrench,
   faImage,
-} from '@fortawesome/free-solid-svg-icons';
-import './style.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/userRedux';
+} from '@fortawesome/free-solid-svg-icons'
+import './style.scss'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../redux/userRedux'
 
 const Header = ({ color }) => {
-  const [menuState, setMenuState] = useState(false);
-  const [dropdownState, setDropdownState] = useState(false);
-  const btnRef = useRef();
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.current);
-  const cartQuantity = useSelector((state) => state.cart.quantity);
-  const [query, setQuery] = useState('');
+  const [menuState, setMenuState] = useState(false)
+  const [dropdownState, setDropdownState] = useState(false)
+  const btnRef = useRef()
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user.current)
+  const cartQuantity = useSelector((state) => state.cart.quantity)
+  const [query, setQuery] = useState('')
   const handleOnchangeSearch = (e) => {
-    setQuery(e.target.value);
-  };
-  const navigateSearch = useNavigate();
+    setQuery(e.target.value)
+  }
+  const navigateSearch = useNavigate()
 
   const handleClickSearch = () => {
     // console.log("key: ", query);
-    navigateSearch(`../search?key=${query}`);
-  };
+    navigateSearch(`../search?key=${query}`)
+  }
   const handleLogOut = () => {
-    dispatch(logout());
-    window.open(
-      process.env.REACT_APP_SERVER_PATH + '/api/auth/logout',
-      '_self'
-    );
-  };
+    dispatch(logout())
+    window.open(process.env.REACT_APP_SERVER_PATH + '/api/auth/logout', '_self')
+  }
   useEffect(() => {
     const closeDropdown = (e) => {
       if (btnRef.current && !btnRef.current.contains(e.target))
-        setDropdownState(false);
-    };
-    document.addEventListener('mousedown', closeDropdown);
-    return () => document.removeEventListener('mousedown', closeDropdown);
-  }, []);
+        setDropdownState(false)
+    }
+    document.addEventListener('mousedown', closeDropdown)
+    return () => document.removeEventListener('mousedown', closeDropdown)
+  }, [])
   return (
     <>
       <header>
@@ -200,7 +197,7 @@ const Header = ({ color }) => {
       </header>
       <div className="header-spacer" style={{ backgroundColor: color }}></div>
     </>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

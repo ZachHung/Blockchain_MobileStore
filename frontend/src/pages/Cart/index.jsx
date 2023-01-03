@@ -1,72 +1,72 @@
-import React, { useEffect, useState } from "react";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
-import "./style.scss";
-import { userRequest } from "../../utils/CallApi";
-import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { currentChange, removeVietnameseTones } from "../../utils/const";
+import React, { useEffect, useState } from 'react'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import './style.scss'
+import { userRequest } from '../../utils/CallApi'
+import { useDispatch, useSelector } from 'react-redux'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { currentChange, removeVietnameseTones } from '../../utils/const'
 import {
   faXmark,
   faPlus,
   faMinus,
   faSadTear,
   faTruck,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link, useNavigate } from "react-router-dom";
-import { setQuantity, setZero } from "../../redux/cart";
-import ModalPopUp from "../../components/modal";
-import AOS from "aos";
-import "aos/dist/aos.css";
+} from '@fortawesome/free-solid-svg-icons'
+import { Link, useNavigate } from 'react-router-dom'
+import { setQuantity, setZero } from '../../redux/cart'
+import ModalPopUp from '../../components/modal'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
 
 const getTotal = (cart) => {
-  var total = 0;
+  var total = 0
   for (let item of cart) {
-    total += item.optionID.color[0].price * item.quantity;
+    total += item.optionID.color[0].price * item.quantity
   }
-  return total;
-};
+  return total
+}
 function isValid(str) {
   if (!str) {
-    return false;
+    return false
   }
-  str = str.replace(/^0+/, "") || "0";
-  var n = Math.floor(Number(str));
-  return n !== Infinity && String(n) === str && n > 0;
+  str = str.replace(/^0+/, '') || '0'
+  var n = Math.floor(Number(str))
+  return n !== Infinity && String(n) === str && n > 0
 }
 
 const CartPage = () => {
-  const user = useSelector((state) => state.user);
-  const [cart, setCart] = useState([]);
-  const [userData, setUserData] = useState("");
-  const [modalState, setModalState] = useState();
-  const deliveryFee = 25000;
-  const [isChanged, setIsChanged] = useState(false);
-  const [ReItem, setReItem] = useState({ optionID: "", color: "" });
-  const [isLoading, setIsLoading] = useState(true);
-  const [payment, setPayment] = useState();
+  const user = useSelector((state) => state.user)
+  const [cart, setCart] = useState([])
+  const [userData, setUserData] = useState('')
+  const [modalState, setModalState] = useState()
+  const deliveryFee = 25000
+  const [isChanged, setIsChanged] = useState(false)
+  const [ReItem, setReItem] = useState({ optionID: '', color: '' })
+  const [isLoading, setIsLoading] = useState(true)
+  const [payment, setPayment] = useState()
   const payments = [
     {
-      name: "vnpay",
-      img: "vnPay-icon.png",
+      name: 'vnpay',
+      img: 'vnPay-icon.png',
       message:
-        "Thẻ ATM / Internet Banking\nThẻ tín dụng (Credit card) / Thẻ ghi nợ (Debit card)\nVNPay QR",
+        'Thẻ ATM / Internet Banking\nThẻ tín dụng (Credit card) / Thẻ ghi nợ (Debit card)\nVNPay QR',
     },
-    { name: "cod", fontAwsome: faTruck, message: "Thanh toán khi nhận hàng" },
-  ];
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+    { name: 'cod', fontAwsome: faTruck, message: 'Thanh toán khi nhận hàng' },
+  ]
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const getCart = () => {
     userRequest()
       .get(`cart/${user.current._id}`)
       .then((res) => {
-        setCart(res.data.list);
-        dispatch(setQuantity(res.data.list));
-        setIsLoading(false);
+        setCart(res.data.list)
+        dispatch(setQuantity(res.data.list))
+        setIsLoading(false)
       })
-      .catch((err) => console.log(err));
-  };
+      .catch((err) => console.log(err))
+  }
 
   const changeQuantity = (optionID, color, quantity) => {
     userRequest()
@@ -75,8 +75,8 @@ const CartPage = () => {
         quantity: quantity,
         color: color,
       })
-      .then(() => setIsChanged(!isChanged));
-  };
+      .then(() => setIsChanged(!isChanged))
+  }
 
   const deleteItem = (item) => {
     userRequest()
@@ -84,68 +84,68 @@ const CartPage = () => {
         data: item,
       })
       .then(() => {
-        setIsChanged(!isChanged);
-        setModalState(false);
-      });
-  };
+        setIsChanged(!isChanged)
+        setModalState(false)
+      })
+  }
 
   const handleQuantity = (target, optionID, color) => {
     if (isValid(target.value) && target.value <= 99)
-      changeQuantity(optionID, color, target.value);
-  };
+      changeQuantity(optionID, color, target.value)
+  }
   const handleRemoveItem = (optionID, color) => {
-    setReItem({ optionID, color });
-    setModalState(true);
-  };
+    setReItem({ optionID, color })
+    setModalState(true)
+  }
   const handlePurchase = (e) => {
-    e.preventDefault();
-    if (payment === "cod") {
+    e.preventDefault()
+    if (payment === 'cod') {
       userRequest()
         .post(`cart/purchase/${user.current._id}`)
         .then((res) => {
-          dispatch(setZero());
-          res.status === 200 && navigate("../purchase", { replace: true });
+          dispatch(setZero())
+          res.status === 200 && navigate('../purchase', { replace: true })
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     } else {
       userRequest()
         .post(`cart/${user.current._id}/create_payment_url`, {
           orderDescription: removeVietnameseTones(
-            "Thanh toan 7Team cho khanh hang " +
+            'Thanh toan 7Team cho khanh hang ' +
               user.current.name +
-              ". Số tiền " +
+              '. Số tiền ' +
               getTotal(cart)
           ),
           orderType: 110000,
           amount: getTotal(cart),
-          language: "vn",
+          language: 'vn',
         })
         .then((res) => {
-          window.location.href = res.data;
+          window.location.href = res.data
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     }
-  };
+  }
 
   useEffect(() => {
     userRequest()
       .get(`cart/${user.current._id}`)
       .then((res) => {
-        setCart(res.data.list);
-        setUserData(res.data.userID);
-        dispatch(setQuantity(res.data.list));
-        setIsLoading(false);
+        setCart(res.data.list)
+        setUserData(res.data.userID)
+        dispatch(setQuantity(res.data.list))
+        setIsLoading(false)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
     AOS.init({
       offset: 50, //trigger offset in px
       duration: 350, // values from 0 to 3000, with step 50ms
-      easing: "ease-in-back", // default easing for AOS animations
+      easing: 'ease-in-back', // default easing for AOS animations
       once: true,
-    });
-    AOS.refresh();
-  }, [user]);
-  useEffect(() => getCart(), [isChanged]);
+    })
+    AOS.refresh()
+  }, [user])
+  useEffect(() => getCart(), [isChanged])
   if (isLoading)
     return (
       <>
@@ -157,7 +157,7 @@ const CartPage = () => {
         </div>
         <Footer></Footer>
       </>
-    );
+    )
   return (
     <>
       <Header />
@@ -203,7 +203,7 @@ const CartPage = () => {
                       <div className="item__detail">
                         <FontAwesomeIcon
                           icon={faXmark}
-                          className={"fa-times"}
+                          className={'fa-times'}
                           onClick={() =>
                             handleRemoveItem(item.optionID._id, item.color)
                           }
@@ -302,7 +302,7 @@ const CartPage = () => {
                 </div>
                 <div className="user-information">
                   <h2 className="greeting">
-                    Xin chào, {userData.name.split(" ").slice(-1).join(" ")}
+                    Xin chào, {userData?.name.split(' ').slice(-1).join(' ')}
                   </h2>
                   <h3 className="sub-heading">
                     Hãy chắc chắn rằng thông tin vận chuyển của bạn là chính xác
@@ -312,7 +312,7 @@ const CartPage = () => {
                       <input
                         type="text"
                         id="fullName"
-                        value={userData.name}
+                        value={userData?.name}
                         placeholder=""
                         readOnly
                       />
@@ -322,7 +322,7 @@ const CartPage = () => {
                       <input
                         type="tel"
                         id="phoneNumber"
-                        value={userData.phone}
+                        value={userData?.phone}
                         placeholder=""
                         readOnly
                       />
@@ -332,7 +332,7 @@ const CartPage = () => {
                       <input
                         type="text"
                         id="provice/city"
-                        value={userData.address.province}
+                        value={userData?.address.province}
                         placeholder=""
                         readOnly
                       />
@@ -342,7 +342,7 @@ const CartPage = () => {
                       <input
                         type="text"
                         id="district"
-                        value={userData.address.district}
+                        value={userData?.address.district}
                         placeholder=""
                         readOnly
                       />
@@ -352,7 +352,7 @@ const CartPage = () => {
                       <input
                         type="text"
                         id="sub-district"
-                        value={userData.address.ward}
+                        value={userData?.address.ward}
                         placeholder=""
                         readOnly
                       />
@@ -362,7 +362,7 @@ const CartPage = () => {
                       <input
                         type="text"
                         id="house-number"
-                        value={userData.address.addressdetail}
+                        value={userData?.address.addressdetail}
                         placeholder=""
                         aria-describedby="home-number-help"
                         readOnly
@@ -373,7 +373,7 @@ const CartPage = () => {
                     </div>
 
                     <div className="formBtn">
-                      <Link className="confirm-btn" to={"/user"}>
+                      <Link className="confirm-btn" to={'/user'}>
                         Cập nhật thông tin
                       </Link>
                     </div>
@@ -390,7 +390,7 @@ const CartPage = () => {
                     <label
                       key={index}
                       className={`${
-                        payment !== item.name ? "disabled" : "checked"
+                        payment !== item.name ? 'disabled' : 'checked'
                       }`}
                     >
                       <span className="methods__custom-radio">
@@ -402,7 +402,7 @@ const CartPage = () => {
                           onChange={(e) => setPayment(e.target.value)}
                         />
                       </span>
-                      <span className={"methods__icon"}>
+                      <span className={'methods__icon'}>
                         {item.img ? (
                           <img src={`/images/${item.img}`} alt="" />
                         ) : (
@@ -431,7 +431,7 @@ const CartPage = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}
 
-export default CartPage;
+export default CartPage

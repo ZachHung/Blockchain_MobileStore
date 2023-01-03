@@ -1,40 +1,40 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react'
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
+import 'swiper/css/thumbs'
 
-import "./ProductSwiper.scss";
+import './ProductSwiper.scss'
 
 // import required modules
-import { FreeMode, Navigation, Thumbs } from "swiper";
+import { FreeMode, Navigation, Thumbs } from 'swiper'
 
 export default function ProductSwiper({ swiperArray }) {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const controlSwiper = useRef();
-  const pathImage = "";
+  const [thumbsSwiper, setThumbsSwiper] = useState(null)
+  const controlSwiper = useRef()
+  const pathImage = ''
 
   return (
-    <div className='swiper__container'>
+    <div className="swiper__container">
       <Swiper
         style={{
-          "--swiper-navigation-color": "#fff",
-          "--swiper-pagination-color": "#fff",
+          '--swiper-navigation-color': '#fff',
+          '--swiper-pagination-color': '#fff',
         }}
         navigation={true}
         spaceBetween={10}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
-        className='mySwiper2'
+        className="mySwiper2"
         ref={controlSwiper}
       >
         {swiperArray.map((item, index) => (
           <SwiperSlide key={index}>
-            <div className='swiper__img'>
+            <div className="swiper__img">
               <img src={item.image} />
             </div>
           </SwiperSlide>
@@ -47,7 +47,7 @@ export default function ProductSwiper({ swiperArray }) {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        className='mySwiper'
+        className="mySwiper"
       >
         {swiperArray.map((item, index) => (
           <SwiperSlide key={index}>
@@ -56,5 +56,5 @@ export default function ProductSwiper({ swiperArray }) {
         ))}
       </Swiper>
     </div>
-  );
+  )
 }

@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGreaterThan, faHome } from "@fortawesome/free-solid-svg-icons";
-import "./Path.scss";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGreaterThan, faHome } from '@fortawesome/free-solid-svg-icons'
+import './Path.scss'
 const Path = ({ path }) => {
   return (
     <div className="path__container">
@@ -12,7 +12,7 @@ const Path = ({ path }) => {
             icon={faHome}
             className="path__icon"
           ></FontAwesomeIcon>
-          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <span>Trang Chủ</span>
           </Link>
         </div>
@@ -24,7 +24,7 @@ const Path = ({ path }) => {
             ></FontAwesomeIcon>
             <Link
               to={item.href}
-              style={{ textDecoration: "none", color: "inherit" }}
+              style={{ textDecoration: 'none', color: 'inherit' }}
             >
               <span>{item.name}</span>
             </Link>
@@ -32,7 +32,7 @@ const Path = ({ path }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Path;
+export default Path

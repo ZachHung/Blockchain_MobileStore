@@ -9,7 +9,7 @@
     .info__title {
       text-align: center;
     }
-    input[type="submit"] {
+    input[type='submit'] {
       background-color: #ccc;
       width: 24rem;
       height: 3rem;
@@ -19,7 +19,7 @@
       display: block;
       font-weight: bold;
     }
-    input[type="submit"]:hover {
+    input[type='submit']:hover {
       background-color: #333;
       color: #fff;
       cursor: pointer;
@@ -37,7 +37,7 @@
           background-color: white;
           padding: 0 2px;
         }
-        input[type="text"] {
+        input[type='text'] {
           height: 4rem;
           width: 100%;
           padding: 1rem 1rem 1rem 1rem;
@@ -46,14 +46,14 @@
           border-radius: 1rem;
         }
 
-        input[type="date"] {
+        input[type='date'] {
           border: 2px solid #000;
           border-radius: 1rem;
           height: 4rem;
           padding: 0px 15px;
           font-size: 15px;
         }
-        input[type="submit"] {
+        input[type='submit'] {
           background-color: #ccc;
           width: 24rem;
           height: 3rem;
@@ -63,13 +63,13 @@
           display: block;
           font-weight: bold;
         }
-        input[type="submit"]:hover {
+        input[type='submit']:hover {
           background-color: #333;
           color: #fff;
           cursor: pointer;
           font-size: 16px;
         }
-        input[type="radio"] {
+        input[type='radio'] {
           /* remove standard background appearance */
           -webkit-appearance: none;
           -moz-appearance: none;
@@ -86,7 +86,7 @@
           border-radius: 50%;
           cursor: pointer;
         }
-        input[type="radio"]:checked {
+        input[type='radio']:checked {
           background-color: rgba(0, 0, 0, 0.6);
           cursor: default;
         }

@@ -1,11 +1,11 @@
-import React from "react";
-import "./Register.scss";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import TextInPut from "../../components/TextInPut/TextInPut";
-import { publicRequest } from "../../utils/CallApi";
-import Header from "../../components/header";
-import Footer from "../../components/footer";
+import React from 'react'
+import './Register.scss'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import TextInPut from '../../components/TextInPut/TextInPut'
+import { publicRequest } from '../../utils/CallApi'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
 
 import {
   faPhone,
@@ -13,36 +13,36 @@ import {
   faKey,
   faMailBulk,
   faCode,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons'
 
 const Register = () => {
-  const [formData, setFormData] = useState({});
-  const [formCode, setFormCode] = useState({});
-  const [isValidName, setIsValidName] = useState(false);
-  const [isValidPhone, setIsValidPhone] = useState(false);
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [isValidPassword, setIsValidPassword] = useState(false);
-  const [isValidVeifyPassword, setIsValidVerifyPassword] = useState(false);
-  const [errorText, setErrorText] = useState("");
-  const [isValidCode, setIsValidCode] = useState(false);
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({})
+  const [formCode, setFormCode] = useState({})
+  const [isValidName, setIsValidName] = useState(false)
+  const [isValidPhone, setIsValidPhone] = useState(false)
+  const [isValidEmail, setIsValidEmail] = useState(false)
+  const [isValidPassword, setIsValidPassword] = useState(false)
+  const [isValidVeifyPassword, setIsValidVerifyPassword] = useState(false)
+  const [errorText, setErrorText] = useState('')
+  const [isValidCode, setIsValidCode] = useState(false)
+  const navigate = useNavigate()
   console.log({
     isValidName,
     isValidPhone,
     isValidEmail,
     isValidPassword,
     isValidVeifyPassword,
-  });
-  const [sendCode, setSendCode] = useState(false);
+  })
+  const [sendCode, setSendCode] = useState(false)
   const handleInput = (name, value) => {
-    setErrorText("");
-    setFormData({ ...formData, [name]: `${value}` });
-  };
+    setErrorText('')
+    setFormData({ ...formData, [name]: `${value}` })
+  }
   const handleInputCode = (name, value) => {
-    setFormCode({ ...formCode, [name]: `${value}` });
-  };
+    setFormCode({ ...formCode, [name]: `${value}` })
+  }
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (
       !(
         isValidName &&
@@ -52,43 +52,43 @@ const Register = () => {
         isValidVeifyPassword
       )
     ) {
-      setErrorText("Thông Tin Không Chính Xác Vui Lòng Kiểm Tra Lại");
+      setErrorText('Thông Tin Không Chính Xác Vui Lòng Kiểm Tra Lại')
     } else if (formData.password !== formData.verifyPassword) {
-      setErrorText("Mật Khẩu Không Khớp");
+      setErrorText('Mật Khẩu Không Khớp')
     } else {
       publicRequest
-        .post("account/register", { email: formData.email })
+        .post('account/register', { email: formData.email })
         .then((res) => {
           if (res.status === 202) {
-            setErrorText(res.data.message);
-            console.log(res.status, res.data.message);
-          } else setSendCode(true);
+            setErrorText(res.data.message)
+            console.log(res.status, res.data.message)
+          } else setSendCode(true)
         })
         .catch((err) => {
-          setErrorText("Hệ Thống Bị Lỗi Vui Lòng Điền Lại Thông Tin");
-        });
+          setErrorText('Hệ Thống Bị Lỗi Vui Lòng Điền Lại Thông Tin')
+        })
     }
-  };
+  }
   const handleSendCode = (e) => {
-    e.preventDefault();
-    console.log(isValidCode);
+    e.preventDefault()
+    console.log(isValidCode)
     if (!isValidCode) {
-      setErrorText("Vui Lòng Nhập Mã Xác Nhận");
+      setErrorText('Vui Lòng Nhập Mã Xác Nhận')
     } else {
       publicRequest
-        .post("account/register/confirm", { ...formData, ...formCode })
+        .post('account/register/confirm', { ...formData, ...formCode })
         .then((res) => {
           if (res.status === 202) {
-            setErrorText(res.data.message);
+            setErrorText(res.data.message)
           } else {
-            navigate("/login");
+            navigate('/login')
           }
         })
         .catch((err) => {
-          setErrorText("Hệ Thống Bị Lỗi Vui Lòng Điền Lại Thông Tin");
-        });
+          setErrorText('Hệ Thống Bị Lỗi Vui Lòng Điền Lại Thông Tin')
+        })
     }
-  };
+  }
   return (
     <>
       <Header color="#CAE5E8" />
@@ -101,7 +101,7 @@ const Register = () => {
             <div className="form_wrapper">
               <p className="form_title">Đăng Ký</p>
               <p className="form_error">{errorText}</p>
-              <form className={sendCode ? "hide" : "form"}>
+              <form className={sendCode ? 'hide' : 'form'}>
                 <TextInPut
                   icon={faUser}
                   type="text"
@@ -155,7 +155,7 @@ const Register = () => {
                   value="Đăng Ký"
                 ></input>
               </form>
-              <form className={sendCode ? "form" : "hide"}>
+              <form className={sendCode ? 'form' : 'hide'}>
                 <TextInPut
                   icon={faCode}
                   type="text"
@@ -173,7 +173,7 @@ const Register = () => {
               </form>
               <div className="login_footer">
                 <Link
-                  style={{ textDecoration: "none", color: "inherit" }}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
                   to="/login"
                 >
                   <p>Quay Lại Đăng Nhập </p>
@@ -185,7 +185,7 @@ const Register = () => {
       </div>
       <Footer color="#CAE5E8" />
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

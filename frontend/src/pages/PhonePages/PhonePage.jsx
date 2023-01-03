@@ -1,51 +1,51 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import { userRequest, publicRequest } from '../../utils/CallApi';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { addQuantity } from '../../redux/cart';
-import { toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react'
+import { useEffect, useState } from 'react'
+import { userRequest, publicRequest } from '../../utils/CallApi'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { addQuantity } from '../../redux/cart'
+import { toast } from 'react-toastify'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faMobile,
   faMicrochip,
   faMemory,
   faHardDrive,
   faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+} from '@fortawesome/free-solid-svg-icons'
 
-import Swiper from '../../components/swiper/Swiper';
-import SwiperPromotion from '../../components/swiperPromotion/SwiperPromotion';
-import Header from '../../components/header';
-import Footer from '../../components/footer';
-import Pagination from '../../components/pagination';
-import { currentChange } from '../../utils/const';
-import ModalCompare from '../../components/modalCompare/modal';
-import './PhonePage.scss';
+import Swiper from '../../components/swiper/Swiper'
+import SwiperPromotion from '../../components/swiperPromotion/SwiperPromotion'
+import Header from '../../components/header'
+import Footer from '../../components/footer'
+import Pagination from '../../components/pagination'
+import { currentChange } from '../../utils/const'
+import ModalCompare from '../../components/modalCompare/modal'
+import './PhonePage.scss'
 
 function PhonePage() {
-  const location = useLocation();
-  const dispatch = useDispatch();
-  const type = location.pathname.split('/')[1];
-  const user = useSelector((state) => state.user.current);
+  const location = useLocation()
+  const dispatch = useDispatch()
+  const type = location.pathname.split('/')[1]
+  const user = useSelector((state) => state.user.current)
   // console.log('user', user._id);
-  const [phoneList, setPhoneList] = useState([]);
-  var initialCheckedBrand;
+  const [phoneList, setPhoneList] = useState([])
+  var initialCheckedBrand
   // retrive name brand array
   publicRequest.get(`/${type}/brand/name`).then((res) => {
-    initialCheckedBrand = res.data;
-  });
+    initialCheckedBrand = res.data
+  })
 
   // add cart
   const handleAddCart = (optionParam, colorParam, e) => {
     // if user is guest
     if (user == null || user === undefined) {
-      navigateCart('../login');
+      navigateCart('../login')
     }
     // if user is costumer
     else {
-      e.preventDefault();
+      e.preventDefault()
       userRequest()
         .post(`cart/add/${user._id}`, {
           optionID: optionParam,
@@ -60,18 +60,18 @@ function PhonePage() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          });
-          dispatch(addQuantity());
+          })
+          dispatch(addQuantity())
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
     }
-  };
+  }
   // buy product
-  const navigateCart = useNavigate();
+  const navigateCart = useNavigate()
   const handleBuyProduct = (optionParam, colorParam) => {
     // if user is guest
     if (user == null || user == undefined) {
-      navigateCart('../login');
+      navigateCart('../login')
     }
     // if user is costumer
     else {
@@ -81,126 +81,126 @@ function PhonePage() {
           color: colorParam,
         })
         .then((res) => {})
-        .catch((err) => console.log(err));
-      navigateCart('../cart');
+        .catch((err) => console.log(err))
+      navigateCart('../cart')
     }
-  };
+  }
   // filter
-  const [brand, setBrand] = useState([]);
-  const [checkedBrand, setCheckedBrand] = useState([]);
-  const [checkedPrice, setCheckedPrice] = useState([]);
+  const [brand, setBrand] = useState([])
+  const [checkedBrand, setCheckedBrand] = useState([])
+  const [checkedPrice, setCheckedPrice] = useState([])
   useEffect(() => {
     publicRequest.get(`/${type}/brand`).then((res) => {
-      setBrand(res.data);
-    });
-  }, [type]);
+      setBrand(res.data)
+    })
+  }, [type])
 
-  var urlString = '';
+  var urlString = ''
   if (checkedBrand.length != 0 && checkedPrice.length != 0) {
-    let paramStringBrand = checkedBrand.join(',');
-    let paramStringPrice = checkedPrice.join(',');
-    urlString = `?brand=${paramStringBrand}&price=${paramStringPrice}`;
+    let paramStringBrand = checkedBrand.join(',')
+    let paramStringPrice = checkedPrice.join(',')
+    urlString = `?brand=${paramStringBrand}&price=${paramStringPrice}`
   }
   if (checkedBrand.length == 0 && checkedPrice.length != 0) {
-    let paramStringPrice = checkedPrice.join(',');
-    urlString = `?price=${paramStringPrice}`;
+    let paramStringPrice = checkedPrice.join(',')
+    urlString = `?price=${paramStringPrice}`
   }
   if (checkedBrand.length != 0 && checkedPrice.length == 0) {
-    let paramStringBrand = checkedBrand.join(',');
-    urlString = `?brand=${paramStringBrand}`;
+    let paramStringBrand = checkedBrand.join(',')
+    urlString = `?brand=${paramStringBrand}`
   }
   if (checkedBrand.length == 0 && checkedPrice.length == 0) {
-    urlString = '';
+    urlString = ''
   }
   // call api
 
   useEffect(() => {
-    window.history.pushState({}, 'Tìm kiếm', `/${type}${urlString}`);
+    window.history.pushState({}, 'Tìm kiếm', `/${type}${urlString}`)
     publicRequest.get(`/${type}${urlString}`).then((res) => {
-      setPhoneList(res.data.items);
+      setPhoneList(res.data.items)
       // console.log('data: ', res.data.items);
       // console.log('urlString: ', `/${type}${urlString}`);
-    });
-  }, [urlString, type]);
+    })
+  }, [urlString, type])
 
   const handleCheckBrand = (name) => {
     setCheckedBrand((prev) => {
-      const isExist = checkedBrand.includes(name);
+      const isExist = checkedBrand.includes(name)
       if (isExist) {
-        return checkedBrand.filter((item) => item !== name);
+        return checkedBrand.filter((item) => item !== name)
       } else {
-        return [...prev, name];
+        return [...prev, name]
       }
-    });
-  };
+    })
+  }
   const handleCheckPrice = (name) => {
     setCheckedPrice((prev) => {
-      const isExist = checkedPrice.includes(name);
+      const isExist = checkedPrice.includes(name)
       if (isExist) {
-        return checkedPrice.filter((item) => item !== name);
+        return checkedPrice.filter((item) => item !== name)
       } else {
-        return [...prev, name];
+        return [...prev, name]
       }
-    });
-  };
+    })
+  }
   const handleCheckAllBrand = () => {
-    setCheckedBrand(initialCheckedBrand);
-  };
+    setCheckedBrand(initialCheckedBrand)
+  }
   const handleCheckAllPrice = () => {
     setCheckedPrice([
       'tren-14-trieu',
       'duoi-2-trieu',
       'tu-2-5-trieu',
       'tu-5-14-trieu',
-    ]);
-  };
+    ])
+  }
   // compare
-  const [checkedCompare, setCheckedCompare] = useState([]);
-  const [urlImages, setUrlImages] = useState([]);
-  const [disableCompareModal, setDisableCompareModal] = useState(true);
+  const [checkedCompare, setCheckedCompare] = useState([])
+  const [urlImages, setUrlImages] = useState([])
+  const [disableCompareModal, setDisableCompareModal] = useState(true)
   const handleCheckCompare = (idProduct, urlImg) => {
-    setDisableCompareModal(false);
+    setDisableCompareModal(false)
     // if (checkedCompare.length > 2) {
     //   alert('so sánh tối đa 2 sản phẩm');
     //   alert('có vẻ bạn đã chọn đủ 2 sản phẩm, so sánh ngay');
     // } else {
 
     setCheckedCompare((prev) => {
-      const isExist = checkedCompare.includes(idProduct);
+      const isExist = checkedCompare.includes(idProduct)
       if (isExist) {
-        return checkedCompare.filter((item) => item !== idProduct);
+        return checkedCompare.filter((item) => item !== idProduct)
       } else {
-        return [...prev, idProduct];
+        return [...prev, idProduct]
       }
-    });
+    })
     setUrlImages((prev) => {
-      const isExist = urlImages.includes(urlImg);
+      const isExist = urlImages.includes(urlImg)
       if (isExist) {
-        return urlImages.filter((item) => item != urlImg);
+        return urlImages.filter((item) => item != urlImg)
       } else {
-        return [...prev, urlImg];
+        return [...prev, urlImg]
       }
-    });
-  };
+    })
+  }
   const handleClickCancelCompare = () => {
-    setUrlImages([]);
-    setCheckedCompare([]);
+    setUrlImages([])
+    setCheckedCompare([])
     // setDisableCompareModal(() => true);
-  };
+  }
   // if (checkedCompare.length == 0) {
   //   setDisableCompareModal(true);
   // }
   // pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage, setProductPerPage] = useState(6);
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const [currentPage, setCurrentPage] = useState(1)
+  const [productsPerPage, setProductPerPage] = useState(6)
+  const indexOfLastProduct = currentPage * productsPerPage
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage
   const currentProduct = phoneList.slice(
     indexOfFirstProduct,
     indexOfLastProduct
-  );
+  )
   // change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber)
   //  set accessory
   const handleRenderAccessory = (phone) => {
     // console.log('type: ', type);
@@ -208,7 +208,7 @@ function PhonePage() {
       return (
         <div>
           {' '}
-          <span data-title='CPU'>
+          <span data-title="CPU">
             <p>
               <FontAwesomeIcon
                 icon={faMicrochip}
@@ -217,7 +217,7 @@ function PhonePage() {
               {phone.techInfo[1].infoDetail[0].infoNum}
             </p>
           </span>
-          <span data-title='Màn hình'>
+          <span data-title="Màn hình">
             <p>
               <FontAwesomeIcon
                 icon={faMobile}
@@ -227,11 +227,11 @@ function PhonePage() {
             </p>
           </span>
         </div>
-      );
+      )
     } else {
       return (
         <div>
-          <span data-title='CPU'>
+          <span data-title="CPU">
             <p>
               <FontAwesomeIcon
                 icon={faMicrochip}
@@ -240,7 +240,7 @@ function PhonePage() {
               {phone.techInfo[2].infoDetail[0].infoNum}
             </p>
           </span>
-          <span data-title='Màn hình'>
+          <span data-title="Màn hình">
             <p>
               <FontAwesomeIcon
                 icon={faMobile}
@@ -259,7 +259,7 @@ function PhonePage() {
             </p>
           </span> */}
 
-          <span data-title='ROM'>
+          <span data-title="ROM">
             <p>
               <FontAwesomeIcon
                 icon={faHardDrive}
@@ -269,16 +269,16 @@ function PhonePage() {
             </p>
           </span>
         </div>
-      );
+      )
     }
-  };
+  }
 
   return (
     <>
       <Header color={'#f2f6f5'} />
 
-      <div className='products-container'>
-        <section className='section products'>
+      <div className="products-container">
+        <section className="section products">
           <ModalCompare
             // className={`${checkedCompare.length == 0 ? 'modal-disable' : ''}`}
             // className={`modal-disable`}
@@ -290,18 +290,18 @@ function PhonePage() {
             countCompare={checkedCompare.length}
           ></ModalCompare>
 
-          <SwiperPromotion className='swiper-promotion'></SwiperPromotion>
+          <SwiperPromotion className="swiper-promotion"></SwiperPromotion>
           <Swiper
             updateBrand={handleCheckBrand}
             updatePrice={handleCheckPrice}
             type={type}
           ></Swiper>
-          <div className='filter-checkbox'>
+          <div className="filter-checkbox">
             <span style={{ fontWeight: 500, paddingRight: '1rem' }}>
               Lọc theo:
             </span>
             {checkedBrand.map((item) => (
-              <span key={item} className='filter-span'>
+              <span key={item} className="filter-span">
                 {item}
                 <FontAwesomeIcon
                   icon={faXmark}
@@ -314,7 +314,7 @@ function PhonePage() {
               </span>
             ))}
             {checkedPrice.map((item) => (
-              <span key={item} className='filter-span'>
+              <span key={item} className="filter-span">
                 {item}
                 <FontAwesomeIcon
                   icon={faXmark}
@@ -331,19 +331,19 @@ function PhonePage() {
               handleSortAsc={handleSortAsc}
               handleSortDesc={handleSortDesc}
             /> */}
-          <div className='products-layout container'>
-            <div className='filter'>
+          <div className="products-layout container">
+            <div className="filter">
               <div>
-                <div className='block-title'>
+                <div className="block-title">
                   <h3>Thương hiệu</h3>
                 </div>
-                <ul className='block-content filter-brand'>
+                <ul className="block-content filter-brand">
                   <li
                     onClick={() => handleCheckAllBrand()}
-                    className='form-group'
+                    className="form-group"
                   >
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       checked={
                         checkedBrand.length == 6 || checkedBrand.length == 0
                       }
@@ -357,10 +357,10 @@ function PhonePage() {
                     <li
                       key={item.name}
                       onClick={() => handleCheckBrand(item.name)}
-                      className='form-group'
+                      className="form-group"
                     >
                       <input
-                        type='checkbox'
+                        type="checkbox"
                         checked={checkedBrand.includes(item.name)}
                         onChange={() => console.log('fix checked warning')}
                       />
@@ -373,16 +373,16 @@ function PhonePage() {
               </div>
 
               <div>
-                <div className='block-title'>
+                <div className="block-title">
                   <h3>Mức giá</h3>
                 </div>
-                <ul className='block-content'>
+                <ul className="block-content">
                   <li
                     onClick={() => handleCheckAllPrice()}
-                    className='form-group'
+                    className="form-group"
                   >
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       checked={
                         checkedPrice.length == 4 || checkedPrice.length == 0
                       }
@@ -394,10 +394,10 @@ function PhonePage() {
                   </li>
                   <li
                     onClick={() => handleCheckPrice('duoi-2-trieu')}
-                    className='form-group'
+                    className="form-group"
                   >
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       checked={checkedPrice.includes('duoi-2-trieu')}
                       onChange={() => console.log('fix checked warning')}
                     />
@@ -407,10 +407,10 @@ function PhonePage() {
                   </li>
                   <li
                     onClick={() => handleCheckPrice('tu-2-5-trieu')}
-                    className='form-group'
+                    className="form-group"
                   >
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       checked={checkedPrice.includes('tu-2-5-trieu')}
                       onChange={() => console.log('fix checked warning')}
                     />
@@ -420,11 +420,11 @@ function PhonePage() {
                   </li>
                   <li
                     onClick={() => handleCheckPrice('tu-5-14-trieu')}
-                    className='form-group'
+                    className="form-group"
                   >
                     <input
                       checked={checkedPrice.includes('tu-5-14-trieu')}
-                      type='checkbox'
+                      type="checkbox"
                       onChange={() => console.log('fix checked warning')}
                     />
                     <label>
@@ -433,10 +433,10 @@ function PhonePage() {
                   </li>
                   <li
                     onClick={() => handleCheckPrice('tren-14-trieu')}
-                    className='form-group'
+                    className="form-group"
                   >
                     <input
-                      type='checkbox'
+                      type="checkbox"
                       checked={checkedPrice.includes('tren-14-trieu')}
                       onChange={() => console.log('fix checked warning')}
                     />
@@ -448,11 +448,11 @@ function PhonePage() {
               </div>
             </div>
 
-            <div className='list-products'>
+            <div className="list-products">
               {currentProduct.map((phone) => (
-                <div key={phone._id} className='product-layout'>
-                  <div className='product'>
-                    <div className='img-container'>
+                <div key={phone._id} className="product-layout">
+                  <div className="product">
+                    <div className="img-container">
                       <div
                         className={`${
                           checkedCompare.length >= 2
@@ -464,7 +464,7 @@ function PhonePage() {
                         }
                       >
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           checked={checkedCompare.includes(phone._id)}
                           onChange={() => console.log('fix checked warning')}
                         />
@@ -478,28 +478,28 @@ function PhonePage() {
                         <img src={`${phone.image[0]}`} alt={phone.name} />
                       </Link>
                     </div>
-                    <div className='info-product'>
-                      <div className='product-name'>
+                    <div className="info-product">
+                      <div className="product-name">
                         <Link to={`/`}>
                           <h3>{phone.name}</h3>
                         </Link>
                       </div>
 
-                      <div className='price'>
+                      <div className="price">
                         <span>
                           {currentChange(phone.slug[0].color[0].price)}
                         </span>
                       </div>
-                      <div className='config'>
-                        <div className='config-param'>
+                      <div className="config">
+                        <div className="config-param">
                           {handleRenderAccessory(phone)}
                         </div>
                       </div>
-                      <div className='product-btn'>
-                        <form className='buy-btn'>
+                      <div className="product-btn">
+                        <form className="buy-btn">
                           <button
-                            className='btn btn-buy btn-sm'
-                            type='submit'
+                            className="btn btn-buy btn-sm"
+                            type="submit"
                             onClick={() =>
                               handleBuyProduct(
                                 phone.slug[0]._id,
@@ -510,10 +510,10 @@ function PhonePage() {
                             MUA
                           </button>
                         </form>
-                        <form className='add-btn'>
+                        <form className="add-btn">
                           <button
-                            className='btn btn-addCart btn-sm'
-                            type='submit'
+                            className="btn btn-addCart btn-sm"
+                            type="submit"
                             onClick={(e) =>
                               handleAddCart(
                                 phone.slug[0]._id,
@@ -541,7 +541,7 @@ function PhonePage() {
       </div>
       <Footer color={'#f2f6f5'} />
     </>
-  );
+  )
 }
 
-export default PhonePage;
+export default PhonePage

@@ -1,4 +1,4 @@
-@use "../../scss/abstracts/" as *;
+@use '../../scss/abstracts/' as *;
 @keyframes growDown {
   0% {
     transform: scaleY(0);
@@ -109,7 +109,7 @@ header {
       }
       &::after {
         position: absolute;
-        content: "";
+        content: '';
         width: 0%;
         height: 4px;
         background-color: white;

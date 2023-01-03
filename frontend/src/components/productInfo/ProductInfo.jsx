@@ -1,12 +1,12 @@
-import React from "react";
-import TechInfo from "../techInfo/TechInfo";
-import "./ProductInfo.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import React from 'react'
+import TechInfo from '../techInfo/TechInfo'
+import './ProductInfo.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 const ProductInfo = ({ infoArray, handleCloseInfo }) => {
   const handleClose = () => {
-    handleCloseInfo();
-  };
+    handleCloseInfo()
+  }
   return (
     <div className="productInfo__container">
       <div className="productInfo">
@@ -15,7 +15,7 @@ const ProductInfo = ({ infoArray, handleCloseInfo }) => {
           <button className="productInfo__close--head" onClick={handleClose}>
             <FontAwesomeIcon
               icon={faCircleXmark}
-              style={{ margin: "0 5px 0 0" }}
+              style={{ margin: '0 5px 0 0' }}
             ></FontAwesomeIcon>
             Đóng
           </button>
@@ -33,14 +33,14 @@ const ProductInfo = ({ infoArray, handleCloseInfo }) => {
           <button className="productInfo__close--footer" onClick={handleClose}>
             <FontAwesomeIcon
               icon={faCircleXmark}
-              style={{ margin: "0 5px 0 0" }}
+              style={{ margin: '0 5px 0 0' }}
             ></FontAwesomeIcon>
             Đóng
           </button>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProductInfo;
+export default ProductInfo

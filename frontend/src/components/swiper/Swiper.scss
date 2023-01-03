@@ -1,17 +1,17 @@
-.filter-product-swiper{
-  .brand-swiper, .price-swiper {
+.filter-product-swiper {
+  .brand-swiper,
+  .price-swiper {
     margin-bottom: 2rem;
     margin-top: 1rem;
     cursor: pointer;
-
   }
-  .slide{
-    img{
+  .slide {
+    img {
       width: 55%;
       border-radius: 10px;
     }
   }
-  .filter-span{
+  .filter-span {
     display: inline-flex;
     -webkit-box-align: center;
     align-items: center;
@@ -24,7 +24,7 @@
     border: solid 1px #b4bdce;
     margin: 0 10px 6px 0;
     cursor: pointer;
-    &:hover{
+    &:hover {
       font-weight: bold;
     }
   }
@@ -33,13 +33,11 @@
   @media screen and (max-width: 480px) {
     margin-left: 3rem;
     margin-top: 2rem;
-    .slide{
-      img{
+    .slide {
+      img {
         width: 85%;
-      border-radius: 7px;
-
+        border-radius: 7px;
       }
     }
   }
-  
 }
