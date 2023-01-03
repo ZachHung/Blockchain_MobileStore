@@ -1,12 +1,12 @@
-var GoogleStrategy = require('passport-google-oauth2').Strategy
-require('dotenv').config()
-const CryptoJS = require('crypto-js')
-const passport = require('passport')
-const User = require('../models/User')
-const cart = require('../models/Cart')
-const jwt = require('jsonwebtoken')
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
+require('dotenv').config();
+const CryptoJS = require('crypto-js');
+const passport = require('passport');
+const User = require('../models/User');
+const cart = require('../models/Cart');
+const jwt = require('jsonwebtoken');
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 passport.use(
   new GoogleStrategy(
     {
@@ -32,41 +32,41 @@ passport.use(
                 list: [],
               })
               .then((cartItem) => {
-                const { password, ...others } = newUser._doc
+                const { password, ...others } = newUser._doc;
                 const accessToken = jwt.sign(
                   {
                     id: newUser._id,
                     isAdmin: newUser.isAdmin,
                   },
                   process.env.JWT_SECRET,
-                  { expiresIn: '3d' }
-                )
-                done(null, { ...others, accessToken })
+                  { expiresIn: '3d' },
+                );
+                done(null, { ...others, accessToken });
               })
               .catch((err) => {
-                done(err)
-              })
-          })
+                done(err);
+              });
+          });
         } else {
-          const { password, ...others } = data._doc
+          const { password, ...others } = data._doc;
           const accessToken = jwt.sign(
             {
               id: data._id,
               isAdmin: data.isAdmin,
             },
             process.env.JWT_SECRET,
-            { expiresIn: '3d' }
-          )
-          done(null, { ...others, accessToken })
+            { expiresIn: '3d' },
+          );
+          done(null, { ...others, accessToken });
         }
-      })
-    }
-  )
-)
+      });
+    },
+  ),
+);
 
 passport.serializeUser((user, done) => {
-  done(null, user)
-})
+  done(null, user);
+});
 passport.deserializeUser((user, done) => {
-  done(null, user)
-})
+  done(null, user);
+});

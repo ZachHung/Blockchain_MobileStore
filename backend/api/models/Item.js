@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const Item = new Schema(
   {
@@ -14,7 +14,7 @@ const Item = new Schema(
   { timestamps: true },
   {
     collection: 'items',
-  }
-)
+  },
+);
 
-module.exports = mongoose.model('Item', Item)
+module.exports = mongoose.model('Item', Item);

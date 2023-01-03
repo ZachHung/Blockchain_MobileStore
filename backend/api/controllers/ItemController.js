@@ -1,15 +1,15 @@
-const items = require('../models/Item')
-const options = require('../models/Option')
-const ObjectId = require('mongodb').ObjectId
-require('dotenv').config()
-const URL = process.env.CLIENT_PATH
+const items = require('../models/Item');
+const options = require('../models/Option');
+const ObjectId = require('mongodb').ObjectId;
+require('dotenv').config();
+const URL = process.env.CLIENT_PATH;
 
 class ItemController {
   detailItem(req, res, next) {
-    let param = req.params.slug
-    let type = param.slice(0, param.search('-'))
-    let route = 'phone'
-    let capacity = param.slice(param.search('-') + 1, param.length)
+    let param = req.params.slug;
+    let type = param.slice(0, param.search('-'));
+    let route = 'phone';
+    let capacity = param.slice(param.search('-') + 1, param.length);
     items
       .aggregate([
         { $match: { type: route } },
@@ -29,26 +29,28 @@ class ItemController {
             let path = [
               { name: 'Điện Thoại', href: '/phone' },
               { name: data[0].name, href: '' },
-            ]
+            ];
             let mainItem = options.filter((option) => {
-              return option.detail === capacity
-            })
+              return option.detail === capacity;
+            });
 
-            let item = data.filter((phone) => phone.slug == type)[0]
+            let item = data.filter((phone) => phone.slug == type)[0];
 
-            let alloptions = item.options
-            let techinfo = item.techInfo
-            let demoinfo = []
-            let i = 0
+            let alloptions = item.options;
+            let techinfo = item.techInfo;
+            let demoinfo = [];
+            let i = 0;
             for (let infoItem of techinfo) {
               for (let detailInfoItem of infoItem.infoDetail) {
-                if (demoinfo.length < 7) demoinfo.push(detailInfoItem)
-                i++
-                if (i == 6) break
+                if (demoinfo.length < 7) demoinfo.push(detailInfoItem);
+                i++;
+                if (i == 6) break;
               }
             }
-            items.find({ type: route }).then((itemPhone) => {})
-            data = data.filter((dataitem) => dataitem.slug != type).slice(0, 10)
+            items.find({ type: route }).then((itemPhone) => {});
+            data = data
+              .filter((dataitem) => dataitem.slug != type)
+              .slice(0, 10);
             res.json({
               path: path,
               item: item,
@@ -58,17 +60,17 @@ class ItemController {
               demoinfo: demoinfo,
               options: alloptions,
               sameItem: data,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       })
-      .catch(next)
+      .catch(next);
   }
   detailItemLaptop(req, res, next) {
-    let param = req.params.slug
-    let type = param.slice(0, param.search('-'))
-    let route = 'laptop'
-    let capacity = param.slice(param.search('-') + 1, param.length)
+    let param = req.params.slug;
+    let type = param.slice(0, param.search('-'));
+    let route = 'laptop';
+    let capacity = param.slice(param.search('-') + 1, param.length);
     items
       .aggregate([
         { $match: { type: route } },
@@ -88,26 +90,28 @@ class ItemController {
             let path = [
               { name: 'Laptop', href: '/laptop' },
               { name: data[0].name, href: '' },
-            ]
+            ];
             let mainItem = options.filter((option) => {
-              return option.detail === capacity
-            })
+              return option.detail === capacity;
+            });
 
-            let item = data.filter((phone) => phone.slug == type)[0]
+            let item = data.filter((phone) => phone.slug == type)[0];
 
-            let alloptions = item.options
-            let techinfo = item.techInfo
-            let demoinfo = []
-            let i = 0
+            let alloptions = item.options;
+            let techinfo = item.techInfo;
+            let demoinfo = [];
+            let i = 0;
             for (let infoItem of techinfo) {
               for (let detailInfoItem of infoItem.infoDetail) {
-                if (demoinfo.length < 7) demoinfo.push(detailInfoItem)
-                i++
-                if (i == 6) break
+                if (demoinfo.length < 7) demoinfo.push(detailInfoItem);
+                i++;
+                if (i == 6) break;
               }
             }
-            items.find({ type: route }).then((itemPhone) => {})
-            data = data.filter((dataitem) => dataitem.slug != type).slice(0, 10)
+            items.find({ type: route }).then((itemPhone) => {});
+            data = data
+              .filter((dataitem) => dataitem.slug != type)
+              .slice(0, 10);
             res.json({
               path: path,
               item: item,
@@ -117,17 +121,17 @@ class ItemController {
               demoinfo: demoinfo,
               options: alloptions,
               sameItem: data,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       })
-      .catch(next)
+      .catch(next);
   }
   detailItemTablet(req, res, next) {
-    let param = req.params.slug
-    let type = param.slice(0, param.search('-'))
-    let route = 'tablet'
-    let capacity = param.slice(param.search('-') + 1, param.length)
+    let param = req.params.slug;
+    let type = param.slice(0, param.search('-'));
+    let route = 'tablet';
+    let capacity = param.slice(param.search('-') + 1, param.length);
     items
       .aggregate([
         { $match: { type: route } },
@@ -147,26 +151,28 @@ class ItemController {
             let path = [
               { name: 'Tablet', href: '/tablet' },
               { name: data[0].name, href: '' },
-            ]
+            ];
             let mainItem = options.filter((option) => {
-              return (option.detail = capacity)
-            })
+              return (option.detail = capacity);
+            });
 
-            let item = data.filter((phone) => phone.slug == type)[0]
+            let item = data.filter((phone) => phone.slug == type)[0];
 
-            let alloptions = item.options
-            let techinfo = item.techInfo
-            let demoinfo = []
-            let i = 0
+            let alloptions = item.options;
+            let techinfo = item.techInfo;
+            let demoinfo = [];
+            let i = 0;
             for (let infoItem of techinfo) {
               for (let detailInfoItem of infoItem.infoDetail) {
-                if (demoinfo.length < 7) demoinfo.push(detailInfoItem)
-                i++
-                if (i == 6) break
+                if (demoinfo.length < 7) demoinfo.push(detailInfoItem);
+                i++;
+                if (i == 6) break;
               }
             }
-            items.find({ type: route }).then((itemPhone) => {})
-            data = data.filter((dataitem) => dataitem.slug != type).slice(0, 10)
+            items.find({ type: route }).then((itemPhone) => {});
+            data = data
+              .filter((dataitem) => dataitem.slug != type)
+              .slice(0, 10);
             res.json({
               path: path,
               item: item,
@@ -176,17 +182,17 @@ class ItemController {
               demoinfo: demoinfo,
               options: alloptions,
               sameItem: data,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       })
-      .catch(next)
+      .catch(next);
   }
   detailItemAccessory(req, res, next) {
-    let param = req.params.slug
-    let type = param.slice(0, param.search('-'))
-    let route = 'accessory'
-    let capacity = param.slice(param.search('-') + 1, param.length)
+    let param = req.params.slug;
+    let type = param.slice(0, param.search('-'));
+    let route = 'accessory';
+    let capacity = param.slice(param.search('-') + 1, param.length);
     items
       .aggregate([
         { $match: { type: route } },
@@ -206,26 +212,28 @@ class ItemController {
             let path = [
               { name: 'Phụ Kiện', href: '/accessory' },
               { name: data[0].name, href: '' },
-            ]
+            ];
             let mainItem = options.filter((option) => {
-              return (option.detail = capacity)
-            })
+              return (option.detail = capacity);
+            });
 
-            let item = data.filter((phone) => phone.slug == type)[0]
+            let item = data.filter((phone) => phone.slug == type)[0];
 
-            let alloptions = item.options
-            let techinfo = item.techInfo
-            let demoinfo = []
-            let i = 0
+            let alloptions = item.options;
+            let techinfo = item.techInfo;
+            let demoinfo = [];
+            let i = 0;
             for (let infoItem of techinfo) {
               for (let detailInfoItem of infoItem.infoDetail) {
-                if (demoinfo.length < 7) demoinfo.push(detailInfoItem)
-                i++
-                if (i == 6) break
+                if (demoinfo.length < 7) demoinfo.push(detailInfoItem);
+                i++;
+                if (i == 6) break;
               }
             }
-            items.find({ type: route }).then((itemPhone) => {})
-            data = data.filter((dataitem) => dataitem.slug != type).slice(0, 10)
+            items.find({ type: route }).then((itemPhone) => {});
+            data = data
+              .filter((dataitem) => dataitem.slug != type)
+              .slice(0, 10);
             res.json({
               path: path,
               item: item,
@@ -235,11 +243,11 @@ class ItemController {
               demoinfo: demoinfo,
               options: alloptions,
               sameItem: data,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       })
-      .catch(next)
+      .catch(next);
   }
   getItemsAdmin(req, res, next) {
     items
@@ -261,13 +269,13 @@ class ItemController {
       .then((items) => {
         res.json({
           items: items,
-        })
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   deleteItemAdmin(req, res, next) {
-    const itemDelID = req.params.id
+    const itemDelID = req.params.id;
     items
       .findById(itemDelID)
       .then((data) => {
@@ -281,42 +289,42 @@ class ItemController {
                     _id: ObjectId(data1[i]._id),
                   })
                   .then()
-                  .catch(next)
+                  .catch(next);
               }
             } else {
             }
           })
-          .catch(next)
+          .catch(next);
       })
       .then((data2) => {
         items.findByIdAndDelete(itemDelID).then((data3) => {
           if (data3.modifiedCount != 0) {
             items.find().then((itemRes) => {
-              res.json({ items: itemRes })
-            })
+              res.json({ items: itemRes });
+            });
           }
-        })
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   deleteManyItemsAdmin(req, res, next) {
-    const ids = req.body
+    const ids = req.body;
     items
       .deleteMany({ _id: { $in: ids } })
       .then((data) => {
         if (data.modifiedCount != 0) {
           items.find().then((itemRes) => {
-            res.json({ items: itemRes })
-          })
+            res.json({ items: itemRes });
+          });
         }
       })
-      .catch(next)
+      .catch(next);
   }
 
   edit(req, res, next) {
-    const id = ObjectId(req.params.id)
-    console.log(id)
+    const id = ObjectId(req.params.id);
+    console.log(id);
     items
       .aggregate([
         {
@@ -336,9 +344,9 @@ class ItemController {
       .then((items) => {
         res.json({
           items: items,
-        })
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   updateItem(req, res, next) {
@@ -393,29 +401,29 @@ class ItemController {
           ],
         },
       ],
-    }
+    };
 
-    req.body.techInfo = techInfoConvert.techInfo
-    console.log(req.body)
+    req.body.techInfo = techInfoConvert.techInfo;
+    console.log(req.body);
     items
       .updateOne({ _id: req.params.id }, req.body)
       .then((data) => {
         if (data.modifiedCount !== 0) {
           res.json({
             status: 'true',
-          })
+          });
         } else {
           res.status(202).json({
             message: 'Lỗi Hệ Thống',
-          })
+          });
         }
       })
-      .catch(next)
+      .catch(next);
   }
 
   updateItemDetail(req, res, next) {
-    var BD = req.body
-    var str = ''
+    var BD = req.body;
+    var str = '';
 
     if (Array.isArray(req.body.name)) {
       req.body.name.forEach((element, index) => {
@@ -431,17 +439,17 @@ class ItemController {
           BD.price[index] +
           ', "discount": ' +
           BD.discount[index] +
-          '}, '
-      })
-      str = '{"detail": "' + BD.detail + '", "color": [' + str + ']}'
-      str = str.replace(', ]', ']')
+          '}, ';
+      });
+      str = '{"detail": "' + BD.detail + '", "color": [' + str + ']}';
+      str = str.replace(', ]', ']');
 
-      str = JSON.parse(str)
+      str = JSON.parse(str);
 
       options
         .updateOne({ _id: req.params.id }, str)
         .then(() => res.redirect(URL + 'admin/products/updateDetail/' + BD.id))
-        .catch(next)
+        .catch(next);
     } else {
       var data = {
         detail: req.body.detail,
@@ -454,20 +462,20 @@ class ItemController {
             discount: req.body.discount,
           },
         ],
-      }
+      };
 
       options
         .updateOne({ _id: req.params.id }, data)
         .then(() => res.redirect(URL + 'admin/products/updateDetail/' + BD.id))
-        .catch(next)
+        .catch(next);
     }
   }
 
   async createPostItems(req, res, next) {
     try {
-      console.log('aaaaaa')
+      console.log('aaaaaa');
 
-      console.log(req.body)
+      console.log(req.body);
       var techInfoConvert = [
         {
           infoType: 'Màn hình',
@@ -517,13 +525,13 @@ class ItemController {
             },
           ],
         },
-      ]
+      ];
 
       const brand1 = {
         name: req.body.brand,
         brandImage: req.body.brandimage,
-      }
-      var url = req.body.image.split(',')
+      };
+      var url = req.body.image.split(',');
       const item = {
         name: req.body.name,
         type: req.body.type,
@@ -532,28 +540,28 @@ class ItemController {
         slug: req.body.slug,
         techInfo: techInfoConvert,
         brand: brand1,
-      }
-      console.log(item)
-      const createitem = new items(item)
+      };
+      console.log(item);
+      const createitem = new items(item);
 
-      console.log(createitem)
+      console.log(createitem);
       // req.body.techInfo = techInfoConvert.techInfo;
 
       try {
         var result = await createitem
           .save()
           .then((data) => {
-            res.json(data)
+            res.json(data);
           })
-          .catch(next)
+          .catch(next);
       } catch (e) {
-        console.log(e.message)
+        console.log(e.message);
       }
 
-      res.status('200')
+      res.status('200');
     } catch (e) {
-      console.log('error')
-      res.status(500).json({ error: e.message })
+      console.log('error');
+      res.status(500).json({ error: e.message });
     }
   }
 
@@ -565,20 +573,20 @@ class ItemController {
           res.json({
             item: item,
           })
-        )
-      )
-      console.log(item)
+        ),
+      );
+      console.log(item);
     } catch (e) {
-      console.log('error')
-      res.status(500).json({ error: e.message })
+      console.log('error');
+      res.status(500).json({ error: e.message });
     }
   }
 
   async createPostOptions(req, res, next) {
     try {
-      console.log('aaaaaa')
-      console.log(req.body)
-      var color = new Array()
+      console.log('aaaaaa');
+      console.log(req.body);
+      var color = new Array();
       for (var i = 0; i < req.body.color.length; i++) {
         var temp = {
           name: req.body.color[i],
@@ -586,30 +594,30 @@ class ItemController {
           price: req.body.price[i],
           discount: req.body.discount[i],
           number: req.body.number[i],
-        }
-        color.push(temp)
+        };
+        color.push(temp);
       }
       const option = {
         slug: req.body.slug,
         detail: req.body.detail,
         color: color,
         item: req.params.id,
-      }
-      const createoption = new options(option)
+      };
+      const createoption = new options(option);
       try {
         var result = await createoption
           .save()
           .then((data) => {
-            res.json(data)
+            res.json(data);
           })
-          .catch(next)
+          .catch(next);
       } catch (e) {
-        console.log(e.message)
+        console.log(e.message);
       }
     } catch (e) {
-      console.log('error')
-      res.status(500).json({ error: e.message })
+      console.log('error');
+      res.status(500).json({ error: e.message });
     }
   }
 }
-module.exports = new ItemController()
+module.exports = new ItemController();

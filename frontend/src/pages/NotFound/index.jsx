@@ -1,6 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import './style.scss'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './style.scss';
 
 const NotFound = () => {
   return (
@@ -60,7 +60,7 @@ const NotFound = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
+export default NotFound;

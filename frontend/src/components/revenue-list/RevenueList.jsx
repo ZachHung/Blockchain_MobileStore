@@ -1,7 +1,7 @@
-import React from 'react'
-import { data } from '../../constants'
-import './revenue-list.scss'
-import ProgressBar from '../progressbar/ProgressBar'
+import React from 'react';
+import { data } from '../../constants';
+import './revenue-list.scss';
+import ProgressBar from '../progressbar/ProgressBar';
 
 const RevenueList = () => {
   return (
@@ -22,7 +22,7 @@ const RevenueList = () => {
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};
 
-export default RevenueList
+export default RevenueList;

@@ -1,119 +1,119 @@
-import React, { useRef } from 'react'
-import './UpdateUser.scss'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { userRequest } from '../../utils/CallApi'
-import { hostServer } from '../../utils/const'
-import { toast } from 'react-toastify'
+import React, { useRef } from 'react';
+import './UpdateUser.scss';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { userRequest } from '../../utils/CallApi';
+import { hostServer } from '../../utils/const';
+import { toast } from 'react-toastify';
 function UpdateUser() {
-  const params = useParams()
-  const [user, setUser] = useState([])
-  const [district, setdistrict] = useState([])
-  const [province, setaddress] = useState([])
-  const [ward, setward] = useState([])
-  const [isAdmin, setIsAdmin] = useState()
-  const [name, setName] = useState()
-  const [phone, setPhone] = useState()
-  const [email, setEmail] = useState()
-  const [gender, setGender] = useState()
-  const [birthday, setBirthday] = useState()
+  const params = useParams();
+  const [user, setUser] = useState([]);
+  const [district, setdistrict] = useState([]);
+  const [province, setaddress] = useState([]);
+  const [ward, setward] = useState([]);
+  const [isAdmin, setIsAdmin] = useState();
+  const [name, setName] = useState();
+  const [phone, setPhone] = useState();
+  const [email, setEmail] = useState();
+  const [gender, setGender] = useState();
+  const [birthday, setBirthday] = useState();
   // const [provinceEle, setProvinceEle] = useState();
   // const [districtEle, setDistrictEle] = useState();
   // const [wardEle, setWardEle] = useState();
   // const [addressdetail, setAddressdetail] = useState();
-  const provinceEle = useRef()
-  const districtEle = useRef()
-  const wardEle = useRef()
-  const detailEle = useRef()
+  const provinceEle = useRef();
+  const districtEle = useRef();
+  const wardEle = useRef();
+  const detailEle = useRef();
 
   useEffect(() => {
     userRequest()
       .get('admin/customers/edit/' + params.id)
       .then((res) => {
-        setUser(res.data.user)
-        setIsAdmin(res.data.user.isAdmin)
-        setName(res.data.user.name)
-        setEmail(res.data.user.email)
-        setPhone(res.data.user.phone)
-        setBirthday(res.data.user.birthday)
-        setGender(res.data.user.gender)
+        setUser(res.data.user);
+        setIsAdmin(res.data.user.isAdmin);
+        setName(res.data.user.name);
+        setEmail(res.data.user.email);
+        setPhone(res.data.user.phone);
+        setBirthday(res.data.user.birthday);
+        setGender(res.data.user.gender);
         // setAddressdetail(res.data.address.addressdetail);
         // setProvinceEle(res.data.address.province);
         // setDistrictEle(res.data.address.district);
         // setWardEle(res.data.address.ward);
-        provinceEle.current.value = user.address.province
-        districtEle.current.value = user.address.district
-        wardEle.current.value = user.address.ward
-        detailEle.current.value = user.address.detailEle
-      })
-  }, [])
+        provinceEle.current.value = user.address.province;
+        districtEle.current.value = user.address.district;
+        wardEle.current.value = user.address.ward;
+        detailEle.current.value = user.address.detailEle;
+      });
+  }, []);
 
   useEffect(() => {
     userRequest()
       .get('address/getalladress/')
       .then((res) => {
-        setaddress(res.data.address)
-      })
-  }, [])
+        setaddress(res.data.address);
+      });
+  }, []);
 
   const Getdistrictbyprovince = () => {
-    var province = document.getElementById('province').value
-    provinceEle.current.value = document.getElementById('province').value
+    var province = document.getElementById('province').value;
+    provinceEle.current.value = document.getElementById('province').value;
 
-    document.getElementById('district').value = ''
-    document.getElementById('ward').value = ''
+    document.getElementById('district').value = '';
+    document.getElementById('ward').value = '';
     axios.get(hostServer + '/api/address/district/' + province).then((res) => {
-      setdistrict(res.data.address)
-    })
-  }
+      setdistrict(res.data.address);
+    });
+  };
 
   const Getwardbydistrict = () => {
-    var province = document.getElementById('province').value
-    var district = document.getElementById('district').value
-    districtEle.current.value = document.getElementById('district').value
+    var province = document.getElementById('province').value;
+    var district = document.getElementById('district').value;
+    districtEle.current.value = document.getElementById('district').value;
 
-    document.getElementById('ward').value = ''
+    document.getElementById('ward').value = '';
     axios
       .get(
         hostServer +
           '/api/address/ward/' +
           provinceEle.current.value +
           '/' +
-          district
+          district,
       )
       .then((res) => {
-        setward(res.data.address)
-      })
-  }
+        setward(res.data.address);
+      });
+  };
   const handleisAdmin = (e) => {
-    setIsAdmin(e.target.checked)
-  }
+    setIsAdmin(e.target.checked);
+  };
   const handlename = (e) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
   const handlephone = (e) => {
-    setPhone(e.target.value)
-  }
+    setPhone(e.target.value);
+  };
   const handleemail = (e) => {
-    setEmail(e.target.value)
-  }
+    setEmail(e.target.value);
+  };
   const handlegender = (e) => {
-    setGender(e.target.value)
-  }
+    setGender(e.target.value);
+  };
   const handlebirthday = (e) => {
-    setBirthday(e.target.value)
-  }
+    setBirthday(e.target.value);
+  };
 
   const handleward = (e) => {
-    wardEle.current.value = e.target.value
-  }
+    wardEle.current.value = e.target.value;
+  };
   const handladdressdetail = (e) => {
-    detailEle.current.value = e.target.value
-  }
+    detailEle.current.value = e.target.value;
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     userRequest()
       .put(`admin/customers/update/${params.id}`, {
         isAdmin: isAdmin,
@@ -136,7 +136,7 @@ function UpdateUser() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
+        });
       })
       .catch((err) => {
         toast.error('Đã xảy ra lỗi, cập nhật thất bại', {
@@ -147,10 +147,10 @@ function UpdateUser() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
-        console.log(err)
-      })
-  }
+        });
+        console.log(err);
+      });
+  };
 
   return (
     <div className="container mt-4 mb-4">
@@ -311,7 +311,7 @@ function UpdateUser() {
         </button>
       </form>
     </div>
-  )
+  );
 }
 
-export default UpdateUser
+export default UpdateUser;

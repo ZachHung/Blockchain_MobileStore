@@ -1,46 +1,46 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { userRequest } from '../../utils/CallApi'
-import { useSelector } from 'react-redux'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { userRequest } from '../../utils/CallApi';
+import { useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMobile,
   faMicrochip,
   faMemory,
   faHardDrive,
   faXmark,
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
 
-import Swiper from '../../components/swiper/Swiper'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
-import Pagination from '../../components/pagination'
-import { currentChange } from '../../utils/const'
-import { publicRequest } from '../../utils/CallApi'
-import './SearchPage.scss'
+import Swiper from '../../components/swiper/Swiper';
+import Header from '../../components/header';
+import Footer from '../../components/footer';
+import Pagination from '../../components/pagination';
+import { currentChange } from '../../utils/const';
+import { publicRequest } from '../../utils/CallApi';
+import './SearchPage.scss';
 
 function SearchPage() {
-  const user = useSelector((state) => state.user.current)
-  const [productList, setProductList] = useState([])
-  var initialCheckedBrand
-  const search = useLocation().search
+  const user = useSelector((state) => state.user.current);
+  const [productList, setProductList] = useState([]);
+  var initialCheckedBrand;
+  const search = useLocation().search;
   // console.log('search: ', search);
-  const key = new URLSearchParams(search).get('key')
+  const key = new URLSearchParams(search).get('key');
   // console.log('key: ', key);
 
   // retrive name brand array
   publicRequest.get(`/search/brand/name`).then((res) => {
     // console.log('branname out component', res.data);
-    initialCheckedBrand = res.data
-  })
+    initialCheckedBrand = res.data;
+  });
 
   // add cart
   const handleAddCart = (optionParam, colorParam) => {
     // if user is guest
     if (user == null || user == undefined) {
-      navigateCart('../login')
+      navigateCart('../login');
     }
     // if user is costumer
     else {
@@ -50,15 +50,15 @@ function SearchPage() {
           color: colorParam,
         })
         .then((res) => {})
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
-  }
+  };
   // buy product
-  const navigateCart = useNavigate()
+  const navigateCart = useNavigate();
   const handleBuyProduct = (optionParam, colorParam) => {
     // if user is guest
     if (user == null || user == undefined) {
-      navigateCart('../login')
+      navigateCart('../login');
     }
     // if user is costumer
     else {
@@ -68,90 +68,90 @@ function SearchPage() {
           color: colorParam,
         })
         .then((res) => {})
-        .catch((err) => console.log(err))
-      navigateCart('../cart')
+        .catch((err) => console.log(err));
+      navigateCart('../cart');
     }
-  }
+  };
   // filter
-  const [brand, setBrand] = useState([])
+  const [brand, setBrand] = useState([]);
   // console.log('initialCheckedBrand', initialCheckedBrand);
-  const [checkedBrand, setCheckedBrand] = useState([])
-  const [checkedPrice, setCheckedPrice] = useState([])
+  const [checkedBrand, setCheckedBrand] = useState([]);
+  const [checkedPrice, setCheckedPrice] = useState([]);
   useEffect(() => {
     publicRequest.get(`/search/brand`).then((res) => {
-      setBrand(res.data)
-    })
-  }, [])
+      setBrand(res.data);
+    });
+  }, []);
 
-  var urlString = ''
+  var urlString = '';
   if (checkedBrand.length != 0 && checkedPrice.length != 0) {
-    let paramStringBrand = checkedBrand.join(',')
-    let paramStringPrice = checkedPrice.join(',')
-    urlString = `?key=${key}&brand=${paramStringBrand}&price=${paramStringPrice}`
+    let paramStringBrand = checkedBrand.join(',');
+    let paramStringPrice = checkedPrice.join(',');
+    urlString = `?key=${key}&brand=${paramStringBrand}&price=${paramStringPrice}`;
   }
   if (checkedBrand.length == 0 && checkedPrice.length != 0) {
-    let paramStringPrice = checkedPrice.join(',')
-    urlString = `?key=${key}&price=${paramStringPrice}`
+    let paramStringPrice = checkedPrice.join(',');
+    urlString = `?key=${key}&price=${paramStringPrice}`;
   }
   if (checkedBrand.length != 0 && checkedPrice.length == 0) {
-    let paramStringBrand = checkedBrand.join(',')
-    urlString = `?key=${key}&brand=${paramStringBrand}`
+    let paramStringBrand = checkedBrand.join(',');
+    urlString = `?key=${key}&brand=${paramStringBrand}`;
   }
   if (checkedBrand.length == 0 && checkedPrice.length == 0) {
-    urlString = `?key=${key}&`
+    urlString = `?key=${key}&`;
   }
   // call api
 
   useEffect(() => {
     // console.log('urlString', urlString);
-    window.history.pushState({}, 'Tìm kiếm', `/search${urlString}`)
+    window.history.pushState({}, 'Tìm kiếm', `/search${urlString}`);
     publicRequest.get(`/search/global${urlString}`).then((res) => {
-      setProductList(res.data.items)
-    })
-  }, [urlString, key])
+      setProductList(res.data.items);
+    });
+  }, [urlString, key]);
 
   const handleCheckBrand = (name) => {
     setCheckedBrand((prev) => {
-      const isExist = checkedBrand.includes(name)
+      const isExist = checkedBrand.includes(name);
       if (isExist) {
-        return checkedBrand.filter((item) => item !== name)
+        return checkedBrand.filter((item) => item !== name);
       } else {
-        return [...prev, name]
+        return [...prev, name];
       }
-    })
-  }
+    });
+  };
   const handleCheckPrice = (name) => {
     setCheckedPrice((prev) => {
-      const isExist = checkedPrice.includes(name)
+      const isExist = checkedPrice.includes(name);
       if (isExist) {
-        return checkedPrice.filter((item) => item !== name)
+        return checkedPrice.filter((item) => item !== name);
       } else {
-        return [...prev, name]
+        return [...prev, name];
       }
-    })
-  }
+    });
+  };
   const handleCheckAllBrand = () => {
-    setCheckedBrand(initialCheckedBrand)
-  }
+    setCheckedBrand(initialCheckedBrand);
+  };
   const handleCheckAllPrice = () => {
     setCheckedPrice([
       'tren-14-trieu',
       'duoi-2-trieu',
       'tu-2-5-trieu',
       'tu-5-14-trieu',
-    ])
-  }
+    ]);
+  };
   // pagination
-  const [currentPage, setCurrentPage] = useState(1)
-  const [productsPerPage, setProductPerPage] = useState(6)
-  const indexOfLastProduct = currentPage * productsPerPage
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductPerPage] = useState(6);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = productList.slice(
     indexOfFirstProduct,
-    indexOfLastProduct
-  )
+    indexOfLastProduct,
+  );
   // change page
-  const paginate = (pageNumber) => setCurrentPage(pageNumber)
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <>
@@ -372,7 +372,7 @@ function SearchPage() {
                             onClick={() =>
                               handleBuyProduct(
                                 phone.slug[0]._id,
-                                phone.slug[0].color[0].name
+                                phone.slug[0].color[0].name,
                               )
                             }
                           >
@@ -386,7 +386,7 @@ function SearchPage() {
                             onClick={() =>
                               handleAddCart(
                                 phone.slug[0]._id,
-                                phone.slug[0].color[0].name
+                                phone.slug[0].color[0].name,
                               )
                             }
                           >
@@ -409,7 +409,7 @@ function SearchPage() {
       </div>
       <Footer />
     </>
-  )
+  );
 }
 
-export default SearchPage
+export default SearchPage;

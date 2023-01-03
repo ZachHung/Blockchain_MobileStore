@@ -1,61 +1,61 @@
-import React from 'react'
-import axios from 'axios'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAdd,
   faCirclePlus,
   faCube,
   faFileEdit,
   faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons'
-import './ItemsAdmin.scss'
-import { useEffect, useState, useRef } from 'react'
-import PaginationAdmin from '../../components/paginationAdmin/Pagination'
-import { userRequest } from '../../utils/CallApi'
-import { hostServer } from '../../utils/const'
-import Dialog, { DialogOK } from '../../components/deleteConfirm/Dialog'
-import { Link } from 'react-router-dom'
-import { ceil } from 'lodash'
-import { toast } from 'react-toastify'
+} from '@fortawesome/free-solid-svg-icons';
+import './ItemsAdmin.scss';
+import { useEffect, useState, useRef } from 'react';
+import PaginationAdmin from '../../components/paginationAdmin/Pagination';
+import { userRequest } from '../../utils/CallApi';
+import { hostServer } from '../../utils/const';
+import Dialog, { DialogOK } from '../../components/deleteConfirm/Dialog';
+import { Link } from 'react-router-dom';
+import { ceil } from 'lodash';
+import { toast } from 'react-toastify';
 
 function ItemsAdmin() {
-  var index = 1
-  const [itemList, setItemList] = useState([])
-  const itemListLength = itemList.length
-  const [selectedItem, setSelectedItem] = useState([])
+  var index = 1;
+  const [itemList, setItemList] = useState([]);
+  const itemListLength = itemList.length;
+  const [selectedItem, setSelectedItem] = useState([]);
   useEffect(() => {
     userRequest()
       .get('admin/products')
       .then((res) => {
-        setItemList(res.data.items)
-      })
-  }, [])
+        setItemList(res.data.items);
+      });
+  }, []);
 
   const [dialog, setDialog] = useState({
     message: '',
     isLoading: false,
     //Update
     nameItem: '',
-  })
+  });
   const [dialogs, setDialogs] = useState({
     message: '',
     isLoading: false,
     //Update
     nameUser: '',
-  })
+  });
   const [dialogOK, setDialogOK] = useState({
     message: '',
     isLoading: false,
-  })
-  const idItemRef = useRef()
+  });
+  const idItemRef = useRef();
   const handleDialog = (message, isLoading, nameItem) => {
     setDialog({
       message,
       isLoading,
       //Update
       nameItem,
-    })
-  }
+    });
+  };
 
   const handleDialogs = (message, isLoading, nameUser) => {
     setDialogs({
@@ -63,14 +63,14 @@ function ItemsAdmin() {
       isLoading,
       //Update
       nameUser,
-    })
-  }
+    });
+  };
   const handleDialogOK = (message, isLoading) => {
     setDialogOK({
       message,
       isLoading,
-    })
-  }
+    });
+  };
   const handleDelete = (id, item) => {
     //Update
     //const index = itemList.findIndex((p) => p._id === id);
@@ -97,27 +97,27 @@ function ItemsAdmin() {
           : item.type === 'laptop'
           ? 'Laptop'
           : ''
-      } ${item.name}`
-    )
-    idItemRef.current = id
-  }
+      } ${item.name}`,
+    );
+    idItemRef.current = id;
+  };
 
   const handleDeleteMany = () => {
-    handleDialogs('Bạn có chắc chắn muốn xóa hết sản phẩm đã chọn?', true)
-  }
+    handleDialogs('Bạn có chắc chắn muốn xóa hết sản phẩm đã chọn?', true);
+  };
 
   const handleButtonOK = (choose) => {
     if (choose) {
-      handleDialogOK('', false)
+      handleDialogOK('', false);
     }
-  }
+  };
   const areUSureDelete = (choose) => {
     if (choose) {
-      setItemList(itemList.filter((p) => p._id !== idItemRef.current))
+      setItemList(itemList.filter((p) => p._id !== idItemRef.current));
       userRequest()
         .delete(hostServer + `/api/admin/products/delete/${idItemRef.current}`)
         .then((res) => {
-          setItemList(res.data.items)
+          setItemList(res.data.items);
           toast.success('Xóa sản phẩm thành công', {
             position: 'top-center',
             autoClose: 2000,
@@ -126,7 +126,7 @@ function ItemsAdmin() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          })
+          });
         })
         .catch((err) => {
           toast.error('Đã xảy ra lỗi, xóa sản phẩm thất bại', {
@@ -137,44 +137,44 @@ function ItemsAdmin() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          })
-          console.log(err)
-        })
-      handleDialog('', false)
+          });
+          console.log(err);
+        });
+      handleDialog('', false);
     } else {
-      handleDialog('', false)
+      handleDialog('', false);
     }
-  }
+  };
 
   const handleCheckbox = (e, data) => {
-    const { name, checked } = e.target
+    const { name, checked } = e.target;
     if (checked) {
       if (name === 'allSelect') {
-        setSelectedItem(itemList)
+        setSelectedItem(itemList);
       } else {
-        setSelectedItem([...selectedItem, data])
+        setSelectedItem([...selectedItem, data]);
       }
     } else {
       if (name === 'allSelect') {
-        setSelectedItem([])
+        setSelectedItem([]);
       } else {
-        let tempItem = selectedItem.filter((i) => i._id !== data._id)
-        setSelectedItem(tempItem)
+        let tempItem = selectedItem.filter((i) => i._id !== data._id);
+        setSelectedItem(tempItem);
       }
     }
-  }
+  };
   const handleDeleteManyItems = (choose) => {
     if (choose) {
       if (selectedItem.length !== 0) {
-        const ids = []
+        const ids = [];
         selectedItem.forEach((element) => {
-          ids.push(element._id)
-        })
-        setItemList(itemList.filter((i) => selectedItem.indexOf(i) === -1))
+          ids.push(element._id);
+        });
+        setItemList(itemList.filter((i) => selectedItem.indexOf(i) === -1));
         userRequest()
           .delete(hostServer + '/api/admin/products/deleteMany', { data: ids })
           .then((res) => {
-            setItemList(res.data.items)
+            setItemList(res.data.items);
             toast.success('Xóa sản phẩm thành công', {
               position: 'top-center',
               autoClose: 2000,
@@ -183,7 +183,7 @@ function ItemsAdmin() {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-            })
+            });
           })
           .catch((err) => {
             toast.error('Đã xảy ra lỗi, xóa sản phẩm thất bại', {
@@ -194,52 +194,52 @@ function ItemsAdmin() {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-            })
-          })
-        handleDialogs('', false)
+            });
+          });
+        handleDialogs('', false);
       } else {
-        handleDialogs('', false)
-        handleDialogOK('Bạn chưa chọn sản phẩm nào để xóa!', true)
+        handleDialogs('', false);
+        handleDialogOK('Bạn chưa chọn sản phẩm nào để xóa!', true);
       }
     } else {
-      handleDialogs('', false)
+      handleDialogs('', false);
     }
-  }
+  };
 
   // Pagination
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(7)
-  const firstPageIndex = (currentPage - 1) * itemsPerPage
-  const lastPageIndex = firstPageIndex + itemsPerPage
-  const dataEachPage = itemList.slice(firstPageIndex, lastPageIndex)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const firstPageIndex = (currentPage - 1) * itemsPerPage;
+  const lastPageIndex = firstPageIndex + itemsPerPage;
+  const dataEachPage = itemList.slice(firstPageIndex, lastPageIndex);
 
   const handleChangeItemsPerPage = () => {
     var queryItemsPerPage = parseInt(
-      document.getElementById('getNumPerPage').value
-    )
+      document.getElementById('getNumPerPage').value,
+    );
     var renderItemsPerPage =
       queryItemsPerPage <= 0
         ? 1
         : queryItemsPerPage > itemListLength
         ? itemListLength
-        : queryItemsPerPage
-    setItemsPerPage(renderItemsPerPage)
-    document.getElementById('gotoPageNum').value = 1
-    setCurrentPage(1)
-  }
+        : queryItemsPerPage;
+    setItemsPerPage(renderItemsPerPage);
+    document.getElementById('gotoPageNum').value = 1;
+    setCurrentPage(1);
+  };
   const handleGoToPageNum = (e) => {
-    var queryPageToGo = parseInt(document.getElementById('gotoPageNum').value)
+    var queryPageToGo = parseInt(document.getElementById('gotoPageNum').value);
     var pageToGo =
       queryPageToGo <= 0
         ? 1
         : queryPageToGo > ceil(itemListLength / itemsPerPage)
         ? ceil(itemListLength / itemsPerPage)
-        : queryPageToGo
-    document.getElementById('gotoPageNum').value = pageToGo
-    setCurrentPage(pageToGo)
-  }
+        : queryPageToGo;
+    document.getElementById('gotoPageNum').value = pageToGo;
+    setCurrentPage(pageToGo);
+  };
 
-  if (itemList.length === 0) return <p>Không có sản phẩm nào</p>
+  if (itemList.length === 0) return <p>Không có sản phẩm nào</p>;
   return (
     <div className="listItemsAdminTitle d-flex flex-column">
       <div className="p-3">
@@ -422,7 +422,7 @@ function ItemsAdmin() {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default ItemsAdmin
+export default ItemsAdmin;

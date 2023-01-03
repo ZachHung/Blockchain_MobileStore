@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { Bar } from 'react-chartjs-2'
-import Box from '../../components/box/Box'
+import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import Box from '../../components/box/Box';
 import DashboardWrapper, {
   DashboardWrapperMain,
   DashboardWrapperRight,
-} from '../../components/dashboard-wrapper/DashboardWrapper'
-import SummaryBox from '../../components/summary-box/SummaryBox'
-import { colors } from '../../constants'
+} from '../../components/dashboard-wrapper/DashboardWrapper';
+import SummaryBox from '../../components/summary-box/SummaryBox';
+import { colors } from '../../constants';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,12 +16,12 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js'
+} from 'chart.js';
 
-import OverallList from '../../components/overall-list/OverallList'
+import OverallList from '../../components/overall-list/OverallList';
 
-import { userRequest } from '../../utils/CallApi'
-import { currentChange } from '../../utils/const'
+import { userRequest } from '../../utils/CallApi';
+import { currentChange } from '../../utils/const';
 
 ChartJS.register(
   CategoryScale,
@@ -30,20 +30,20 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
-)
+  Legend,
+);
 
 const Dashboard = () => {
-  const [summary, setSummary] = useState([])
+  const [summary, setSummary] = useState([]);
   useEffect(() => {
     userRequest()
       .get('admin/reports/summary')
       .then((res) => {
-        res.data[0].value = currentChange(res.data[0].value)
-        res.data[2].value = currentChange(res.data[2].value)
-        setSummary(res.data)
-      })
-  }, [])
+        res.data[0].value = currentChange(res.data[0].value);
+        res.data[2].value = currentChange(res.data[2].value);
+        setSummary(res.data);
+      });
+  }, []);
 
   return (
     <DashboardWrapper>
@@ -77,20 +77,20 @@ const Dashboard = () => {
         </div>
       </DashboardWrapperRight>
     </DashboardWrapper>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
 
 const RevenueByMonthsChart = () => {
-  const [dataChart, setDataChart] = useState([])
+  const [dataChart, setDataChart] = useState([]);
   useEffect(() => {
     userRequest()
       .get('admin/reports/getdatachart')
       .then((res) => {
-        setDataChart(res.data)
-      })
-  }, [])
+        setDataChart(res.data);
+      });
+  }, []);
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -123,7 +123,7 @@ const RevenueByMonthsChart = () => {
         borderSkipped: 'bottom',
       },
     },
-  }
+  };
 
   const chartData = {
     labels: [
@@ -146,7 +146,7 @@ const RevenueByMonthsChart = () => {
         data: dataChart,
       },
     ],
-  }
+  };
   return (
     <>
       <div className="title mb">Doanh thu theo tháng (VND)</div>
@@ -154,5 +154,5 @@ const RevenueByMonthsChart = () => {
         <Bar options={chartOptions} data={chartData} height={`300px`} />
       </div>
     </>
-  )
-}
+  );
+};

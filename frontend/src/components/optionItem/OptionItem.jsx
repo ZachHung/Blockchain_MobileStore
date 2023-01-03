@@ -1,6 +1,6 @@
-import React from 'react'
-import './OptionItem.scss'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import './OptionItem.scss';
+import { Link } from 'react-router-dom';
 const OptionItem = ({
   name,
   newPrice,
@@ -16,8 +16,8 @@ const OptionItem = ({
   disable,
 }) => {
   const handleColor = (e) => {
-    if (number !== 0) clickColor(index, newPrice, oldPrice, name)
-  }
+    if (number !== 0) clickColor(index, newPrice, oldPrice, name);
+  };
 
   return (
     <>
@@ -49,7 +49,7 @@ const OptionItem = ({
         </Link>
       )}
     </>
-  )
-}
+  );
+};
 
-export default OptionItem
+export default OptionItem;

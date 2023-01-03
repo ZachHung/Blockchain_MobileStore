@@ -1,21 +1,21 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import { useEffect, useState } from 'react'
-import './Swiper.scss'
-import { publicRequest } from '../../utils/CallApi'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { useEffect, useState } from 'react';
+import './Swiper.scss';
+import { publicRequest } from '../../utils/CallApi';
 
 export default ({ updateBrand, updatePrice, type }) => {
-  const [brand, setBrand] = useState([])
-  var urlAPI = `/${type}/brand`
+  const [brand, setBrand] = useState([]);
+  var urlAPI = `/${type}/brand`;
   if (type == 'all') {
-    urlAPI = `/search/brand`
+    urlAPI = `/search/brand`;
   }
 
   useEffect(() => {
     publicRequest.get(urlAPI).then((res) => {
-      setBrand(res.data)
-    })
-  }, [type])
+      setBrand(res.data);
+    });
+  }, [type]);
 
   return (
     <div className="filter-product-swiper">
@@ -45,5 +45,5 @@ export default ({ updateBrand, updatePrice, type }) => {
         </SwiperSlide>
       </Swiper>
     </div>
-  )
-}
+  );
+};

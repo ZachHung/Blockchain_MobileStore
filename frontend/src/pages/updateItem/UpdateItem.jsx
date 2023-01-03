@@ -1,39 +1,39 @@
-import React from 'react'
-import './UpdateItem.scss'
-import { userRequest } from '../../utils/CallApi'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { storage } from '../../firebase'
-import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import React from 'react';
+import './UpdateItem.scss';
+import { userRequest } from '../../utils/CallApi';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { storage } from '../../firebase';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 function UpdateItem() {
-  const params = useParams()
-  const [item, setPhone] = useState([])
-  const [image, setImage] = useState(null)
-  const [urlImage, setUrl] = useState('')
+  const params = useParams();
+  const [item, setPhone] = useState([]);
+  const [image, setImage] = useState(null);
+  const [urlImage, setUrl] = useState('');
   useEffect(() => {
     userRequest()
       .get(`admin/products/edit/${params.id}`)
       .then((res) => {
-        setPhone(res.data.items)
+        setPhone(res.data.items);
       })
-      .catch((err) => console.log(err))
-  }, [])
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
-      setImage(e.target.files[0])
+      setImage(e.target.files[0]);
     }
-  }
+  };
 
   const handleUpload = (e) => {
-    document.getElementById('isLoading').style.display = 'block'
-    const uploadTask = storage.ref(`images/${image.name}`).put(image)
+    document.getElementById('isLoading').style.display = 'block';
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
     uploadTask.on(
       'state_changed',
       (snapshot) => {},
       (error) => {
-        console.log(error)
+        console.log(error);
       },
       () => {
         storage
@@ -41,47 +41,47 @@ function UpdateItem() {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url)
-            setUrl(url)
-            document.getElementById('image-new').name = 'image'
-            document.getElementById('image-new').classList.add('image')
-            document.getElementById('my-image').style.display = 'block'
-            document.getElementById('isLoading').style.display = 'none'
-          })
-      }
-    )
-  }
+            console.log(url);
+            setUrl(url);
+            document.getElementById('image-new').name = 'image';
+            document.getElementById('image-new').classList.add('image');
+            document.getElementById('my-image').style.display = 'block';
+            document.getElementById('isLoading').style.display = 'none';
+          });
+      },
+    );
+  };
 
   const CheckImage = (e) => {
     if (e.target.value === '') {
-      e.target.classList.add('remove')
-      e.target.classList.remove('image')
+      e.target.classList.add('remove');
+      e.target.classList.remove('image');
     }
-  }
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    var a = document.getElementsByClassName('image')
-    var b = document.getElementsByClassName('infoNum')
-    var imageStr = []
+    var a = document.getElementsByClassName('image');
+    var b = document.getElementsByClassName('infoNum');
+    var imageStr = [];
     for (var i = 0; i < a.length; i++) {
-      imageStr[i] = a[i].value
+      imageStr[i] = a[i].value;
     }
 
-    var KTMH = b[0].value
-    var CNMH = b[1].value
-    var DPGMH = b[2].value
-    var CAM = b[3].value
-    var QUAY = b[4].value
-    var CHIP = b[5].value
-    var BONHO = b[6].value
+    var KTMH = b[0].value;
+    var CNMH = b[1].value;
+    var DPGMH = b[2].value;
+    var CAM = b[3].value;
+    var QUAY = b[4].value;
+    var CHIP = b[5].value;
+    var BONHO = b[6].value;
 
-    var name = document.getElementById('name').value
-    var type = document.getElementById('type').value
-    var description = document.getElementById('description').value
-    var brandname = document.getElementById('brand.name').value
-    var brandImage = document.getElementById('brand.brandImage').value
+    var name = document.getElementById('name').value;
+    var type = document.getElementById('type').value;
+    var description = document.getElementById('description').value;
+    var brandname = document.getElementById('brand.name').value;
+    var brandImage = document.getElementById('brand.brandImage').value;
 
     userRequest()
       .put(`admin/products/update/${params.id}`, {
@@ -102,7 +102,7 @@ function UpdateItem() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
+        });
       })
       .catch((err) => {
         toast.error('Đã xảy ra lỗi, cập nhật thất bại', {
@@ -113,10 +113,10 @@ function UpdateItem() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
-        console.log(err)
-      })
-  }
+        });
+        console.log(err);
+      });
+  };
 
   return (
     <div className="container mt-4 mb-4">
@@ -291,7 +291,7 @@ function UpdateItem() {
         </form>
       ))}
     </div>
-  )
+  );
 }
 
 //check for delete image of item
@@ -308,4 +308,4 @@ function UpdateItem() {
 //     }
 // }
 
-export default UpdateItem
+export default UpdateItem;

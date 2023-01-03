@@ -1,105 +1,105 @@
-import React, { useEffect, useState } from 'react'
-import moment from 'moment'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
-import { useNavigate } from 'react-router-dom'
-import { userRequest } from '../../utils/CallApi'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import moment from 'moment';
+import Header from '../../components/header';
+import Footer from '../../components/footer';
+import { useNavigate } from 'react-router-dom';
+import { userRequest } from '../../utils/CallApi';
+import { useSelector } from 'react-redux';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-import './Purchase.scss'
-import { currentChange } from '../../utils/const'
-import ModalPopUp from '../../components/modal'
+import './Purchase.scss';
+import { currentChange } from '../../utils/const';
+import ModalPopUp from '../../components/modal';
 
 export default function Purchase() {
-  const [productsList, setProductsList] = useState([])
-  const [reload, setReload] = useState(false)
-  const userCurrent = useSelector((state) => state.user.current)
-  const userID = userCurrent._id
-  const navigateCart = useNavigate()
+  const [productsList, setProductsList] = useState([]);
+  const [reload, setReload] = useState(false);
+  const userCurrent = useSelector((state) => state.user.current);
+  const userID = userCurrent._id;
+  const navigateCart = useNavigate();
 
   // console.log('user', user._id);
   const [clickedDeleteButton, setClickedDeleteButton] = useState({
     productID: '',
-  })
+  });
   const [activeStatus, setActiveStatus] = useState({
     all: true,
     delivering: false,
     delivered: false,
-  })
-  const [modalState, setModalState] = useState(undefined)
-  const user = useSelector((state) => state.user)
+  });
+  const [modalState, setModalState] = useState(undefined);
+  const user = useSelector((state) => state.user);
 
   // get all purchase
   const getPurchase = () => {
     userRequest()
       .get(`purchase/all/${user.current._id}`)
       .then((res) => {
-        setProductsList(res.data)
-      })
-  }
+        setProductsList(res.data);
+      });
+  };
   const getDeliveringPurchase = () => {
     userRequest()
       .get(`purchase/delivering/${user.current._id}`)
       .then((res) => {
-        setProductsList(res.data)
-      })
-  }
+        setProductsList(res.data);
+      });
+  };
   const getDeliveredPurchase = () => {
     userRequest()
       .get(`purchase/delivered/${user.current._id}`)
       .then((res) => {
-        setProductsList(res.data)
-      })
-  }
+        setProductsList(res.data);
+      });
+  };
 
   useEffect(() => {
-    getPurchase()
-  }, [])
+    getPurchase();
+  }, []);
   const handelClickConfirm = () => {
     userRequest()
       .put(`purchase/update/${userID}/${clickedDeleteButton.productID}`)
       .then(() => {
-        getPurchase()
-        setModalState(false)
-      })
-  }
+        getPurchase();
+        setModalState(false);
+      });
+  };
   const handleClickAllProduct = () => {
     // console.log('all');
-    getPurchase()
+    getPurchase();
     setActiveStatus({
       all: true,
       delivering: false,
       delivered: false,
-    })
-  }
+    });
+  };
   const handleClickDelivering = () => {
     // console.log('delivering');
 
-    getDeliveringPurchase()
+    getDeliveringPurchase();
     setActiveStatus({
       all: false,
       delivering: true,
       delivered: false,
-    })
-  }
+    });
+  };
   const handleClickDelivered = () => {
     // console.log('delovered');
 
-    getDeliveredPurchase()
+    getDeliveredPurchase();
     setActiveStatus({
       all: false,
       delivering: false,
       delivered: true,
-    })
-  }
+    });
+  };
   const handleClickedDeleteButton = (productId) => {
-    setModalState(true)
-    setClickedDeleteButton({ productID: productId })
+    setModalState(true);
+    setClickedDeleteButton({ productID: productId });
     // console.log('userID: ', userID, ' , productID: ', productId);
-  }
+  };
   const handleRepurchase = (optionID, color) => {
     // console.log('optionID: ', optionID, 'color: ', color);
     userRequest()
@@ -108,10 +108,10 @@ export default function Purchase() {
         color: color,
       })
       .then(() => {
-        navigateCart('../cart')
+        navigateCart('../cart');
       })
-      .catch((err) => console.log(err))
-  }
+      .catch((err) => console.log(err));
+  };
   const handleRenderProduct = (item, product) => {
     if (!item.deleted) {
       return (
@@ -195,11 +195,11 @@ export default function Purchase() {
             </p>
           </div>
         </div>
-      )
+      );
     } else {
-      return <></>
+      return <></>;
     }
-  }
+  };
 
   return (
     <>
@@ -259,5 +259,5 @@ export default function Purchase() {
       </section>
       <Footer />
     </>
-  )
+  );
 }

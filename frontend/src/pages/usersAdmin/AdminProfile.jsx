@@ -1,173 +1,173 @@
-import React, { useEffect, useState, useRef } from 'react'
-import axios from 'axios'
-import './AdminProfile.scss'
-import { useSelector } from 'react-redux'
-import { userRequest } from '../../utils/CallApi'
-import { hostServer } from '../../utils/const'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import { toast } from 'react-toastify'
+import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
+import './AdminProfile.scss';
+import { useSelector } from 'react-redux';
+import { userRequest } from '../../utils/CallApi';
+import { hostServer } from '../../utils/const';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 function AdminProfile() {
-  const [admin, setAdmin] = useState([])
-  const [getCurPwd, setGetCurPwd] = useState('')
-  const [toggleState, setToggleState] = useState(1)
-  const user = useSelector((state) => state.user)
-  const [district, setDistrict] = useState([])
-  const [province, setAddress] = useState([])
-  const [ward, setWard] = useState([])
-  const [name, setName] = useState()
-  const [phone, setPhone] = useState()
-  const [email, setEmail] = useState()
-  const [gender, setGender] = useState()
-  const [birthday, setBirthday] = useState()
-  const provinceRef = useRef()
-  const districtRef = useRef()
-  const wardRef = useRef()
-  const detailRef = useRef()
+  const [admin, setAdmin] = useState([]);
+  const [getCurPwd, setGetCurPwd] = useState('');
+  const [toggleState, setToggleState] = useState(1);
+  const user = useSelector((state) => state.user);
+  const [district, setDistrict] = useState([]);
+  const [province, setAddress] = useState([]);
+  const [ward, setWard] = useState([]);
+  const [name, setName] = useState();
+  const [phone, setPhone] = useState();
+  const [email, setEmail] = useState();
+  const [gender, setGender] = useState();
+  const [birthday, setBirthday] = useState();
+  const provinceRef = useRef();
+  const districtRef = useRef();
+  const wardRef = useRef();
+  const detailRef = useRef();
 
   useEffect(() => {
     userRequest()
       .get('admin/settings/' + user.current._id)
       .then((res) => {
-        setAdmin(res.data.user)
-        setName(res.data.user.name)
-        setEmail(res.data.user.email)
-        setPhone(res.data.user.phone)
-        setBirthday(res.data.user.birthday)
-        setGender(res.data.user.gender)
-        setGetCurPwd(res.data.currentPwd)
-        provinceRef.current.value = user.address.province
-        districtRef.current.value = user.address.district
-        wardRef.current.value = user.address.ward
-        detailRef.current.value = user.address.detailRef
-      })
-  }, [])
+        setAdmin(res.data.user);
+        setName(res.data.user.name);
+        setEmail(res.data.user.email);
+        setPhone(res.data.user.phone);
+        setBirthday(res.data.user.birthday);
+        setGender(res.data.user.gender);
+        setGetCurPwd(res.data.currentPwd);
+        provinceRef.current.value = user.address.province;
+        districtRef.current.value = user.address.district;
+        wardRef.current.value = user.address.ward;
+        detailRef.current.value = user.address.detailRef;
+      });
+  }, []);
 
   const toggleTab = (index) => {
-    setToggleState(index)
-  }
+    setToggleState(index);
+  };
 
   useEffect(() => {
     userRequest()
       .get('address/getalladress/')
       .then((res) => {
-        setAddress(res.data.address)
-      })
-  }, [])
+        setAddress(res.data.address);
+      });
+  }, []);
 
   const Getdistrictbyprovince = () => {
-    var province = document.getElementById('province').value
-    provinceRef.current.value = document.getElementById('province').value
-    document.getElementById('district').value = ''
-    document.getElementById('ward').value = ''
+    var province = document.getElementById('province').value;
+    provinceRef.current.value = document.getElementById('province').value;
+    document.getElementById('district').value = '';
+    document.getElementById('ward').value = '';
     axios.get(hostServer + '/api/address/district/' + province).then((res) => {
-      setDistrict(res.data.address)
-    })
-  }
+      setDistrict(res.data.address);
+    });
+  };
 
   const Getwardbydistrict = () => {
     //var province = document.getElementById("province").value;
-    var district = document.getElementById('district').value
-    districtRef.current.value = document.getElementById('district').value
-    document.getElementById('ward').value = ''
+    var district = document.getElementById('district').value;
+    districtRef.current.value = document.getElementById('district').value;
+    document.getElementById('ward').value = '';
     axios
       .get(
         hostServer +
           '/api/address/ward/' +
           provinceRef.current.value +
           '/' +
-          district
+          district,
       )
       .then((res) => {
-        setWard(res.data.address)
-      })
-  }
+        setWard(res.data.address);
+      });
+  };
 
   const handleWard = (e) => {
-    wardRef.current.value = e.target.value
-  }
+    wardRef.current.value = e.target.value;
+  };
 
   const handleAddressdetail = (e) => {
-    detailRef.current.value = e.target.value
-  }
+    detailRef.current.value = e.target.value;
+  };
   const handleName = (e) => {
-    setName(e.target.value)
-  }
+    setName(e.target.value);
+  };
   const handlePhone = (e) => {
-    setPhone(e.target.value)
-  }
+    setPhone(e.target.value);
+  };
   const handleGender = (e) => {
-    setGender(e.target.value)
-  }
+    setGender(e.target.value);
+  };
   const handleBirthday = (e) => {
-    setBirthday(e.target.value)
-  }
+    setBirthday(e.target.value);
+  };
 
-  const [curPwd, setCurPwd] = useState('')
-  const [showCurPassword, setShowCurPassword] = useState(false)
+  const [curPwd, setCurPwd] = useState('');
+  const [showCurPassword, setShowCurPassword] = useState(false);
   const handleShowCurPassword = () => {
-    setShowCurPassword((value) => !value)
-  }
+    setShowCurPassword((value) => !value);
+  };
 
-  const [newPwd, setNewPwd] = useState('')
-  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [newPwd, setNewPwd] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const handleShowNewPassword = () => {
-    setShowNewPassword((value) => !value)
-  }
+    setShowNewPassword((value) => !value);
+  };
 
-  const [rePwd, setRePwd] = useState('')
-  const [showRePassword, setShowRePassword] = useState(false)
+  const [rePwd, setRePwd] = useState('');
+  const [showRePassword, setShowRePassword] = useState(false);
   const handleShowRePassword = () => {
-    setShowRePassword((value) => !value)
-  }
+    setShowRePassword((value) => !value);
+  };
 
   const handleCurPassChange = (e) => {
     if (e.target.value !== '' && e.target.value !== getCurPwd)
       document.getElementById('CurPassAlert').innerText =
-        'Mật khẩu hiện tại không đúng, vui lòng nhập lại'
-    else document.getElementById('CurPassAlert').innerText = ''
-    setCurPwd(e.target.value)
-  }
+        'Mật khẩu hiện tại không đúng, vui lòng nhập lại';
+    else document.getElementById('CurPassAlert').innerText = '';
+    setCurPwd(e.target.value);
+  };
   const handleBlurCurPass = (e) => {
     if (e.target.value !== '' && (newPwd === '' || rePwd === '')) {
       document.getElementById('NewPassAlert').innerText =
-        'Không được để trống mật khẩu'
+        'Không được để trống mật khẩu';
       document.getElementById('RePassAlert').innerText =
-        'Không được để trống mật khẩu xác nhận'
-      document.getElementById('')
+        'Không được để trống mật khẩu xác nhận';
+      document.getElementById('');
     } else {
-      document.getElementById('NewPassAlert').innerText = ''
-      document.getElementById('RePassAlert').innerText = ''
+      document.getElementById('NewPassAlert').innerText = '';
+      document.getElementById('RePassAlert').innerText = '';
     }
-  }
+  };
   const handleNewPassChange = (e) => {
     if (e.target.value.length < 6 && e.target.value.length > 0) {
       document.getElementById('NewPassAlert').innerText =
-        'Mật khẩu cần ít nhất 6 ký tự'
-    } else document.getElementById('NewPassAlert').innerText = ''
-    setNewPwd(e.target.value)
-  }
+        'Mật khẩu cần ít nhất 6 ký tự';
+    } else document.getElementById('NewPassAlert').innerText = '';
+    setNewPwd(e.target.value);
+  };
   const handleRePassChange = (e) => {
     if (e.target.value.length > 0) {
       if (e.target.value.length < 6) {
         document.getElementById('RePassAlert').innerText =
-          'Mật khẩu cần ít nhất 6 ký tự'
+          'Mật khẩu cần ít nhất 6 ký tự';
         if (e.target.value !== '' && e.target.value !== newPwd)
           document.getElementById('RePassAlert').innerText +=
-            '\nMật khẩu nhập vào không trùng khớp'
+            '\nMật khẩu nhập vào không trùng khớp';
       } else if (e.target.value.length >= 6) {
-        document.getElementById('RePassAlert').innerText = ''
+        document.getElementById('RePassAlert').innerText = '';
         if (e.target.value !== '' && e.target.value !== newPwd)
           document.getElementById('RePassAlert').innerText +=
-            'Mật khẩu nhập vào không trùng khớp'
+            'Mật khẩu nhập vào không trùng khớp';
       }
     } else if (e.target.value.length === 0)
-      document.getElementById('RePassAlert').innerText = ''
-    setRePwd(e.target.value)
-  }
+      document.getElementById('RePassAlert').innerText = '';
+    setRePwd(e.target.value);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     userRequest()
       .put('admin/settings/update/' + user.current._id, {
         username: name,
@@ -192,7 +192,7 @@ function AdminProfile() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
+        });
       })
       .catch((err) => {
         toast.error('Đã xảy ra lỗi, cập nhật thất bại', {
@@ -203,10 +203,10 @@ function AdminProfile() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
-        console.log(err)
-      })
-  }
+        });
+        console.log(err);
+      });
+  };
 
   return (
     <div className="d-flex flex-column font-weight-bold">
@@ -297,7 +297,7 @@ function AdminProfile() {
                         className="form-control inputAdProfile"
                         defaultValue={admin.name}
                         onChange={(e) => {
-                          handleName(e)
+                          handleName(e);
                         }}
                       />
                     </div>
@@ -423,7 +423,7 @@ function AdminProfile() {
                         className="form-control inputAdProfile"
                         defaultValue={admin.birthday}
                         onChange={(e) => {
-                          handleBirthday(e)
+                          handleBirthday(e);
                         }}
                       />
                     </div>
@@ -439,7 +439,7 @@ function AdminProfile() {
                         name="gender"
                         className="form-control selectGender"
                         onChange={(e) => {
-                          handleGender(e)
+                          handleGender(e);
                         }}
                       >
                         <option hidden defaultValue={admin.gender}>
@@ -543,7 +543,7 @@ function AdminProfile() {
                             name="addressdetail"
                             defaultValue={admin.address?.addressdetail}
                             onChange={(e) => {
-                              handleAddressdetail(e)
+                              handleAddressdetail(e);
                             }}
                           />
                         </div>
@@ -586,7 +586,7 @@ function AdminProfile() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default AdminProfile
+export default AdminProfile;

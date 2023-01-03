@@ -1,16 +1,16 @@
-import React from 'react'
-import { Navigation } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Link } from 'react-router-dom'
-import { currentChange } from '../../utils/const'
-import './ProductSame.scss'
+import React from 'react';
+import { Navigation } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Link } from 'react-router-dom';
+import { currentChange } from '../../utils/const';
+import './ProductSame.scss';
 const ProductSame = ({ sameArray }) => {
-  const pathImage = ''
+  const pathImage = '';
   const Price = (item) => {
-    let price = ((100 - item.discount) * item.price) / 100
-    price = currentChange(price)
-    return price
-  }
+    let price = ((100 - item.discount) * item.price) / 100;
+    price = currentChange(price);
+    return price;
+  };
   return (
     <div className="productSame__container">
       <p className="productSame__title">Sản Phẩm Tương tự</p>
@@ -63,7 +63,7 @@ const ProductSame = ({ sameArray }) => {
         </Swiper>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductSame
+export default ProductSame;

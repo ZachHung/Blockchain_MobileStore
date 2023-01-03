@@ -1,22 +1,22 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 // Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/free-mode'
-import 'swiper/css/navigation'
-import 'swiper/css/thumbs'
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
 
-import './ProductSwiper.scss'
+import './ProductSwiper.scss';
 
 // import required modules
-import { FreeMode, Navigation, Thumbs } from 'swiper'
+import { FreeMode, Navigation, Thumbs } from 'swiper';
 
 export default function ProductSwiper({ swiperArray }) {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
-  const controlSwiper = useRef()
-  const pathImage = ''
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const controlSwiper = useRef();
+  const pathImage = '';
 
   return (
     <div className="swiper__container">
@@ -56,5 +56,5 @@ export default function ProductSwiper({ swiperArray }) {
         ))}
       </Swiper>
     </div>
-  )
+  );
 }

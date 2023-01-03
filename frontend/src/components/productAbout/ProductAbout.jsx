@@ -1,7 +1,7 @@
-import React from 'react'
-import './ProductAbout.scss'
-import TechInfo from '../techInfo/TechInfo'
-import ProductBtn from '../productBtn/ProductBtn'
+import React from 'react';
+import './ProductAbout.scss';
+import TechInfo from '../techInfo/TechInfo';
+import ProductBtn from '../productBtn/ProductBtn';
 
 const ProductAbout = ({ demoArray, handleOpenInfo }) => {
   return (
@@ -13,7 +13,7 @@ const ProductAbout = ({ demoArray, handleOpenInfo }) => {
         clickEvent={handleOpenInfo}
       ></ProductBtn>
     </div>
-  )
-}
+  );
+};
 
-export default ProductAbout
+export default ProductAbout;

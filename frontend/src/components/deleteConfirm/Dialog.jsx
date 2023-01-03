@@ -60,7 +60,7 @@ export default function Dialog({ message, onDialog, nameDelete }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 export function DialogOK({ message, onDialog }) {
   return (
@@ -111,5 +111,5 @@ export function DialogOK({ message, onDialog }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import React from 'react'
-import './topnav.scss'
+import React from 'react';
+import './topnav.scss';
 
 const TopNav = () => {
   const openSidebar = () => {
-    document.body.classList.add('sidebar-open')
-  }
+    document.body.classList.add('sidebar-open');
+  };
 
   return (
     <div className="topnav">
@@ -12,7 +12,7 @@ const TopNav = () => {
         <i className="bx bx-menu-alt-right"></i>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TopNav
+export default TopNav;

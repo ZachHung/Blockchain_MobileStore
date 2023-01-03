@@ -1,9 +1,9 @@
-import React from 'react'
-import './ProductBtn.scss'
+import React from 'react';
+import './ProductBtn.scss';
 const ProductBtn = ({ style, text, clickEvent }) => {
   const handleClick = () => {
-    clickEvent()
-  }
+    clickEvent();
+  };
   return (
     <button
       className="Product__button"
@@ -12,7 +12,7 @@ const ProductBtn = ({ style, text, clickEvent }) => {
     >
       {text}
     </button>
-  )
-}
+  );
+};
 
-export default ProductBtn
+export default ProductBtn;

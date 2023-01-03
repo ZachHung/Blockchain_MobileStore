@@ -1,20 +1,20 @@
-const items = require('../models/Item')
-const ObjectID = require('mongodb').ObjectID
-const cart = require('../models/Cart')
+const items = require('../models/Item');
+const ObjectID = require('mongodb').ObjectID;
+const cart = require('../models/Cart');
 
 class PhoneController {
   compare(req, res, next) {
-    const productsCompare = req.query.product
-    var arrayProductsCompare
+    const productsCompare = req.query.product;
+    var arrayProductsCompare;
     if (productsCompare == undefined) {
-      productsCompare = ''
+      productsCompare = '';
     }
-    arrayProductsCompare = productsCompare.split(',')
+    arrayProductsCompare = productsCompare.split(',');
     console.log(
       'arrayProductsCompare',
       arrayProductsCompare,
-      typeof arrayProductsCompare
-    )
+      typeof arrayProductsCompare,
+    );
     if (productsCompare != '') {
       items
         .aggregate([
@@ -36,72 +36,72 @@ class PhoneController {
           },
         ])
         .then((items) => {
-          res.json(items)
+          res.json(items);
         })
-        .catch(next)
+        .catch(next);
     }
   }
   brand(req, res, next) {
-    console.log('came here')
-    var fullUrl = req.originalUrl
-    console.log('fullUrl ', fullUrl)
-    const urlArray = fullUrl.split('/')
-    console.log('split: ', urlArray[2])
-    const typeProduct = urlArray[2]
-    console.log('type product brand: ', typeProduct)
+    console.log('came here');
+    var fullUrl = req.originalUrl;
+    console.log('fullUrl ', fullUrl);
+    const urlArray = fullUrl.split('/');
+    console.log('split: ', urlArray[2]);
+    const typeProduct = urlArray[2];
+    console.log('type product brand: ', typeProduct);
     items
       .find({ type: typeProduct })
       .distinct('brand')
 
       .then((items) => {
-        res.json(items)
+        res.json(items);
       })
-      .catch(next)
+      .catch(next);
   }
   brandName(req, res, next) {
-    var fullUrl = req.originalUrl
+    var fullUrl = req.originalUrl;
     // console.log('fullUrl ', fullUrl);
-    const urlArray = fullUrl.split('/')
+    const urlArray = fullUrl.split('/');
     // console.log('split: ', urlArray[2]);
-    const typeProduct = urlArray[2]
-    console.log('type product brandName: ', typeProduct)
+    const typeProduct = urlArray[2];
+    console.log('type product brandName: ', typeProduct);
 
     items
       .find({ type: typeProduct })
       .distinct('brand.name')
 
       .then((items) => {
-        res.json(items)
+        res.json(items);
       })
-      .catch(next)
+      .catch(next);
   }
   home(req, res, next) {
     //define type of product
-    var fullUrl = req.originalUrl
-    console.log('fullUrl ', fullUrl)
-    const urlArray = fullUrl.split('/')
-    console.log('split: ', urlArray[2])
+    var fullUrl = req.originalUrl;
+    console.log('fullUrl ', fullUrl);
+    const urlArray = fullUrl.split('/');
+    console.log('split: ', urlArray[2]);
     // const typeProduct = urlArray[2];
-    const splitTypeProduct = urlArray[2].split('?')
-    const typeProduct = splitTypeProduct[0]
-    console.log('typeProduct: ', typeProduct)
+    const splitTypeProduct = urlArray[2].split('?');
+    const typeProduct = splitTypeProduct[0];
+    console.log('typeProduct: ', typeProduct);
     //get query params
-    var paramBrand = req.query.brand
-    var paramPrice = req.query.price
-    var arrayBrand
+    var paramBrand = req.query.brand;
+    var paramPrice = req.query.price;
+    var arrayBrand;
     if (paramBrand == undefined) {
-      paramBrand = ''
+      paramBrand = '';
     }
-    arrayBrand = paramBrand.split(',')
-    let to2 = 0
-    let from2 = -1
-    let to5 = 0
-    let from5 = -1
-    let to14 = 0
-    let from14 = 100000000000
+    arrayBrand = paramBrand.split(',');
+    let to2 = 0;
+    let from2 = -1;
+    let to5 = 0;
+    let from5 = -1;
+    let to14 = 0;
+    let from14 = 100000000000;
 
     if (paramPrice == undefined) {
-      paramPrice = ''
+      paramPrice = '';
     }
     if (paramPrice == '' && paramBrand == '') {
       items
@@ -121,9 +121,9 @@ class PhoneController {
           },
         ])
         .then((items) => {
-          res.json({ items: items })
+          res.json({ items: items });
         })
-        .catch(next)
+        .catch(next);
     } else {
       if (paramBrand != '' && paramPrice == '') {
         items
@@ -152,24 +152,24 @@ class PhoneController {
           .then((items) => {
             res.json({
               items: items,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       }
       if (paramBrand == '' && paramPrice != '') {
         if (paramPrice.search('duoi-2-trieu') >= 0) {
-          to2 = 2000000
+          to2 = 2000000;
         }
         if (paramPrice.search('tu-2-5-trieu') >= 0) {
-          from2 = 2000000
-          to5 = 5000000
+          from2 = 2000000;
+          to5 = 5000000;
         }
         if (paramPrice.search('tu-5-14-trieu') >= 0) {
-          from5 = 5000000
-          to14 = 14000000
+          from5 = 5000000;
+          to14 = 14000000;
         }
         if (paramPrice.search('tren-14-trieu') >= 0) {
-          from14 = 14000000
+          from14 = 14000000;
         }
         items
           .aggregate([
@@ -221,25 +221,25 @@ class PhoneController {
           .then((items) => {
             res.json({
               items: items,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       }
 
       if (paramBrand != '' && paramPrice != '') {
         if (paramPrice.search('duoi-2-trieu') >= 0) {
-          to2 = 2000000
+          to2 = 2000000;
         }
         if (paramPrice.search('tu-2-5-trieu') >= 0) {
-          from2 = 2000000
-          to5 = 5000000
+          from2 = 2000000;
+          to5 = 5000000;
         }
         if (paramPrice.search('tu-5-14-trieu') >= 0) {
-          from5 = 5000000
-          to14 = 14000000
+          from5 = 5000000;
+          to14 = 14000000;
         }
         if (paramPrice.search('tren-14-trieu') >= 0) {
-          from14 = 14000000
+          from14 = 14000000;
         }
         items
           .aggregate([
@@ -298,11 +298,11 @@ class PhoneController {
           .then((items) => {
             res.json({
               items: items,
-            })
+            });
           })
-          .catch(next)
+          .catch(next);
       }
     }
   }
 }
-module.exports = new PhoneController()
+module.exports = new PhoneController();

@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import './sidebar.scss'
-import { Link, useLocation } from 'react-router-dom'
-import { images } from '../../constants'
-import sidebarNav from '../../configs/sidebarNav'
-import { logout } from '../../redux/userRedux'
+import React, { useEffect, useState } from 'react';
+import './sidebar.scss';
+import { Link, useLocation } from 'react-router-dom';
+import { images } from '../../constants';
+import sidebarNav from '../../configs/sidebarNav';
+import { logout } from '../../redux/userRedux';
 
 const Sidebar = () => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const location = useLocation()
+  const [activeIndex, setActiveIndex] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
-    const curPath = window.location.pathname.split('/')[1]
-    const activeItem = sidebarNav.findIndex((item) => item.section === curPath)
+    const curPath = window.location.pathname.split('/')[1];
+    const activeItem = sidebarNav.findIndex((item) => item.section === curPath);
 
-    setActiveIndex(curPath.length === 0 ? 0 : activeItem)
-  }, [location])
+    setActiveIndex(curPath.length === 0 ? 0 : activeItem);
+  }, [location]);
 
   const closeSidebar = () => {
     document.querySelector('.main__content').style.transform =
-      'scale(1) translateX(0)'
+      'scale(1) translateX(0)';
     setTimeout(() => {
-      document.body.classList.remove('sidebar-open')
-      document.querySelector('.main__content').style = ''
-    }, 500)
-  }
+      document.body.classList.remove('sidebar-open');
+      document.querySelector('.main__content').style = '';
+    }, 500);
+  };
 
   return (
     <div className="sidebar">
@@ -55,7 +55,7 @@ const Sidebar = () => {
         </Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

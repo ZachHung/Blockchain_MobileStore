@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
-import './modal.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons'
+import './modal.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 function ModalCompare({
   handleClickCompare,
@@ -13,23 +13,23 @@ function ModalCompare({
   countCompare,
 }) {
   // console.log('infoProducts: ', infoProducts, type);
-  const navigateCompare = useNavigate()
-  var convertToStr
+  const navigateCompare = useNavigate();
+  var convertToStr;
   if (infoProducts.length >= 2) {
-    convertToStr = infoProducts.join(',')
+    convertToStr = infoProducts.join(',');
   }
   const handleOnclickCompare = () => {
     if (infoProducts.length < 2) {
-      alert('hãy chọn đủ 2 sản phẩm')
+      alert('hãy chọn đủ 2 sản phẩm');
     } else {
       window.history.pushState(
         {},
         'So sánh',
-        `/compare?${type}=${convertToStr}`
-      )
-      navigateCompare(`../compare?${type}=${convertToStr}`)
+        `/compare?${type}=${convertToStr}`,
+      );
+      navigateCompare(`../compare?${type}=${convertToStr}`);
     }
-  }
+  };
   // console.log('countcompare: ', countCompare);
   return (
     <div
@@ -71,7 +71,7 @@ function ModalCompare({
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default ModalCompare
+export default ModalCompare;

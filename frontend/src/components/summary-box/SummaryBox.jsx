@@ -1,12 +1,12 @@
-import React from 'react'
-import './summary-box.scss'
-import Box from '../box/Box'
+import React from 'react';
+import './summary-box.scss';
+import Box from '../box/Box';
 import {
   buildStyles,
   CircularProgressbarWithChildren,
-} from 'react-circular-progressbar'
-import { colors } from '../../constants'
-import { Line } from 'react-chartjs-2'
+} from 'react-circular-progressbar';
+import { colors } from '../../constants';
+import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -16,7 +16,7 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js'
+} from 'chart.js';
 
 ChartJS.register(
   CategoryScale,
@@ -25,8 +25,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
-)
+  Legend,
+);
 
 const SummaryBox = ({ item }) => {
   return (
@@ -54,10 +54,10 @@ const SummaryBox = ({ item }) => {
         </div>
       </div>
     </Box>
-  )
-}
+  );
+};
 
-export default SummaryBox
+export default SummaryBox;
 
 export const SummaryBoxSpecial = ({ item }) => {
   const chartOptions = {
@@ -80,7 +80,7 @@ export const SummaryBoxSpecial = ({ item }) => {
         radius: 0,
       },
     },
-  }
+  };
 
   const chartData = {
     labels: item.chartData.labels,
@@ -92,7 +92,7 @@ export const SummaryBoxSpecial = ({ item }) => {
         tension: 0.5,
       },
     ],
-  }
+  };
   return (
     <Box purple fullheight>
       <div className="summary-box-special">
@@ -103,5 +103,5 @@ export const SummaryBoxSpecial = ({ item }) => {
         </div>
       </div>
     </Box>
-  )
-}
+  );
+};

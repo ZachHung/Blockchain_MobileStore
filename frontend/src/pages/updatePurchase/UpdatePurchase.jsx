@@ -1,29 +1,29 @@
-import React from 'react'
-import './UpdatePurchase.scss'
-import { useEffect, useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
-import { userRequest } from '../../utils/CallApi'
-import { toast } from 'react-toastify'
+import React from 'react';
+import './UpdatePurchase.scss';
+import { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { userRequest } from '../../utils/CallApi';
+import { toast } from 'react-toastify';
 function UpdatePurchase() {
-  const params = useParams()
-  const [purchase, setpurchase] = useState([])
-  const [status, setStatus] = useState()
+  const params = useParams();
+  const [purchase, setpurchase] = useState([]);
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     userRequest()
       .get('admin/orders/edit/' + params.id)
       .then((res) => {
-        console.log(res.data.purchase)
-        setpurchase(res.data.purchase)
-      })
-  }, [])
+        console.log(res.data.purchase);
+        setpurchase(res.data.purchase);
+      });
+  }, []);
 
   const handleStatus = (e) => {
-    setStatus(e.target.value)
-  }
+    setStatus(e.target.value);
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     userRequest()
       .put(`admin/orders/update/${params.id}`, {
         status: status,
@@ -37,7 +37,7 @@ function UpdatePurchase() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
+        });
       })
       .catch((err) => {
         toast.error('Đã xảy ra lỗi, cập nhật thất bại', {
@@ -48,10 +48,10 @@ function UpdatePurchase() {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-        })
-        console.log(err)
-      })
-  }
+        });
+        console.log(err);
+      });
+  };
 
   return (
     <div className="container mt-4 mb-4">
@@ -168,7 +168,7 @@ function UpdatePurchase() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export default UpdatePurchase
+export default UpdatePurchase;

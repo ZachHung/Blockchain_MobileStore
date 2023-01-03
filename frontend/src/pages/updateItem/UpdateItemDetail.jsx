@@ -1,40 +1,40 @@
-import React from 'react'
-import './UpdateItem.scss'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { storage } from '../../firebase'
-import { userRequest } from '../../utils/CallApi'
-import { hostServer } from '../../utils/const'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import './UpdateItem.scss';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { storage } from '../../firebase';
+import { userRequest } from '../../utils/CallApi';
+import { hostServer } from '../../utils/const';
+import { Link } from 'react-router-dom';
 
 function UpdateItemDetail() {
-  const params = useParams()
-  const [ItemDetail, setdetailphone] = useState([])
-  const [image, setImage] = useState(null)
-  const [urlImage, setUrl] = useState('')
+  const params = useParams();
+  const [ItemDetail, setdetailphone] = useState([]);
+  const [image, setImage] = useState(null);
+  const [urlImage, setUrl] = useState('');
 
   useEffect(() => {
     userRequest()
       .get('admin/products/edit/' + params.id)
       .then((res) => {
-        setdetailphone(res.data.items)
-      })
-  }, [])
+        setdetailphone(res.data.items);
+      });
+  }, []);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
-      setImage(e.target.files[0])
+      setImage(e.target.files[0]);
     }
-  }
+  };
 
   const handleUpload = (e) => {
-    document.getElementById('isLoading').style.display = 'block'
-    const uploadTask = storage.ref(`images/${image.name}`).put(image)
+    document.getElementById('isLoading').style.display = 'block';
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
     uploadTask.on(
       'state_changed',
       (snapshot) => {},
       (error) => {
-        console.log(error)
+        console.log(error);
       },
       () => {
         storage
@@ -42,15 +42,15 @@ function UpdateItemDetail() {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url)
-            setUrl(url)
-            var x = document.getElementById('my-image')
-            x.style.display = 'block'
-            document.getElementById('isLoading').style.display = 'none'
-          })
-      }
-    )
-  }
+            console.log(url);
+            setUrl(url);
+            var x = document.getElementById('my-image');
+            x.style.display = 'block';
+            document.getElementById('isLoading').style.display = 'none';
+          });
+      },
+    );
+  };
 
   return (
     <div className="container mt-4 mb-4">
@@ -295,66 +295,66 @@ function UpdateItemDetail() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 //show and hiden form add color
 function myFunction(index) {
-  var x = document.getElementsByClassName('my-color-hidden')
-  var addcolorbnt = document.getElementsByClassName('addbnt')
-  var namenew = document.getElementsByClassName('name-new')
-  var imagenew = document.getElementsByClassName('image-new')
-  var numbernew = document.getElementsByClassName('number-new')
-  var pricenew = document.getElementsByClassName('price-new')
-  var discountnew = document.getElementsByClassName('discount-new')
-  var myimage = document.getElementsByClassName('add-image')
-  var isloadding = document.getElementsByClassName('isLoading')
+  var x = document.getElementsByClassName('my-color-hidden');
+  var addcolorbnt = document.getElementsByClassName('addbnt');
+  var namenew = document.getElementsByClassName('name-new');
+  var imagenew = document.getElementsByClassName('image-new');
+  var numbernew = document.getElementsByClassName('number-new');
+  var pricenew = document.getElementsByClassName('price-new');
+  var discountnew = document.getElementsByClassName('discount-new');
+  var myimage = document.getElementsByClassName('add-image');
+  var isloadding = document.getElementsByClassName('isLoading');
   if (x[index].style.display !== 'block') {
-    x[index].style.display = 'block'
-    addcolorbnt[index].innerText = '-'
-    namenew[index].name = 'name'
-    imagenew[index].name = 'image'
-    numbernew[index].name = 'number'
-    pricenew[index].name = 'price'
-    discountnew[index].name = 'discount'
-    myimage[index].id = 'my-image'
-    isloadding[index].id = 'isLoading'
-    namenew[index].focus()
+    x[index].style.display = 'block';
+    addcolorbnt[index].innerText = '-';
+    namenew[index].name = 'name';
+    imagenew[index].name = 'image';
+    numbernew[index].name = 'number';
+    pricenew[index].name = 'price';
+    discountnew[index].name = 'discount';
+    myimage[index].id = 'my-image';
+    isloadding[index].id = 'isLoading';
+    namenew[index].focus();
   } else {
-    x[index].style.display = 'none'
-    addcolorbnt[index].innerText = '+'
-    namenew[index].name = ''
-    imagenew[index].name = ''
-    numbernew[index].name = ''
-    pricenew[index].name = ''
-    discountnew[index].name = ''
-    myimage[index].id = ''
-    isloadding[index].id = ''
+    x[index].style.display = 'none';
+    addcolorbnt[index].innerText = '+';
+    namenew[index].name = '';
+    imagenew[index].name = '';
+    numbernew[index].name = '';
+    pricenew[index].name = '';
+    discountnew[index].name = '';
+    myimage[index].id = '';
+    isloadding[index].id = '';
   }
 }
 
 //check for delete color
 function CheckColor() {
-  var name = document.getElementsByClassName('my-color')
-  var image = document.getElementsByClassName('image')
-  var number = document.getElementsByClassName('number')
-  var price = document.getElementsByClassName('price')
-  var discount = document.getElementsByClassName('discount')
+  var name = document.getElementsByClassName('my-color');
+  var image = document.getElementsByClassName('image');
+  var number = document.getElementsByClassName('number');
+  var price = document.getElementsByClassName('price');
+  var discount = document.getElementsByClassName('discount');
   for (var i = 0; i < name.length; i++) {
     if (name[i].value === '') {
-      name[i].name = ''
-      image[i].name = ''
-      number[i].name = ''
-      price[i].name = ''
-      discount[i].name = ''
+      name[i].name = '';
+      image[i].name = '';
+      number[i].name = '';
+      price[i].name = '';
+      discount[i].name = '';
     } else {
-      name[i].name = 'name'
-      image[i].name = 'image'
-      number[i].name = 'number'
-      price[i].name = 'price'
-      discount[i].name = 'discount'
+      name[i].name = 'name';
+      image[i].name = 'image';
+      number[i].name = 'number';
+      price[i].name = 'price';
+      discount[i].name = 'discount';
     }
   }
 }
 
-export default UpdateItemDetail
+export default UpdateItemDetail;

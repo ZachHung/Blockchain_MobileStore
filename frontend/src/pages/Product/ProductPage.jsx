@@ -1,40 +1,40 @@
-import React, { useRef } from 'react'
-import { useLocation, useParams, useRoutes } from 'react-router-dom'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
-import Path from '../../components/Path/Path'
-import ProductSwiper from '../../components/productSwiper/ProductSwiper'
-import ProductOption from '../../components/productOption/ProductOption'
-import ProductSame from '../../components/productSame/ProductSame'
-import ProductAbout from '../../components/productAbout/ProductAbout'
-import ProductInfo from '../../components/productInfo/ProductInfo'
-import { publicRequest } from '../../utils/CallApi'
-import { useEffect, useState } from 'react'
-import './ProductPage.scss'
+import React, { useRef } from 'react';
+import { useLocation, useParams, useRoutes } from 'react-router-dom';
+import Header from '../../components/header';
+import Footer from '../../components/footer';
+import Path from '../../components/Path/Path';
+import ProductSwiper from '../../components/productSwiper/ProductSwiper';
+import ProductOption from '../../components/productOption/ProductOption';
+import ProductSame from '../../components/productSame/ProductSame';
+import ProductAbout from '../../components/productAbout/ProductAbout';
+import ProductInfo from '../../components/productInfo/ProductInfo';
+import { publicRequest } from '../../utils/CallApi';
+import { useEffect, useState } from 'react';
+import './ProductPage.scss';
 
 const ProductPage = () => {
-  const location = useLocation()
-  const [data, setData] = useState()
-  const [openInfo, setOpenInfo] = useState(false)
-  const SwiperChild = useRef()
-  let route = location.pathname
-  route = route.slice(1, route.length)
+  const location = useLocation();
+  const [data, setData] = useState();
+  const [openInfo, setOpenInfo] = useState(false);
+  const SwiperChild = useRef();
+  let route = location.pathname;
+  route = route.slice(1, route.length);
   const changeSlide = (index) => {
     SwiperChild.current
       .getElementsByClassName('swiper')[0]
-      .swiper.slideTo(index, 1000)
-  }
+      .swiper.slideTo(index, 1000);
+  };
   useEffect(() => {
     publicRequest.get(`${route}`).then((res) => {
-      setData(res.data)
-    })
-  }, [route])
+      setData(res.data);
+    });
+  }, [route]);
   const handleOpenInfo = () => {
-    setOpenInfo(true)
-  }
+    setOpenInfo(true);
+  };
   const handleCloseInfo = () => {
-    setOpenInfo(false)
-  }
+    setOpenInfo(false);
+  };
   return !data ? (
     <></>
   ) : (
@@ -78,7 +78,7 @@ const ProductPage = () => {
 
       <Footer color="#f5f5f5" />
     </>
-  )
-}
+  );
+};
 
-export default ProductPage
+export default ProductPage;

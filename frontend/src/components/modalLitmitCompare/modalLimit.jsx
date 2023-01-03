@@ -1,15 +1,15 @@
-import React from 'react'
-import { useState } from 'react'
-import './modalLimit.scss'
+import React from 'react';
+import { useState } from 'react';
+import './modalLimit.scss';
 export default function ModalLimitCompare() {
-  const [active, setActive] = useState(false)
+  const [active, setActive] = useState(false);
   const hanldeOnclick = () => {
     if (active == true) {
-      setActive(false)
+      setActive(false);
     } else {
-      setActive(false)
+      setActive(false);
     }
-  }
+  };
   return (
     <>
       <div
@@ -50,5 +50,5 @@ export default function ModalLimitCompare() {
         </div>
       </div>
     </>
-  )
+  );
 }

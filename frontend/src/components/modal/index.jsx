@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
-import './index.scss'
+import { useEffect, useRef } from 'react';
+import './index.scss';
 
 function ModalPopUp({ name, modalState, toogleState, handelClickConfirm }) {
-  const modalContainerRef = useRef()
+  const modalContainerRef = useRef();
   useEffect(() => {
     const closeDropdown = (e) => {
       if (
@@ -10,12 +10,12 @@ function ModalPopUp({ name, modalState, toogleState, handelClickConfirm }) {
         !modalContainerRef.current.contains(e.target) &&
         modalState !== undefined
       )
-        toogleState(false)
-    }
-    document.addEventListener('mousedown', closeDropdown)
-    return () => document.removeEventListener('mousedown', closeDropdown)
-  })
-  const content = `Xóa sản phẩm khỏi ${name}?`
+        toogleState(false);
+    };
+    document.addEventListener('mousedown', closeDropdown);
+    return () => document.removeEventListener('mousedown', closeDropdown);
+  });
+  const content = `Xóa sản phẩm khỏi ${name}?`;
   return (
     <div
       className={`remove-modal${modalState === undefined ? '' : ' opened'}${
@@ -42,7 +42,7 @@ function ModalPopUp({ name, modalState, toogleState, handelClickConfirm }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ModalPopUp
+export default ModalPopUp;

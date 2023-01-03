@@ -29,6 +29,6 @@ const sidebarNav = [
     icon: <i className="bx bx-cog"></i>,
     text: 'Cài đặt',
   },
-]
+];
 
-export default sidebarNav
+export default sidebarNav;

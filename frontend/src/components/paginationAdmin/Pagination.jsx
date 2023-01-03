@@ -1,7 +1,7 @@
-import React from 'react'
-import classnames from 'classnames'
-import { usePagination, DOTS } from './usePaginationAdmin'
-import './Pagination.scss'
+import React from 'react';
+import classnames from 'classnames';
+import { usePagination, DOTS } from './usePaginationAdmin';
+import './Pagination.scss';
 
 const PaginationAdmin = (props) => {
   const {
@@ -11,28 +11,28 @@ const PaginationAdmin = (props) => {
     currentPage,
     itemsPerPage,
     className,
-  } = props
+  } = props;
 
   const paginationRange = usePagination({
     currentPage,
     totalCount,
     siblingCount,
     itemsPerPage,
-  })
+  });
 
   if (currentPage === 0 || paginationRange.length < 2) {
-    return null
+    return null;
   }
 
   const onNext = () => {
-    onPageChange(currentPage + 1)
-  }
+    onPageChange(currentPage + 1);
+  };
 
   const onPrevious = () => {
-    onPageChange(currentPage - 1)
-  }
+    onPageChange(currentPage - 1);
+  };
 
-  let lastPage = paginationRange[paginationRange.length - 1]
+  let lastPage = paginationRange[paginationRange.length - 1];
   return (
     <ul
       className={classnames('pagination-container', { [className]: className })}
@@ -47,7 +47,7 @@ const PaginationAdmin = (props) => {
       </li>
       {paginationRange.map((pageNumber) => {
         if (pageNumber === DOTS) {
-          return <li className="pagination-item dots">&#8230;</li>
+          return <li className="pagination-item dots">&#8230;</li>;
         }
 
         return (
@@ -59,7 +59,7 @@ const PaginationAdmin = (props) => {
           >
             {pageNumber}
           </li>
-        )
+        );
       })}
       <li
         className={classnames('pagination-item', {
@@ -70,7 +70,7 @@ const PaginationAdmin = (props) => {
         <span className="arrow right" />
       </li>
     </ul>
-  )
-}
+  );
+};
 
-export default PaginationAdmin
+export default PaginationAdmin;

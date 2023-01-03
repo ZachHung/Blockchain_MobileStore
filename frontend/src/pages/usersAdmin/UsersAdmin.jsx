@@ -1,103 +1,103 @@
-import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFileEdit,
   faTrashAlt,
   faUserAlt,
-} from '@fortawesome/free-solid-svg-icons'
-import './UsersAdmin.scss'
-import PaginationAdmin from '../../components/paginationAdmin/Pagination'
-import { useEffect, useState, useRef } from 'react'
-import { format } from 'date-fns'
-import { userRequest } from '../../utils/CallApi'
-import { hostServer } from '../../utils/const'
-import Dialog, { DialogOK } from '../../components/deleteConfirm/Dialog'
-import { Link } from 'react-router-dom'
-import { ceil } from 'lodash'
-import { toast } from 'react-toastify'
+} from '@fortawesome/free-solid-svg-icons';
+import './UsersAdmin.scss';
+import PaginationAdmin from '../../components/paginationAdmin/Pagination';
+import { useEffect, useState, useRef } from 'react';
+import { format } from 'date-fns';
+import { userRequest } from '../../utils/CallApi';
+import { hostServer } from '../../utils/const';
+import Dialog, { DialogOK } from '../../components/deleteConfirm/Dialog';
+import { Link } from 'react-router-dom';
+import { ceil } from 'lodash';
+import { toast } from 'react-toastify';
 
 function UsersAdmin() {
-  var index = 1
-  const [userList, setUserList] = useState([])
-  const [selectedUsers, setSelectedUsers] = useState([])
+  var index = 1;
+  const [userList, setUserList] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   useEffect(() => {
     userRequest()
       .get('admin/customers')
       .then((res) => {
-        setUserList(res.data.user)
-      })
-  }, [])
+        setUserList(res.data.user);
+      });
+  }, []);
   const [dialog, setDialog] = useState({
     message: '',
     isLoading: false,
     //Update
     nameUser: '',
-  })
+  });
   const [dialogs, setDialogs] = useState({
     message: '',
     isLoading: false,
     //Update
     nameUser: '',
-  })
+  });
   const [dialogOK, setDialogOK] = useState({
     message: '',
     isLoading: false,
-  })
-  const idUserRef = useRef()
+  });
+  const idUserRef = useRef();
   const handleDialog = (message, isLoading, nameUser) => {
     setDialog({
       message,
       isLoading,
       //Update
       nameUser,
-    })
-  }
+    });
+  };
   const handleDialogs = (message, isLoading, nameUser) => {
     setDialogs({
       message,
       isLoading,
       //Update
       nameUser,
-    })
-  }
+    });
+  };
   const handleDialogOK = (message, isLoading) => {
     setDialogOK({
       message,
       isLoading,
-    })
-  }
+    });
+  };
   const handleDelete = (id, user) => {
     //Update
-    const index = userList.findIndex((p) => p._id === id)
+    const index = userList.findIndex((p) => p._id === id);
     handleDialog(
       `Bạn có chắc chắn muốn xóa ${
         user.isAdmin ? 'quản trị viên' : 'khách hàng'
       } ${user.name} này không?`,
       true,
       `Xóa: ${user.isAdmin ? 'Quản trị viên ' : 'Khách hàng '}` +
-        userList[index].name
-    )
-    idUserRef.current = id
-  }
+        userList[index].name,
+    );
+    idUserRef.current = id;
+  };
 
   const handleDeleteMany = () => {
-    handleDialogs('Bạn có chắc chắn muốn xóa hết người dùng đã chọn?', true)
-  }
+    handleDialogs('Bạn có chắc chắn muốn xóa hết người dùng đã chọn?', true);
+  };
 
   const handleButtonOK = (choose) => {
     if (choose) {
-      handleDialogOK('', false)
+      handleDialogOK('', false);
     }
-  }
+  };
 
   const areUSureDelete = (choose) => {
     if (choose) {
-      setUserList(userList.filter((p) => p._id !== idUserRef.current))
+      setUserList(userList.filter((p) => p._id !== idUserRef.current));
       userRequest()
         .delete(hostServer + `/api/admin/customers/delete/${idUserRef.current}`)
         .then((res) => {
-          setUserList(res.data.user)
+          setUserList(res.data.user);
           toast.success('Xóa người dùng thành công', {
             position: 'top-center',
             autoClose: 2000,
@@ -106,7 +106,7 @@ function UsersAdmin() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          })
+          });
         })
         .catch((err) => {
           toast.error('Đã xảy ra lỗi, xóa người dùng thất bại', {
@@ -117,44 +117,44 @@ function UsersAdmin() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          })
-          console.log(err)
-        })
-      handleDialog('', false)
+          });
+          console.log(err);
+        });
+      handleDialog('', false);
     } else {
-      handleDialog('', false)
+      handleDialog('', false);
     }
-  }
+  };
 
   const handleCheckbox = (e, data) => {
-    const { name, checked } = e.target
+    const { name, checked } = e.target;
     if (checked) {
       if (name === 'allSelect') {
-        setSelectedUsers(userList)
+        setSelectedUsers(userList);
       } else {
-        setSelectedUsers([...selectedUsers, data])
+        setSelectedUsers([...selectedUsers, data]);
       }
     } else {
       if (name === 'allSelect') {
-        setSelectedUsers([])
+        setSelectedUsers([]);
       } else {
-        let tempSeletedUsers = selectedUsers.filter((u) => u._id !== data._id)
-        setSelectedUsers(tempSeletedUsers)
+        let tempSeletedUsers = selectedUsers.filter((u) => u._id !== data._id);
+        setSelectedUsers(tempSeletedUsers);
       }
     }
-  }
+  };
   const handleDeleteManyUsers = (choose) => {
     if (choose) {
       if (selectedUsers.length !== 0) {
-        const ids = []
+        const ids = [];
         selectedUsers.forEach((element) => {
-          ids.push(element._id)
-        })
-        setUserList(userList.filter((x) => selectedUsers.indexOf(x) === -1))
+          ids.push(element._id);
+        });
+        setUserList(userList.filter((x) => selectedUsers.indexOf(x) === -1));
         userRequest()
           .delete(hostServer + '/api/admin/customers/deleteMany', { data: ids })
           .then((res) => {
-            setUserList(res.data.user)
+            setUserList(res.data.user);
             toast.success('Xóa người dùng thành công', {
               position: 'top-center',
               autoClose: 2000,
@@ -163,7 +163,7 @@ function UsersAdmin() {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-            })
+            });
           })
           .catch((err) => {
             toast.error('Đã xảy ra lỗi, xóa người dùng thất bại', {
@@ -174,54 +174,54 @@ function UsersAdmin() {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-            })
-          })
-        handleDialogs('', false)
+            });
+          });
+        handleDialogs('', false);
       } else {
-        handleDialogs('', false)
-        handleDialogOK('Bạn chưa chọn người dùng nào để xóa!', true)
+        handleDialogs('', false);
+        handleDialogOK('Bạn chưa chọn người dùng nào để xóa!', true);
       }
     } else {
-      handleDialogs('', false)
+      handleDialogs('', false);
     }
-  }
+  };
 
   // Pagination
-  const [currentPage, setCurrentPage] = useState(1)
-  const [usersPerPage, setUsersPerPage] = useState(7)
-  const firstPageIndex = (currentPage - 1) * usersPerPage
-  const lastPageIndex = firstPageIndex + usersPerPage
-  const dataEachPage = userList.slice(firstPageIndex, lastPageIndex)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(7);
+  const firstPageIndex = (currentPage - 1) * usersPerPage;
+  const lastPageIndex = firstPageIndex + usersPerPage;
+  const dataEachPage = userList.slice(firstPageIndex, lastPageIndex);
 
   const handleChangeUsersPerPage = () => {
     var queryUsersPerPage = parseInt(
-      document.getElementById('getNumUsersPerPage').value
-    )
+      document.getElementById('getNumUsersPerPage').value,
+    );
     var renderUsersPerPage =
       queryUsersPerPage <= 0
         ? 1
         : queryUsersPerPage > userList.length
         ? userList.length
-        : queryUsersPerPage
-    setUsersPerPage(renderUsersPerPage)
-    document.getElementById('gotoPageUserNum').value = 1
-    setCurrentPage(1)
-  }
+        : queryUsersPerPage;
+    setUsersPerPage(renderUsersPerPage);
+    document.getElementById('gotoPageUserNum').value = 1;
+    setCurrentPage(1);
+  };
   const handleGoToUsersPageNum = (e) => {
     var queryPageToGo = parseInt(
-      document.getElementById('gotoPageUserNum').value
-    )
+      document.getElementById('gotoPageUserNum').value,
+    );
     var pageToGo =
       queryPageToGo <= 0
         ? 1
         : queryPageToGo > ceil(userList.length / usersPerPage)
         ? ceil(userList.length / usersPerPage)
-        : queryPageToGo
-    document.getElementById('gotoPageUserNum').value = pageToGo
-    setCurrentPage(pageToGo)
-  }
+        : queryPageToGo;
+    document.getElementById('gotoPageUserNum').value = pageToGo;
+    setCurrentPage(pageToGo);
+  };
 
-  if (userList.length === 0) return <p>Không có người dùng nào</p>
+  if (userList.length === 0) return <p>Không có người dùng nào</p>;
   return (
     <div className="listUsersAdminTitle d-flex flex-column">
       <div className="p-3">
@@ -398,7 +398,7 @@ function UsersAdmin() {
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default UsersAdmin
+export default UsersAdmin;

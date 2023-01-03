@@ -1,8 +1,8 @@
-import React from 'react'
-import './Admin.scss'
-import { Outlet } from 'react-router-dom'
-import Sidebar from '../components/sidebar/Sidebar'
-import TopNav from '../components/topnav/TopNav'
+import React from 'react';
+import './Admin.scss';
+import { Outlet } from 'react-router-dom';
+import Sidebar from '../components/sidebar/Sidebar';
+import TopNav from '../components/topnav/TopNav';
 
 const Admin = () => {
   return (
@@ -15,7 +15,7 @@ const Admin = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Admin
+export default Admin;

@@ -1,34 +1,34 @@
-import React from 'react'
-import './addItemDetail.scss'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { storage } from '../../firebase'
-import { toast, ToastClassName, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { userRequest } from '../../utils/CallApi'
+import React from 'react';
+import './addItemDetail.scss';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { storage } from '../../firebase';
+import { toast, ToastClassName, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { userRequest } from '../../utils/CallApi';
 
-const color = []
-const price = []
-const number = []
-const discount = []
-const urlImage = []
+const color = [];
+const price = [];
+const number = [];
+const discount = [];
+const urlImage = [];
 
-var num = 0
-var errorText = {}
-errorText.errorNumber = []
-var validFlag = true
+var num = 0;
+var errorText = {};
+errorText.errorNumber = [];
+var validFlag = true;
 var validColor = false,
   validNumber = false,
   validPrice = false,
   validDiscount = false,
-  validImage = false
+  validImage = false;
 function AddOptions() {
-  const [formData, setFormData] = useState({})
-  const params = useParams()
-  const [item, setPhone] = useState(null)
-  const [type, setType] = useState('64GB')
-  const [slug, setSlug] = useState('')
-  const [image, setImage] = useState('')
+  const [formData, setFormData] = useState({});
+  const params = useParams();
+  const [item, setPhone] = useState(null);
+  const [type, setType] = useState('64GB');
+  const [slug, setSlug] = useState('');
+  const [image, setImage] = useState('');
   // const handleValidColor=(value1)=>{
   //     console.log(value1);
   //     if(value1==null||value1=="")
@@ -36,36 +36,36 @@ function AddOptions() {
   //         setMsgColor("Màu sắc của thiết bị không được để trống");
   //     }
   // }
-  var image1
+  var image1;
 
   useEffect(() => {
     userRequest()
       .get('options/' + params.id)
       .then((res) => {
-        setSlug(res.data.item.slug)
-        setPhone(res.data.item)
+        setSlug(res.data.item.slug);
+        setPhone(res.data.item);
         //console.log(res.data.items);
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }, [])
+        console.log(err);
+      });
+  }, []);
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
-      setImage(e.target.files[0])
-      image1 = e.target.files[0]
+      setImage(e.target.files[0]);
+      image1 = e.target.files[0];
     }
-  }
+  };
 
   function handleUpload(c) {
-    document.getElementById('isLoading' + c).style.display = 'block'
-    const uploadTask = storage.ref(`images/${image1.name}`).put(image1)
+    document.getElementById('isLoading' + c).style.display = 'block';
+    const uploadTask = storage.ref(`images/${image1.name}`).put(image1);
     uploadTask.on(
       'state_changed',
       (snapshot) => {},
       (error) => {
-        console.log(error)
+        console.log(error);
       },
       () => {
         storage
@@ -73,31 +73,31 @@ function AddOptions() {
           .child(image1.name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url)
+            console.log(url);
 
-            urlImage[c] = url
-            document.getElementById('image-new' + c).value = url
+            urlImage[c] = url;
+            document.getElementById('image-new' + c).value = url;
             // document.getElementById("image-new").name = "image";
-            document.getElementById('my-image' + c).style.display = 'block'
-            document.getElementById('isLoading' + c).style.display = 'none'
-            document.getElementById('imageError' + c).innerText = ''
-            validImage = true
-          })
-      }
-    )
+            document.getElementById('my-image' + c).style.display = 'block';
+            document.getElementById('isLoading' + c).style.display = 'none';
+            document.getElementById('imageError' + c).innerText = '';
+            validImage = true;
+          });
+      },
+    );
   }
 
   const handleInput = (name, value) => {
-    console.log(name, value)
-    setFormData({ ...formData, [name]: `${value}` })
-    console.log(formData)
-    console.log(Object.keys(formData))
+    console.log(name, value);
+    setFormData({ ...formData, [name]: `${value}` });
+    console.log(formData);
+    console.log(Object.keys(formData));
     //alert(formData);
-  }
+  };
 
   function Themmausac() {
-    const c = num
-    validImage = false
+    const c = num;
+    validImage = false;
     return (
       <div id="array">
         <h2>Lựa chọn màu sắc</h2>
@@ -109,10 +109,10 @@ function AddOptions() {
           name="color"
           defaultValue={color[c]}
           onBlur={(e) => {
-            handleChangeColor(e.target.value, c)
+            handleChangeColor(e.target.value, c);
           }}
           onChange={(e) => {
-            handleChangeColor(e.target.value, c)
+            handleChangeColor(e.target.value, c);
           }}
         ></input>
         <p className="text-danger thongbaoloi" id={'colorError' + num}></p>
@@ -126,10 +126,10 @@ function AddOptions() {
             defaultValue={urlImage}
             disabled
             onBlur={(e) => {
-              handleChangeimage(e.target.value, c)
+              handleChangeimage(e.target.value, c);
             }}
             onChange={(e) => {
-              handleChangeimage(e.target.value, c)
+              handleChangeimage(e.target.value, c);
             }}
           />
         </div>
@@ -171,10 +171,10 @@ function AddOptions() {
           className="form-control textareafont"
           value={number[c]}
           onBlur={(e) => {
-            handleChangeNumber(e.target.value, c)
+            handleChangeNumber(e.target.value, c);
           }}
           onChange={(e) => {
-            handleChangeNumber(e.target.value, c)
+            handleChangeNumber(e.target.value, c);
           }}
         ></input>
         <p className="text-danger thongbaoloi" id={'numberError' + num}></p>
@@ -186,10 +186,10 @@ function AddOptions() {
           name="price"
           value={price[c]}
           onBlur={(e) => {
-            handleChangePrice(e.target.value, c)
+            handleChangePrice(e.target.value, c);
           }}
           onChange={(e) => {
-            handleChangePrice(e.target.value, c)
+            handleChangePrice(e.target.value, c);
           }}
         ></input>
         <p className="text-danger thongbaoloi" id={'priceError' + num}></p>
@@ -201,93 +201,93 @@ function AddOptions() {
           name="discount"
           value={discount[c]}
           onBlur={(e) => {
-            handleChangeDiscount(e.target.value, c)
+            handleChangeDiscount(e.target.value, c);
           }}
           onChange={(e) => {
-            handleChangeDiscount(e.target.value, c)
+            handleChangeDiscount(e.target.value, c);
           }}
         ></input>
         <p className="text-danger thongbaoloi" id={'discountError' + num}></p>
       </div>
-    )
+    );
   }
-  const [option1, setOption] = useState([<Themmausac key="0"></Themmausac>])
+  const [option1, setOption] = useState([<Themmausac key="0"></Themmausac>]);
 
   const handleChangeType = (e) => {
-    setType(e.target.value)
-  }
+    setType(e.target.value);
+  };
   function handleChangeNumber(e, c) {
     // console.log(e);
     if (e == '' || e == null) {
-      number[c] = e
+      number[c] = e;
       document.getElementById('numberError' + c).innerText =
-        'Vui lòng điền thông tin số lượng sản phẩm'
-      validNumber = false
+        'Vui lòng điền thông tin số lượng sản phẩm';
+      validNumber = false;
     } else {
       if (parseInt(e) <= 0) {
-        number[c] = e
+        number[c] = e;
         document.getElementById('numberError' + c).innerText =
-          'Số lượng sản phẩm phải lớn hơn 0'
-        validNumber = false
+          'Số lượng sản phẩm phải lớn hơn 0';
+        validNumber = false;
       } else {
-        number[c] = e
-        document.getElementById('numberError' + c).innerText = ''
-        validNumber = true
+        number[c] = e;
+        document.getElementById('numberError' + c).innerText = '';
+        validNumber = true;
       }
     }
   }
   function handleChangeColor(e, c) {
     // console.log(e);
     if (e == '' || e == null) {
-      color[c] = e
+      color[c] = e;
 
       document.getElementById('colorError' + c).innerText =
-        'Vui lòng điền màu sắc của sản phẩm'
-      validColor = false
+        'Vui lòng điền màu sắc của sản phẩm';
+      validColor = false;
     } else {
-      color[c] = e
-      document.getElementById('colorError' + c).innerText = ''
-      validColor = true
+      color[c] = e;
+      document.getElementById('colorError' + c).innerText = '';
+      validColor = true;
     }
   }
   function handleChangePrice(e, c) {
     // console.log(e);
     if (e == '' || e == null) {
-      price[c] = e
+      price[c] = e;
       document.getElementById('priceError' + c).innerText =
-        'Vui lòng điền thông tin số lượng sản phẩm'
-      validPrice = false
+        'Vui lòng điền thông tin số lượng sản phẩm';
+      validPrice = false;
     } else {
       if (parseInt(e) <= 0) {
-        price[c] = e
+        price[c] = e;
         document.getElementById('priceError' + c).innerText =
-          'Số tiền sản phẩm phải lớn hơn 0'
-        validPrice = false
+          'Số tiền sản phẩm phải lớn hơn 0';
+        validPrice = false;
       } else {
-        price[c] = e
-        document.getElementById('priceError' + c).innerText = ''
-        validPrice = true
+        price[c] = e;
+        document.getElementById('priceError' + c).innerText = '';
+        validPrice = true;
       }
     }
   }
   function handleChangeDiscount(e, c) {
     //console.log(e);
     if (e == '' || e == null) {
-      discount[c] = e
+      discount[c] = e;
 
       document.getElementById('discountError' + c).innerText =
-        'Vui lòng điền thông tin giảm giá sản phẩm'
-      validDiscount = false
+        'Vui lòng điền thông tin giảm giá sản phẩm';
+      validDiscount = false;
     } else {
       if (parseInt(e) <= 0 || parseInt(e) >= 100) {
-        discount[c] = e
+        discount[c] = e;
         document.getElementById('discountError' + c).innerText =
-          'Giảm giá sản phẩm phải lớn hơn 0% và nhỏn hơn 100%'
-        validDiscount = false
+          'Giảm giá sản phẩm phải lớn hơn 0% và nhỏn hơn 100%';
+        validDiscount = false;
       } else {
-        discount[c] = e
-        document.getElementById('discountError' + c).innerText = ''
-        validDiscount = true
+        discount[c] = e;
+        document.getElementById('discountError' + c).innerText = '';
+        validDiscount = true;
       }
     }
   }
@@ -295,16 +295,16 @@ function AddOptions() {
     //console.log(e);
     if (e == '' || e == null) {
       document.getElementById('imageError' + c).innerText =
-        'Vui lòng upload ảnh của sản phẩm'
-      validImage = false
+        'Vui lòng upload ảnh của sản phẩm';
+      validImage = false;
     } else {
-      document.getElementById('imageError' + c).innerText = ''
-      validImage = true
+      document.getElementById('imageError' + c).innerText = '';
+      validImage = true;
     }
   }
   function handleSubmit() {
     const isValid =
-      validColor && validDiscount && validNumber && validPrice && validImage
+      validColor && validDiscount && validNumber && validPrice && validImage;
     if (!isValid) {
       //alert("Vui lòng điền đủ thông ");
       toast.error('Vui Lòng Điền Đầy Đủ Thông Tin', {
@@ -315,8 +315,8 @@ function AddOptions() {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      })
-      return
+      });
+      return;
     } else {
       //console.log(color,number,discount,type,urlImage,price);
       userRequest()
@@ -330,7 +330,7 @@ function AddOptions() {
           price: price,
         })
         .then((res) => {
-          console.log(res.data)
+          console.log(res.data);
 
           toast.success('Thêm Thành Công', {
             position: 'top-center',
@@ -340,11 +340,11 @@ function AddOptions() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          })
-          console.log(res.data.message)
+          });
+          console.log(res.data.message);
         })
         .catch((res) => {
-          console.log(res)
+          console.log(res);
           toast.error('Không thêm sản phẩm được!', {
             position: 'top-center',
             autoClose: 2000,
@@ -353,18 +353,18 @@ function AddOptions() {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-          })
-        })
+          });
+        });
     }
   }
 
   function Createoption() {
-    num++
-    var c = <Themmausac key={num}></Themmausac>
-    setOption((option1) => [...option1, c])
+    num++;
+    var c = <Themmausac key={num}></Themmausac>;
+    setOption((option1) => [...option1, c]);
   }
-  var e
-  if (item) e = item.slug
+  var e;
+  if (item) e = item.slug;
 
   return item ? (
     <div className="container">
@@ -417,6 +417,6 @@ function AddOptions() {
       <h1>Loading</h1>
       <ToastContainer></ToastContainer>
     </div>
-  )
+  );
 }
-export default AddOptions
+export default AddOptions;

@@ -1,11 +1,11 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFacebookSquare,
   faTwitterSquare,
   faInstagramSquare,
-} from '@fortawesome/free-brands-svg-icons'
-import './style.scss'
-import logo from '../../logo.svg'
+} from '@fortawesome/free-brands-svg-icons';
+import './style.scss';
+import logo from '../../logo.svg';
 
 const Footer = ({ color }) => {
   return (
@@ -56,7 +56,7 @@ const Footer = ({ color }) => {
         </div>
       </footer>
     </>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

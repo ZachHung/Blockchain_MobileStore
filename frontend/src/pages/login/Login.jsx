@@ -1,64 +1,67 @@
-import React from 'react'
-import TextInPut from '../../components/TextInPut/TextInPut'
-import { publicRequest, userRequest } from '../../utils/CallApi'
-import { Link } from 'react-router-dom'
-import { faKey, faMailBulk } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
-import './login.scss'
-import { loginStart, loginSuccess } from '../../redux/userRedux'
-import { setQuantity } from '../../redux/cart'
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Header from '../../components/header'
-import Footer from '../../components/footer'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGoogle } from '@fortawesome/free-brands-svg-icons'
-import axios from 'axios'
+import React from 'react';
+import TextInPut from '../../components/TextInPut/TextInPut';
+import { publicRequest, userRequest } from '../../utils/CallApi';
+import { Link } from 'react-router-dom';
+import { faKey, faMailBulk } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import './login.scss';
+import { loginStart, loginSuccess } from '../../redux/userRedux';
+import { setQuantity } from '../../redux/cart';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../components/header';
+import Footer from '../../components/footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import axios from 'axios';
 export default function Login() {
-  const [formData, setFormData] = useState({})
-  const [isValidEmail, setIsValidEmail] = useState(false)
-  const [isValidPassword, setIsValidPassword] = useState(false)
-  const [errorText, setErrorText] = useState('')
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({});
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [errorText, setErrorText] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleInput = (name, value) => {
-    setErrorText('')
-    setFormData({ ...formData, [name]: `${value}` })
-  }
+    setErrorText('');
+    setFormData({ ...formData, [name]: `${value}` });
+  };
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!(isValidEmail && isValidPassword)) {
-      setErrorText('Thông Tin Không Chính Xác Vui Lòng Kiểm Tra Lại')
+      setErrorText('Thông Tin Không Chính Xác Vui Lòng Kiểm Tra Lại');
     } else {
-      dispatch(loginStart())
+      dispatch(loginStart());
       publicRequest
         .post('account/login', formData)
         .then((res) => {
           if (res.status === 202) {
-            setErrorText(res.data.message)
-            console.log(res.data.message)
+            setErrorText(res.data.message);
+            console.log(res.data.message);
           } else {
-            dispatch(loginSuccess(res.data))
+            dispatch(loginSuccess(res.data));
             setTimeout(() => {
               userRequest()
                 .get(`cart/${res.data._id}`)
                 .then((res) => {
-                  dispatch(setQuantity(res.data.list))
-                })
-              navigate('/')
-            }, 500)
+                  dispatch(setQuantity(res.data.list));
+                });
+              navigate('/');
+            }, 500);
           }
         })
         .catch((res) => {
-          console.log(res)
-        })
+          console.log(res);
+        });
     }
-  }
+  };
   const googleLogin = () => {
-    console.log(process.env.REACT_APP_SERVER_PATH)
-    window.open(process.env.REACT_APP_SERVER_PATH + '/api/auth/google', '_self')
-  }
+    console.log(process.env.REACT_APP_SERVER_PATH);
+    window.open(
+      process.env.REACT_APP_SERVER_PATH + '/api/auth/google',
+      '_self',
+    );
+  };
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_SERVER_PATH + '/api/auth/login/success', {
@@ -66,21 +69,21 @@ export default function Login() {
       })
       .then((res) => {
         if (res.status === 200) {
-          dispatch(loginSuccess(res.data))
+          dispatch(loginSuccess(res.data));
           setTimeout(() => {
             userRequest()
               .get(`cart/${res.data._id}`)
               .then((resNew) => {
-                dispatch(setQuantity(resNew.data.list))
-              })
-            navigate('/')
-          }, 500)
+                dispatch(setQuantity(resNew.data.list));
+              });
+            navigate('/');
+          }, 500);
         }
       })
       .catch((err) => {
-        console.log(err)
-      })
-  }, [])
+        console.log(err);
+      });
+  }, []);
   return (
     <>
       <Header color="#CAE5E8" />
@@ -149,5 +152,5 @@ export default function Login() {
       </div>
       <Footer color="#CAE5E8" />
     </>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-const moment = require('moment')
-const purchase = require('../models/Purchase')
-const util = require('../../util/mongoose')
-const cart = require('../models/Cart')
-const { find } = require('../models/Purchase')
-var ObjectId = require('mongodb').ObjectId
+const moment = require('moment');
+const purchase = require('../models/Purchase');
+const util = require('../../util/mongoose');
+const cart = require('../models/Cart');
+const { find } = require('../models/Purchase');
+var ObjectId = require('mongodb').ObjectId;
 
 // const ID = useId; //userID của người dùng đã đăng nhập
-const year = '2022'
+const year = '2022';
 // const useId = '624a9edb4eb751d723d37e7f';
 class PurchaseController {
   index(req, res, next) {
-    res.render('purchase')
+    res.render('purchase');
   }
 
   EmptyList(req, res, next) {
@@ -20,8 +20,8 @@ class PurchaseController {
         list: { $size: 0 },
       })
       .then((data) => {
-        res.json(data)
-      })
+        res.json(data);
+      });
   }
 
   all(req, res, next) {
@@ -39,19 +39,19 @@ class PurchaseController {
       })
 
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
 
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
-          var diff = Math.abs(new Date() - result.date)
-          diff = diff / 60000
+          var diff = Math.abs(new Date() - result.date);
+          diff = diff / 60000;
 
           if (diff >= 0.5) {
             purchase
@@ -62,13 +62,13 @@ class PurchaseController {
                 },
                 {
                   $set: { status: 'Đã giao hàng' },
-                }
+                },
               )
-              .then(() => {})
+              .then(() => {});
           }
         }
-        res.json(data)
-      })
+        res.json(data);
+      });
   }
   delivered(req, res, next) {
     purchase
@@ -85,20 +85,20 @@ class PurchaseController {
       })
       .find({ status: 'Đã giao hàng' })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
 
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
         }
-        res.json(data)
-      })
+        res.json(data);
+      });
   }
   delivering(req, res, next) {
     purchase
@@ -115,21 +115,21 @@ class PurchaseController {
       })
       .find({ status: 'Đang giao hàng' })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
 
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
         }
 
-        res.json(data)
-      })
+        res.json(data);
+      });
   }
   repurchase(req, res, next) {
     cart
@@ -140,8 +140,8 @@ class PurchaseController {
           optionID: req.query.optionID,
           num: req.query.num,
           color: req.query.color,
-        }
-        let count = 0
+        };
+        let count = 0;
         for (let item of data[0].list) {
           if (item.optionID.toString() == object.optionID.toString()) {
             cart
@@ -152,14 +152,14 @@ class PurchaseController {
                 },
                 {
                   $inc: { 'list.$.num': object.num },
-                }
+                },
               )
               .then((info) => {
-                res.redirect('/cart')
-              })
-            break
+                res.redirect('/cart');
+              });
+            break;
           }
-          ++count
+          ++count;
         }
         if (count.toString() == data[0].list.length.toString()) {
           cart
@@ -167,27 +167,27 @@ class PurchaseController {
               { userID: useId },
               {
                 $push: { list: object },
-              }
+              },
             )
             .then((info) => {
-              res.redirect('/cart')
-            })
+              res.redirect('/cart');
+            });
         }
         // res.json(data)
-      })
+      });
   }
   removeItem(req, res, next) {
     purchase
       .updateOne(
         { userID: useId },
-        { $pull: { list: { optionID: req.params.id } } }
+        { $pull: { list: { optionID: req.params.id } } },
       )
       .then(() => res.redirect('back'))
-      .catch(next)
+      .catch(next);
   }
   FindOne(req, res, next) {
-    const userId = req.params.userID
-    const productId = req.params.productID
+    const userId = req.params.userID;
+    const productId = req.params.productID;
     purchase
       .find(
         {
@@ -196,14 +196,14 @@ class PurchaseController {
         {
           _id: 0,
           list: { $elemMatch: { _id: productId } },
-        }
+        },
       )
       .then((data) => res.json(data))
-      .catch(next)
+      .catch(next);
   }
   UpdateOne(req, res, next) {
-    const userId = req.params.userID
-    const productId = req.params.productID
+    const userId = req.params.userID;
+    const productId = req.params.productID;
     purchase
       .findOneAndUpdate(
         {
@@ -221,12 +221,12 @@ class PurchaseController {
         },
         {
           arrayFilters: [{ 'elem._id': productId }],
-        }
+        },
       )
       .then((data) => {
-        res.json(data)
+        res.json(data);
       })
-      .catch(next)
+      .catch(next);
   }
   // admin zone
   getAllPurchase(req, res, next) {
@@ -242,23 +242,23 @@ class PurchaseController {
         },
       })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
         // lọc ra những sản phẩm đã xóa, filter optionID = null
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           // lọc ra đúng sp đã mua, vì trong option có nhiều sp,
 
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
         }
-        res.json(data)
+        res.json(data);
       })
-      .catch(next)
+      .catch(next);
   }
   // get all purchase by year
   getAllPurchaseByYear(req, res, next) {
@@ -274,28 +274,28 @@ class PurchaseController {
         },
       })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
-        const start_date_of_the_year = `${req.query.year}-01-01`
-        const end_date_of_the_year = `${req.query.year}-02-30`
+        data = util.mutipleMongooseToObject(data);
+        const start_date_of_the_year = `${req.query.year}-01-01`;
+        const end_date_of_the_year = `${req.query.year}-02-30`;
         // lọc ra những sản phẩm đã xóa, filter optionID = null
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           // lọc ra đúng sp đã mua, vì trong option có nhiều sp,
 
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
 
           // get only year value
           console.log(
             'result.createdAt: ',
             result.createdAt,
-            typeof result.createdAt
-          )
+            typeof result.createdAt,
+          );
           // example
           // "createdAt": "Sat Apr 02 2022 20:57:09 GMT+0700 (Indochina Time)",
           // "updatedAt": "2022-04-04T06:52:08.525Z"
@@ -307,9 +307,9 @@ class PurchaseController {
           'start_date_of_the_year: ',
           start_date_of_the_year,
           'typeof: ',
-          start_date_of_the_year
-        )
-        console.log('end_date_of_the_year: ', end_date_of_the_year)
+          start_date_of_the_year,
+        );
+        console.log('end_date_of_the_year: ', end_date_of_the_year);
         purchase
           .find({
             createdAt: {
@@ -318,11 +318,11 @@ class PurchaseController {
             },
           })
           .then((item) => {
-            res.json(item)
-          })
+            res.json(item);
+          });
         // res.json(data);
       })
-      .catch(next)
+      .catch(next);
   }
   getAllPurchaseByMonth(req, res, next) {
     purchase
@@ -337,45 +337,45 @@ class PurchaseController {
         },
       })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
         // lọc ra những sản phẩm đã xóa, filter optionID = null
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           // lọc ra đúng sp đã mua, vì trong option có nhiều sp,
 
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
 
           // get only year value
           console.log(
             'result.createdAt: ',
             result.createdAt,
-            typeof result.createdAt
-          )
+            typeof result.createdAt,
+          );
           // example
           // "createdAt": "Sat Apr 02 2022 20:57:09 GMT+0700 (Indochina Time)",
           // "updatedAt": "2022-04-04T06:52:08.525Z"
-          result.createdAt = result.createdAt.toString().slice(4, 7)
+          result.createdAt = result.createdAt.toString().slice(4, 7);
         }
         //filter by month
-        const start_date_of_the_year = moment(year)
-        const end_date_of_the_year = moment(year).endOf('year')
+        const start_date_of_the_year = moment(year);
+        const end_date_of_the_year = moment(year).endOf('year');
         console.log(
           'start_date_of_the_year: ',
           start_date_of_the_year,
           'typeof: ',
-          start_date_of_the_year
-        )
-        console.log('end_date_of_the_year: ', end_date_of_the_year)
-        data = data.filter((item) => item.createdAt == req.query.month)
-        res.json(data)
+          start_date_of_the_year,
+        );
+        console.log('end_date_of_the_year: ', end_date_of_the_year);
+        data = data.filter((item) => item.createdAt == req.query.month);
+        res.json(data);
       })
-      .catch(next)
+      .catch(next);
   }
 
   getPurchasesAdmin(req, res, next) {
@@ -391,51 +391,51 @@ class PurchaseController {
         },
       })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
 
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
         }
         res.json({
           purchase: data,
-        })
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   deletePurchasesAdmin(req, res, next) {
-    const purchaseId = req.params.id
+    const purchaseId = req.params.id;
     purchase
       .deleteOne({ _id: ObjectId(purchaseId) })
       .then((data) => {
         if (data.modifiedCount != 0) {
           purchase.find({}).then((purchaseRes) => {
-            res.json({ purchase: purchaseRes })
-          })
+            res.json({ purchase: purchaseRes });
+          });
         }
       })
-      .catch(next)
+      .catch(next);
   }
 
   deleteManyPurchasesAdmin(req, res, next) {
-    const ids = req.body
+    const ids = req.body;
     purchase
       .deleteMany({ _id: { $in: ids } })
       .then((data) => {
         if (data.modifiedCount != 0) {
           purchase.find().then((userRes) => {
-            res.json({ purchase: userRes })
-          })
+            res.json({ purchase: userRes });
+          });
         }
       })
-      .catch(next)
+      .catch(next);
   }
 
   detailPurchasesAdmin(req, res, next) {
@@ -451,24 +451,24 @@ class PurchaseController {
         },
       })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
 
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
         }
 
         res.json({
           purchase: data,
-        })
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   edit(req, res, next) {
@@ -483,42 +483,42 @@ class PurchaseController {
         },
       })
       .then((data) => {
-        data = util.mutipleMongooseToObject(data)
+        data = util.mutipleMongooseToObject(data);
 
         for (let result of data) {
           result.list = result.list.filter((list) => {
-            return list.optionID !== null
-          })
+            return list.optionID !== null;
+          });
           for (let item of result.list) {
             item.optionID.color = item.optionID.color.filter((color) => {
-              return color.name === item.color
-            })
+              return color.name === item.color;
+            });
           }
         }
 
         res.json({
           purchase: data,
-        })
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   updatePurchase(req, res, next) {
-    console.log(req.params)
+    console.log(req.params);
     purchase
       .updateOne({ _id: req.params.id }, req.body)
       .then((data) => {
         if (data.modifiedCount !== 0) {
           res.json({
             status: 'true',
-          })
+          });
         } else {
           res.status(202).json({
             message: 'Lỗi Hệ Thống',
-          })
+          });
         }
       })
-      .catch(next)
+      .catch(next);
   }
 }
-module.exports = new PurchaseController()
+module.exports = new PurchaseController();

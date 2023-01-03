@@ -1,16 +1,16 @@
-const purchase = require('../models/Purchase')
-const option = require('../models/Option')
-const util = require('../../util/mongoose')
-const user = require('../models/User')
-const item = require('../models/Item')
-var ObjectId = require('mongodb').ObjectId
+const purchase = require('../models/Purchase');
+const option = require('../models/Option');
+const util = require('../../util/mongoose');
+const user = require('../models/User');
+const item = require('../models/Item');
+var ObjectId = require('mongodb').ObjectId;
 
 class ReportController {
   async overall(req, res, next) {
-    var countItem = await item.countDocuments()
-    var countPurchase = await purchase.countDocuments()
-    var countUser = await user.countDocuments()
-    var revenue = 0
+    var countItem = await item.countDocuments();
+    var countPurchase = await purchase.countDocuments();
+    var countUser = await user.countDocuments();
+    var revenue = 0;
 
     const overallList = [
       {
@@ -29,7 +29,7 @@ class ReportController {
         value: 0,
         title: 'Doanh thu',
       },
-    ]
+    ];
 
     purchase
       .aggregate([
@@ -106,12 +106,12 @@ class ReportController {
             revenue +=
               item.option.color.price *
               (1 - item.option.color.discount / 100) *
-              item.quantity
+              item.quantity;
           }
         }
-        overallList[3].value += revenue
-        res.json(overallList)
-      })
+        overallList[3].value += revenue;
+        res.json(overallList);
+      });
   }
 
   getSummary(req, res, next) {
@@ -140,19 +140,19 @@ class ReportController {
         value: 0,
         percent: 0,
       },
-    ]
-    var revenueMonth = 0
-    var saleMonth = 0
-    var itemMonth = 0
-    var customerMonth = 0
-    var revenueDay = 0
-    var saleDay = 0
-    var itemDay = 0
-    var customerDay = 0
-    var salePercent = 0
-    var revenuePercent = 0
-    var itemPercent = 0
-    var customerPercent = 0
+    ];
+    var revenueMonth = 0;
+    var saleMonth = 0;
+    var itemMonth = 0;
+    var customerMonth = 0;
+    var revenueDay = 0;
+    var saleDay = 0;
+    var itemDay = 0;
+    var customerDay = 0;
+    var salePercent = 0;
+    var revenuePercent = 0;
+    var itemPercent = 0;
+    var customerPercent = 0;
     purchase
       .aggregate([
         {
@@ -227,20 +227,20 @@ class ReportController {
         },
       ])
       .then((purchase) => {
-        const currentDay = new Date()
+        const currentDay = new Date();
         //Tính các chỉ số theo tháng hiện tại để tính phần trăm
         for (let result of purchase) {
           if (
             result.createdAt.getMonth() == currentDay.getMonth() &&
             result.createdAt.getFullYear() == currentDay.getFullYear()
           ) {
-            customerMonth++
+            customerMonth++;
             for (let item of result.list) {
-              itemMonth += item.quantity
+              itemMonth += item.quantity;
               saleMonth +=
                 item.option.color.price *
                 (1 - item.option.color.discount / 100) *
-                item.quantity
+                item.quantity;
             }
           }
           if (
@@ -252,7 +252,7 @@ class ReportController {
               revenueMonth +=
                 item.option.color.price *
                 (1 - item.option.color.discount / 100) *
-                item.quantity
+                item.quantity;
             }
           }
         }
@@ -264,13 +264,13 @@ class ReportController {
             result.createdAt.getFullYear() == currentDay.getFullYear() &&
             result.createdAt.getDate() == currentDay.getDate()
           ) {
-            customerDay++
+            customerDay++;
             for (let item of result.list) {
-              itemDay += item.quantity
+              itemDay += item.quantity;
               saleDay +=
                 item.option.color.price *
                 (1 - item.option.color.discount / 100) *
-                item.quantity
+                item.quantity;
             }
           }
           if (
@@ -283,44 +283,44 @@ class ReportController {
               revenueDay +=
                 item.option.color.price *
                 (1 - item.option.color.discount / 100) *
-                item.quantity
+                item.quantity;
             }
           }
         }
 
         //Tính các chỉ số phần trăm
         salePercent =
-          (saleDay / saleMonth) * 100 ? (saleDay / saleMonth) * 100 : 0
-        salePercent = salePercent.toFixed()
+          (saleDay / saleMonth) * 100 ? (saleDay / saleMonth) * 100 : 0;
+        salePercent = salePercent.toFixed();
 
         revenuePercent =
           (revenueDay / revenueMonth) * 100
             ? (revenueDay / revenueMonth) * 100
-            : 0
-        revenuePercent = revenuePercent.toFixed()
+            : 0;
+        revenuePercent = revenuePercent.toFixed();
 
         itemPercent =
-          (itemDay / itemMonth) * 100 ? (itemDay / itemMonth) * 100 : 0
-        itemPercent = itemPercent.toFixed()
+          (itemDay / itemMonth) * 100 ? (itemDay / itemMonth) * 100 : 0;
+        itemPercent = itemPercent.toFixed();
 
         customerPercent =
           (customerDay / customerMonth) * 100
             ? (customerDay / customerMonth) * 100
-            : 0
-        customerPercent = customerPercent.toFixed()
+            : 0;
+        customerPercent = customerPercent.toFixed();
 
-        console.log(revenuePercent)
-        summary[0].value += saleDay
-        summary[0].percent = salePercent
-        summary[1].value += itemDay
-        summary[1].percent = itemPercent
-        summary[2].value += revenueDay
-        summary[2].percent = revenuePercent
-        summary[3].value += customerDay
-        summary[3].percent = customerPercent
+        console.log(revenuePercent);
+        summary[0].value += saleDay;
+        summary[0].percent = salePercent;
+        summary[1].value += itemDay;
+        summary[1].percent = itemPercent;
+        summary[2].value += revenueDay;
+        summary[2].percent = revenuePercent;
+        summary[3].value += customerDay;
+        summary[3].percent = customerPercent;
 
-        res.json(summary)
-      })
+        res.json(summary);
+      });
   }
 
   getDataChart(req, res, next) {
@@ -394,9 +394,9 @@ class ReportController {
         },
       ])
       .then((purchase) => {
-        const chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        var revenueByMonth = 0
-        const currentDay = new Date()
+        const chartData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        var revenueByMonth = 0;
+        const currentDay = new Date();
         //Tính các chỉ số theo tháng hiện tại để tính phần trăm (đang thử nghiệm ở tháng 4/2022)
         for (let result of purchase) {
           for (let i = 0; i <= 11; i++) {
@@ -408,16 +408,16 @@ class ReportController {
                 revenueByMonth +=
                   item.option.color.price *
                   (1 - item.option.color.discount / 100) *
-                  item.quantity
+                  item.quantity;
               }
             }
-            chartData[i] += revenueByMonth
-            revenueByMonth = 0
+            chartData[i] += revenueByMonth;
+            revenueByMonth = 0;
           }
         }
-        res.json(chartData)
-      })
+        res.json(chartData);
+      });
   }
 }
 
-module.exports = new ReportController()
+module.exports = new ReportController();

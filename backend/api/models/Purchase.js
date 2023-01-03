@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const Purchase = new Schema(
   {
@@ -21,6 +21,6 @@ const Purchase = new Schema(
     status: { type: String, default: 'Đang giao hàng' },
   },
   { timestamps: true },
-  { collection: 'purchases' }
-)
-module.exports = mongoose.model('Purchase', Purchase)
+  { collection: 'purchases' },
+);
+module.exports = mongoose.model('Purchase', Purchase);

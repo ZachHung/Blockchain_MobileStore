@@ -1,12 +1,12 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/navigation'
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-import './SwiperPromotion.scss'
-import { Autoplay, Pagination, Navigation } from 'swiper'
+import './SwiperPromotion.scss';
+import { Autoplay, Pagination, Navigation } from 'swiper';
 export default () => {
   return (
     <Swiper
@@ -61,5 +61,5 @@ export default () => {
         ></img>
       </SwiperSlide>
     </Swiper>
-  )
-}
+  );
+};

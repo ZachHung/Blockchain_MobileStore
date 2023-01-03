@@ -1,4 +1,4 @@
-import images from './images'
+import images from './images';
 
 const data = {
   user: {
@@ -92,6 +92,6 @@ const data = {
     ],
     data: [250, 200, 300, 280, 100, 220, 310, 190, 200, 120, 250, 350],
   },
-}
+};
 
-export default data
+export default data;

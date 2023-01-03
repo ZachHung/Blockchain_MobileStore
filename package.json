@@ -3,19 +3,25 @@
   "version": "1.0.0",
   "description": "Upgraded version for 13Team Website",
   "main": "index.js",
-  "nodemonConfig": {
-    "ignore": "frontend/"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "lint:staged": "lint-staged",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend",
     "lint": "prettier --check .",
     "format": "prettier --write .",
     "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx prettier --write"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": "frontend/"
   },
   "keywords": [],
   "author": "",

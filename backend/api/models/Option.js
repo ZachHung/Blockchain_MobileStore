@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const item = require('./Item')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const item = require('./Item');
+const Schema = mongoose.Schema;
 const Option = new Schema(
   {
     slug: String,
@@ -11,6 +11,6 @@ const Option = new Schema(
     detail: String,
     color: Array,
   },
-  { collection: 'options' }
-)
-module.exports = mongoose.model('Option', Option)
+  { collection: 'options' },
+);
+module.exports = mongoose.model('Option', Option);

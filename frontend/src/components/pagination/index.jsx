@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 // import PropTypes from 'prop-types'
 
 // Pagination.PropTypes = {
@@ -18,9 +18,9 @@ function Pagination({ productPerpage, totalProducts, paginate }) {
   //         onPageChange(newPage)
   //     }
   // }
-  const pageNumbers = []
+  const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalProducts / productPerpage); i++) {
-    pageNumbers.push(i)
+    pageNumbers.push(i);
   }
   return (
     <ul className="pagination">
@@ -40,6 +40,6 @@ function Pagination({ productPerpage, totalProducts, paginate }) {
               Last
             </span> */}
     </ul>
-  )
+  );
 }
-export default Pagination
+export default Pagination;

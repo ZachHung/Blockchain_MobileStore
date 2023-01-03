@@ -1,34 +1,34 @@
-import React from 'react'
-import axios from 'axios'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import './DetailPurchaseAdmin.scss'
-import { useEffect, useState } from 'react'
-import { format } from 'date-fns'
-import { useParams, Link } from 'react-router-dom'
-import { userRequest } from '../../utils/CallApi'
-import { currentChange } from '../../utils/const'
+import React from 'react';
+import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import './DetailPurchaseAdmin.scss';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
+import { useParams, Link } from 'react-router-dom';
+import { userRequest } from '../../utils/CallApi';
+import { currentChange } from '../../utils/const';
 
 function DetailPurchaseAdmin() {
-  var index = 1
-  const params = useParams()
-  const [purchaseDetail, setPurchaseDetail] = useState([])
+  var index = 1;
+  const params = useParams();
+  const [purchaseDetail, setPurchaseDetail] = useState([]);
   useEffect(() => {
     userRequest()
       .get('admin/orders/detail/' + params.id)
       .then((res) => {
-        setPurchaseDetail(res.data.purchase)
-      })
-  }, [])
+        setPurchaseDetail(res.data.purchase);
+      });
+  }, []);
 
   var totals = 0,
-    fee = 25000
+    fee = 25000;
   const updateTotalOne = (total) => {
-    totals += total
-  }
+    totals += total;
+  };
   const updateFee = (fee) => {
-    return fee
-  }
+    return fee;
+  };
 
   return (
     <div className="d-flex flex-column marginTop">
@@ -91,7 +91,7 @@ function DetailPurchaseAdmin() {
                       Đã giao hàng lúc{' '}
                       {format(
                         new Date(purchase.updatedAt),
-                        'yyyy-MM-dd kk:mm:ss'
+                        'yyyy-MM-dd kk:mm:ss',
                       )}
                     </span>
                   ) : purchase.status === 'Đã hủy' ? (
@@ -151,14 +151,14 @@ function DetailPurchaseAdmin() {
                                   (color_price.price *
                                     listOpts.quantity *
                                     (100 - color_price.discount)) /
-                                  100)
+                                  100),
                               )}
                               {updateTotalOne(total)}
                             </td>
                           </>
                         ))}
                       </tr>
-                    ))
+                    )),
                   )}
                   <tr>
                     <th colSpan={6} className="text-right_pur h3">
@@ -184,7 +184,7 @@ function DetailPurchaseAdmin() {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export default DetailPurchaseAdmin
+export default DetailPurchaseAdmin;
