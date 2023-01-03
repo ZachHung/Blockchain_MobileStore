@@ -1,4 +1,4 @@
-@use "../../scss/abstracts/" as *;
+@use '../../scss/abstracts/' as *;
 .product__container {
   box-shadow: 0 4px 5px -2px #ccc;
   padding-bottom: 2rem;
@@ -31,7 +31,7 @@
         opacity: 50%;
       }
       .active::after {
-        content: "";
+        content: '';
         width: 15px;
         height: 10px;
         border-radius: 0.5rem 0 0.5rem 0;
@@ -54,7 +54,7 @@
         margin: 2rem 2rem;
       }
       > .col,
-      > [class*="col-"] {
+      > [class*='col-'] {
         padding-right: 2rem;
         @media only screen and (max-width: 739px) {
           padding-right: 0rem;
