@@ -6,14 +6,6 @@
   "nodemonConfig": {
     "ignore": "frontend/"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*": "prettier --write"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node backend/server.js",
@@ -22,7 +14,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend",
     "lint": "prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
@@ -35,7 +28,6 @@
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "husky": "^8.0.2",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "moment": "^2.29.2",
@@ -47,6 +39,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.0.0",
+    "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
