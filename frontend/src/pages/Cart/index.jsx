@@ -13,12 +13,14 @@ import {
   faSadTear,
   faTruck,
 } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { setQuantity, setZero } from '../../redux/cart';
 import ModalPopUp from '../../components/modal';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
+import { toast } from 'react-toastify';
+import MetamaskPopUp from '../../components/MetamaskPopup/MetamaskPopup';
 const getTotal = (cart) => {
   var total = 0;
   for (let item of cart) {
@@ -45,6 +47,9 @@ const CartPage = () => {
   const [ReItem, setReItem] = useState({ optionID: '', color: '' });
   const [isLoading, setIsLoading] = useState(true);
   const [payment, setPayment] = useState();
+  const [account, setAccount] = useState('');
+  const [isMetamaskWallet, setIsMetamaskWallet] = useState(false);
+  const [number, setNumber] = useState(0);
   const payments = [
     {
       name: 'vnpay',
@@ -53,6 +58,7 @@ const CartPage = () => {
         'Thẻ ATM / Internet Banking\nThẻ tín dụng (Credit card) / Thẻ ghi nợ (Debit card)\nVNPay QR',
     },
     { name: 'cod', fontAwsome: faTruck, message: 'Thanh toán khi nhận hàng' },
+    { name: 'metamask', img: 'metamask-icon.png', message: 'Ví Metamask' },
   ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -97,7 +103,101 @@ const CartPage = () => {
     setReItem({ optionID, color });
     setModalState(true);
   };
-  const handlePurchase = (e) => {
+  const getETHPrice = async () => {
+    const response = await axios.get(
+      'https://api.coinbase.com/v2/prices/ETH-VND/spot',
+    );
+
+    return parseFloat(response.data.data.amount);
+  };
+  const convertToETH = async (value) => {
+    const ethPrice = await getETHPrice();
+    console.log({ ethPrice });
+    console.log('result', parseFloat(value) / ethPrice);
+    return (parseFloat(value) / ethPrice).toFixed(8);
+  };
+  const handleChangeAccount = (accounts) => {
+    setAccount(accounts[0]);
+    toast.info('Thay đổi account metamask', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  const showMetamaskPopup = async () => {
+    const totalMoney = await convertToETH(getTotal(cart) + deliveryFee);
+    setNumber(totalMoney);
+    setIsMetamaskWallet(true);
+  };
+  const handleMetamask = async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      try {
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        if (!window.ethereum.isConnected()) {
+          toast.info('Vui Lòng Kết Nối Ví Metamask ', {
+            position: 'top-right',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+
+        window.ethereum.on('accountsChanged', handleChangeAccount);
+        setAccount(accounts[0]);
+        showMetamaskPopup();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      toast.warn('Vui Lòng Cài Đặt Ví MetaMask', {
+        position: 'top-right',
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
+  const handleSuccessTransaction = () => {
+    setIsLoading(false);
+    userRequest()
+      .post(`cart/purchase/${user.current._id}`)
+      .then((res) => {
+        dispatch(setZero());
+        res.status === 200 && navigate('../purchase', { replace: true });
+      });
+  };
+  const handleFailTransaction = () => {
+    setIsLoading(false);
+    toast.warn('Thanh Toán Không Thành Công', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  const showLoading = () => {
+    setIsMetamaskWallet(false);
+    setIsLoading(true);
+  };
+  const HideMetamaskPopUp = () => {
+    setIsMetamaskWallet(false);
+  };
+  const handlePurchase = async (e) => {
     e.preventDefault();
     if (payment === 'cod') {
       userRequest()
@@ -107,6 +207,8 @@ const CartPage = () => {
           res.status === 200 && navigate('../purchase', { replace: true });
         })
         .catch((err) => console.log(err));
+    } else if (payment === 'metamask') {
+      await handleMetamask();
     } else {
       userRequest()
         .post(`cart/${user.current._id}/create_payment_url`, {
@@ -167,6 +269,15 @@ const CartPage = () => {
           modalState={modalState}
           handelClickConfirm={() => deleteItem(ReItem)}
           toogleState={setModalState}
+        />
+        <MetamaskPopUp
+          account={account}
+          number={number}
+          show={isMetamaskWallet}
+          hideMetaMaskPopup={HideMetamaskPopUp}
+          showLoading={showLoading}
+          handleSuccessTransaction={handleSuccessTransaction}
+          handleFailTransaction={handleFailTransaction}
         />
         <section className="content">
           <aside className="box cart-container" data-aos="fade-up">
