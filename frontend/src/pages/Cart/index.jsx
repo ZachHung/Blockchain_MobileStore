@@ -50,6 +50,7 @@ const CartPage = () => {
   const [account, setAccount] = useState('');
   const [isMetamaskWallet, setIsMetamaskWallet] = useState(false);
   const [number, setNumber] = useState(0);
+
   const payments = [
     {
       name: 'vnpay',
@@ -62,7 +63,7 @@ const CartPage = () => {
   ];
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  console.log({ isMetamaskWallet });
   const getCart = () => {
     userRequest()
       .get(`cart/${user.current._id}`)
