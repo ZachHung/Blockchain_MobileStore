@@ -62,7 +62,7 @@ export default function Recovery() {
         .then((res) => {
           console.log(res);
           if (res.status === 202) {
-            setErrorText(res.message);
+            setErrorText(res.data.message);
           } else {
             setOpenSendCode(false);
             setOpenSetPassword(true);

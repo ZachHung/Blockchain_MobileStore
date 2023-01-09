@@ -37,6 +37,7 @@ export default function Purchase() {
     userRequest()
       .get(`purchase/all/${user.current._id}`)
       .then((res) => {
+        console.log(res.data);
         setProductsList(res.data);
       });
   };
@@ -115,84 +116,88 @@ export default function Purchase() {
   const handleRenderProduct = (item, product) => {
     if (!item.deleted) {
       return (
-        <div key={item._id} className="single_product">
-          <div className="info">
-            <div className="brand_status">
-              <div className="brand">
-                <p>
-                  Thương hiệu:
-                  <strong id="brandProduct">
-                    {' '}
-                    {item.optionID.item.brand.name}{' '}
-                  </strong>{' '}
-                  | Ngày mua:{' '}
-                  <strong id="dateProduct">
-                    {moment(product.createAt).format('LLLL')}
-                  </strong>
-                </p>
-              </div>
-              <div className="status">
-                <p>
-                  Trạng thái:{' '}
-                  <strong id="statusProduct">{product.status}</strong>
-                </p>
-              </div>
-            </div>
-            <hr />
-            <a href="/phone/iphone11-256GB" className="name_price">
-              <div className="img_name">
-                <script>var bool = true</script>
-                <img
-                  id="imgProduct"
-                  src={`${item.optionID.color[0].image}`}
-                  alt=""
-                />
-                <div className="name_num">
-                  <p className="name" id="nameProduct">
-                    {item.optionID.item.name}{' '}
+        <div className="products">
+          <div key={item._id} className="single_product">
+            <div className="info">
+              <div className="brand_status">
+                <div className="brand">
+                  <p>
+                    Thương hiệu:
+                    <strong id="brandProduct">
+                      {' '}
+                      {item.optionID.item.brand.name}{' '}
+                    </strong>{' '}
+                    | Ngày mua:{' '}
+                    <strong id="dateProduct">
+                      {moment(product.createAt).format('LLLL')}
+                    </strong>
                   </p>
-                  <p className="num">
-                    x<strong id="numProduct">{item.quantity} </strong>
-                  </p>
-                  <p className="num">
-                    Màu: <strong id="colorProduct">{item.color}</strong>
-                    {/* Màu: <strong id="colorProduct">{item._id}</strong> */}
+                </div>
+                <div className="status">
+                  <p>
+                    Trạng thái:{' '}
+                    <strong id="statusProduct">{product.status}</strong>
                   </p>
                 </div>
               </div>
+              <hr />
+              <a href="/phone/iphone11-256GB" className="name_price">
+                <div className="img_name">
+                  <script>var bool = true</script>
+                  <img
+                    id="imgProduct"
+                    src={`${item.optionID.color[0].image}`}
+                    alt=""
+                  />
+                  <div className="name_num">
+                    <p className="name" id="nameProduct">
+                      {item.optionID.item.name}{' '}
+                    </p>
+                    <p className="num">
+                      x<strong id="numProduct">{item.quantity} </strong>
+                    </p>
+                    <p className="num">
+                      Màu: <strong id="colorProduct">{item.color}</strong>
+                      {/* Màu: <strong id="colorProduct">{item._id}</strong> */}
+                    </p>
+                  </div>
+                </div>
 
-              <div className="price_one_product">
-                <p>
-                  <strong id="priceProduct">
-                    {currentChange(item.optionID.color[0].price)}
-                  </strong>{' '}
-                </p>
-              </div>
-            </a>
-            <hr />
-          </div>
-          <div className="price">
-            <div className="action" style={{ marginBottom: '3rem' }}>
-              <button
-                className="btn  "
-                type="submit"
-                onClick={() => handleRepurchase(item.optionID._id, item.color)}
-              >
-                Mua lại
-              </button>
-              <button
-                className="btn "
-                onClick={() => handleClickedDeleteButton(item._id)}
-              >
-                Xóa
-              </button>
+                <div className="price_one_product">
+                  <p>
+                    <strong id="priceProduct">
+                      {currentChange(item.optionID.color[0].price)}
+                    </strong>{' '}
+                  </p>
+                </div>
+              </a>
+              <hr />
             </div>
-            <p id="totalPrice">
-              Tổng số tiền:{' '}
-              <strong>
-                {currentChange(item.optionID.color[0].price * item.quantity)}
-              </strong>
-            </p>
+            <div className="price">
+              <div className="action" style={{ marginBottom: '3rem' }}>
+                <button
+                  className="btn  "
+                  type="submit"
+                  onClick={() =>
+                    handleRepurchase(item.optionID._id, item.color)
+                  }
+                >
+                  Mua lại
+                </button>
+                <button
+                  className="btn "
+                  onClick={() => handleClickedDeleteButton(item._id)}
+                >
+                  Xóa
+                </button>
+              </div>
+              <p id="totalPrice">
+                Tổng số tiền:{' '}
+                <strong>
+                  {currentChange(item.optionID.color[0].price * item.quantity)}
+                </strong>
+              </p>
+            </div>
           </div>
         </div>
       );
@@ -251,11 +256,9 @@ export default function Purchase() {
             <FontAwesomeIcon icon={faSearch} />
           </button>
         </div>
-        {productsList.map((product) => (
-          <div className="products" key={product._id}>
-            {product.list.map((item) => handleRenderProduct(item, product))}
-          </div>
-        ))}
+        {productsList.map((product) =>
+          product.list.map((item) => handleRenderProduct(item, product)),
+        )}
       </section>
       <Footer />
     </>

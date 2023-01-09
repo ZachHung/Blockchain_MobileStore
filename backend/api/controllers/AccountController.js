@@ -30,6 +30,7 @@ function getRandom(min, max) {
 }
 function sendMail(desMail, Message) {
   var code = getRandom(1000, 10000);
+  recoveryCode = code;
   transporter.sendMail({
     from: `${sender}`, // sender address
     to: `${desMail}`, // list of receivers
