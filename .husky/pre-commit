@@ -1,5 +1,13 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+#-------Scripts to run before git commit------
 
-npm run lint:staged
+# Must contain no TS Error
+pnpm tsc --noEmit
+
+# Must pass all tests
+pnpm test
+
+# Lint staged files before commit
+pnpm lint:staged
